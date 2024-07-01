@@ -19,6 +19,12 @@ A python modeling framework for Aerie.
 
 ~~Install pymerlin by running `pip install pymerlin`~~ (doesn't work yet)
 
+1. Make a venv `python -m venv venv`
+2. Activate the venv `source ./venv/bin/activate`
+3. Install requirements `python -m pip install -r requirements.txt`
+4. Start jupyter lab `jupyter-lab`
+5. When jupyter opens, navigate to `demo/simulation_example.py`, and run all cells
+
 ## Architecture
 pymerlin is to merlin as pyspark is to spark. This means that pymerlin uses [py4j](https://www.py4j.org/) as a bridge
 between a python process and a java process. This allows pymerlin to use the Aerie simulation engine directly, without
