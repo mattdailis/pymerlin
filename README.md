@@ -23,7 +23,9 @@ A python modeling framework for Aerie.
 2. Activate the venv `source ./venv/bin/activate`
 3. Install requirements `python -m pip install -r requirements.txt`
 4. Start jupyter lab `jupyter-lab`
-5. When jupyter opens, navigate to `demo/simulation_example.py`, and run all cells
+5. When jupyter opens, navigate to `demo/simulation_example.py`
+6. Update the path in the first cell to point to your cloned `pymerlin` directory (we should eliminate the need for this hack)
+7. Run all cells
 
 ## Architecture
 pymerlin is to merlin as pyspark is to spark. This means that pymerlin uses [py4j](https://www.py4j.org/) as a bridge
