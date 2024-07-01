@@ -5,15 +5,16 @@ A python modeling framework for Aerie.
 ### TODO:
 - [ ] Daemon tasks
 - [ ] More interesting cells and resources
-- [ ] Conditions
-- [ ] Child tasks
+- [x] Conditions on discrete cells
+- [ ] Conditions on continuous cells
+- [x] Child tasks
 - [ ] Spiceypy
 - [ ] JPL time
 - [ ] pip-installable models
 - [ ] build Aerie-compatible jars and provide docker-compose file with python
 
 ## Prerequisites
-- python >=3.6.3
+- python >=3.6.3 (only tested on 3.12 so far...)
 - java >=21
 
 ~~Install pymerlin by running `pip install pymerlin`~~ (doesn't work yet)
@@ -23,8 +24,7 @@ pymerlin is to merlin as pyspark is to spark. This means that pymerlin uses [py4
 between a python process and a java process. This allows pymerlin to use the Aerie simulation engine directly, without
 having to re-implement it in python.
 
-This means that running `simulate` starts a subprocess using `java -jar /path/to/pymerlin.jar`. This
-
+This means that running `simulate` starts a subprocess using `java -jar /path/to/pymerlin.jar`.
 
 
 ### Approachability over performance

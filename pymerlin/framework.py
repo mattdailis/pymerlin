@@ -499,7 +499,7 @@ def simulate_helper(gateway, model_type, config, schedule, duration):
 def simulate(model_type, schedule, duration):
     if not type(model_type) == ModelType:
         model_type = ModelType(model_type)
-    with start_gateway(os.path.join(os.path.dirname(__file__), '../app.jar')) as gateway:
+    with start_gateway(os.path.join(os.path.dirname(__file__), '../pymerlin.jar')) as gateway:
         try:
             model_type.set_gateway(gateway)
             config = None
