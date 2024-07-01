@@ -28,7 +28,7 @@ This means that running `simulate` starts a subprocess using `java -jar /path/to
 
 
 ### Approachability over performance
-The main tenant of pymerlin is approachability, and its aim is to enable rapid prototyping of models and activities.
+The main tenet of pymerlin is approachability, and its aim is to enable rapid prototyping of models and activities.
 While where possible, performance will be considered, it is expected that someone who wants to seriously engineer the
 performance of their simulation will port their code to Java - which has the double benefit of removing socket
 communication overhead, as well as giving the engineer a single Java process to instrument and analyze, rather than a 
