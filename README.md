@@ -1,6 +1,8 @@
 # pymerlin
 
+<!-- start elevator-pitch -->
 A python modeling framework for Aerie.
+<!-- end elevator-pitch -->
 
 ### TODO:
 
@@ -49,7 +51,7 @@ hybrid system, which may be more difficult to characterize.
 ## Building pymerlin.jar
 
 ```shell
-cd java
+cd pymerlin-java
 ./gradlew assemble
-mv pymerlin/build/libs/pymerlin.jar ..
+mv pymerlin/build/libs/pymerlin.jar ../pymerlin/_internal/jars
 ```

@@ -1,10 +1,10 @@
 import pytest
 
-from pymerlin.decorators import MissionModel
+from pymerlin import MissionModel
 from pymerlin.duration import Duration, SECONDS
-from pymerlin.framework import simulate, Span
+from pymerlin import simulate, Span
 from pymerlin.model_actions import delay, spawn, call, wait_until
-from pymerlin.schedule import Schedule, Directive
+from pymerlin import Schedule, Directive
 
 from py4j.java_gateway import Py4JJavaError
 

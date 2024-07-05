@@ -1,11 +1,16 @@
+"""
+This module provides actions that tasks can take. Certain actions are labeled `async`, which means they must be called
+with the `await` keyword - for example, `await delay("01:00:00")`
+"""
+
+
 import asyncio
 from collections import namedtuple
 from contextlib import contextmanager
 
 from pymerlin.duration import Duration
 
-_context = [None, None]
-_yield_callback = []
+from pymerlin._internal._globals import _current_context, _yield_callback
 
 
 Completed = namedtuple("Completed", "value")
@@ -15,29 +20,29 @@ Awaiting = namedtuple("Awaiting", "condition")
 
 
 @contextmanager
-def context(scheduler, spawner=None):
-    set_context(scheduler, spawner)
+def _context(scheduler, spawner=None):
+    _set_context(scheduler, spawner)
     yield
-    clear_context()
+    _clear_context()
 
 
-def set_context(context, spawner):
-    _context.clear()
-    _context.append(context)
-    _context.append(spawner)
+def _set_context(context, spawner):
+    _current_context.clear()
+    _current_context.append(context)
+    _current_context.append(spawner)
 
 
-def clear_context():
-    _context.clear()
-    _context.append(None)
-    _context.append(None)
+def _clear_context():
+    _current_context.clear()
+    _current_context.append(None)
+    _current_context.append(None)
 
-def set_yield_callback(callback):
+def _set_yield_callback(callback):
     _yield_callback.clear()
     _yield_callback.append(callback)
 
 
-def clear_yield_callback():
+def _clear_yield_callback():
     _yield_callback.clear()
     _yield_callback.append(None)
 
@@ -55,7 +60,7 @@ def spawn(child):
     :param coro:
     :return:
     """
-    _context[1](child)
+    _current_context[1](child)
 
 
 

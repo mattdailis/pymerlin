@@ -1,4 +1,4 @@
-from pymerlin.decorators import MissionModel
+from pymerlin import MissionModel
 from pymerlin.model_actions import delay, wait_until, spawn
 
 
