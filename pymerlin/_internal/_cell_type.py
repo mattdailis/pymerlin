@@ -16,7 +16,7 @@ class CellType:
         return self.gateway.jvm.org.apache.commons.lang3.mutable.MutableObject(state.getValue())
 
     def apply(self, state, effect):
-        state.setValue(effect)
+        state.setValue(effect.apply(state.getValue()))
 
     def step(self, state, duration):
         pass

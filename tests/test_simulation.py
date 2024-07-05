@@ -1,6 +1,7 @@
 import pytest
 
 from pymerlin import MissionModel
+from pymerlin._internal._registrar import Registrar
 from pymerlin.duration import Duration, SECONDS
 from pymerlin import simulate, Span
 from pymerlin.model_actions import delay, spawn, call, wait_until
@@ -11,7 +12,7 @@ from py4j.java_gateway import Py4JJavaError
 
 @MissionModel
 class TestMissionModel:
-    def __init__(self, registrar):
+    def __init__(self, registrar: Registrar):
         self.list = registrar.cell([])
         self.counter = registrar.cell(0)
         # self.linear = registrar.cell(line(0, 1))
@@ -42,19 +43,19 @@ async def noop(mission):
 
 @TestMissionModel.ActivityType
 async def add_to_list(mission, item):
-    mission.counter.emit(mission.counter.get() + 1)
+    mission.counter.set_value(mission.counter.get() + 1)
     mission.list.emit(mission.list.get() + [item])
 
 
 @TestMissionModel.ActivityType
 async def delay_one_hour(mission):
-    mission.counter.emit(mission.counter.get() + 1)
+    mission.counter.set_value(mission.counter.get() + 1)
     await delay("01:00:00")
 
 
 @TestMissionModel.ActivityType
 async def clear_list(mission, item):
-    mission.counter.emit(mission.counter.get() + 1)
+    mission.counter.set_value(mission.counter.get() + 1)
     mission.list.emit([])
 
 
@@ -123,9 +124,9 @@ def test_spawn():
 
     @TestMissionModel.ActivityType
     async def activity(mission: TestMissionModel):
-        mission.counter.emit(123)
+        mission.counter.set_value(123)
         spawn(other_activity(mission))
-        mission.counter.emit(345)
+        mission.counter.set_value(345)
         assert mission.counter.get() == 345
 
     @TestMissionModel.ActivityType
@@ -147,7 +148,7 @@ def test_call():
 
     @TestMissionModel.ActivityType
     async def activity(mission: TestMissionModel):
-        mission.counter.emit(123)
+        mission.counter.set_value(123)
         await call(other_activity(mission))
         assert mission.counter.get() == 345
         await delay("00:00:01")
@@ -157,7 +158,7 @@ def test_call():
         assert mission.counter.get() == 123
         await delay("00:00:01")
         assert mission.counter.get() == 123
-        mission.counter.emit(345)
+        mission.counter.set_value(345)
 
     profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity"))),
                                        "24:00:00")
@@ -172,13 +173,13 @@ def test_discrete_condition():
 
     @TestMissionModel.ActivityType
     async def activity(mission: TestMissionModel):
-        mission.counter.emit(123)
+        mission.counter.set_value(123)
         await wait_until(lambda: mission.counter.get() == 345)
         assert mission.counter.get() == 345
 
     @TestMissionModel.ActivityType
     async def other_activity(mission: TestMissionModel):
-        mission.counter.emit(345)
+        mission.counter.set_value(345)
 
     profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity")),
                                                                         ("00:00:15", Directive("other_activity"))),
@@ -188,5 +189,5 @@ def test_discrete_condition():
                      Span("other_activity", Duration.of(15, SECONDS), Duration.ZERO)]
 
 
-def test_continuous_condition():
+def test_autonomous_condition():
     pass

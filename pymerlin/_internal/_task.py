@@ -1,12 +1,12 @@
 import asyncio
 
-from pymerlin import model_actions
 from pymerlin._internal._condition import Condition
+from pymerlin._internal._context import _context, _set_yield_callback, _clear_context, _clear_yield_callback
 from pymerlin._internal._task_factory import TaskFactory
 from pymerlin._internal._task_specification import TaskSpecification
-from pymerlin.model_actions import Completed, Delayed, Awaiting, Calling
 
 from pymerlin._internal._globals import _future
+from pymerlin._internal._task_status import Completed, Delayed, Awaiting, Calling
 
 
 class Task:
@@ -24,7 +24,7 @@ class Task:
         def spawn(child: TaskSpecification):
             new_task = Task(self.gateway, (self.model, self.model_type), child, *get_topics(self.model_type, child.func))
             scheduler.spawn(self.gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.InSpan.Fresh, TaskFactory(lambda: new_task))
-        with model_actions._context(scheduler, spawn):
+        with _context(scheduler, spawn):
             if self.continuation is None:
                 self.loop = asyncio.new_event_loop()
                 if self.input_topic is not None:
@@ -79,7 +79,7 @@ def run_task(loop, task, model):
     task_handle = loop.create_task(propagate_exception(lambda: task.__call__(model)))
     done_callback = on_task_finish(future)
     task_handle.add_done_callback(done_callback)
-    model_actions._set_yield_callback(on_task_yield(future, task_handle, done_callback))
+    _set_yield_callback(on_task_yield(future, task_handle, done_callback))
     return task_handle, future, done_callback
 
 
@@ -87,7 +87,7 @@ def resume_task(loop, task_handle, continuation):
     future = loop.create_future()
     done_callback = on_task_finish(future)
     task_handle.add_done_callback(done_callback)
-    model_actions._set_yield_callback(on_task_yield(future, task_handle, done_callback))
+    _set_yield_callback(on_task_yield(future, task_handle, done_callback))
     continuation.set_result("ignored")
     return future
 
@@ -99,8 +99,8 @@ def on_task_finish(future):
         except asyncio.CancelledError:
             pass
         finally:
-            model_actions._clear_context()
-            model_actions._clear_yield_callback()
+            _clear_context()
+            _clear_yield_callback()
 
     return inner
 
@@ -111,8 +111,8 @@ def on_task_yield(future, task_handle, done_callback):
             future.set_result((y, continuation))
             task_handle.remove_done_callback(done_callback)
         finally:
-            model_actions._clear_context()  # Catch if activity forgets to await
-            model_actions._clear_yield_callback()
+            _clear_context()  # Catch if activity forgets to await
+            _clear_yield_callback()
 
     return inner
 

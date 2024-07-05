@@ -1,4 +1,4 @@
-from pymerlin import model_actions
+from pymerlin._internal._context import _context
 from pymerlin._internal._output_type import OutputType
 from pymerlin._internal._querier_adapter import QuerierAdapter
 
@@ -15,7 +15,7 @@ class Resource:
         return OutputType(self.gateway)
 
     def getDynamics(self, querier):
-        with model_actions._context(QuerierAdapter(querier)):
+        with _context(QuerierAdapter(querier)):
             return self.func()
 
     class Java:

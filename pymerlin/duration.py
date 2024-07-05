@@ -171,9 +171,6 @@ Duration.MINUTES = Duration.MINUTE
 Duration.HOUR = Duration.MINUTE.times(60)
 Duration.HOURS = Duration.HOUR
 
-"""
-No time at all
-"""
 ZERO = Duration.ZERO
 MICROSECOND = Duration.MICROSECOND
 MICROSECONDS = Duration.MICROSECONDS

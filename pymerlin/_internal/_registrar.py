@@ -28,6 +28,9 @@ class Registrar:
 
 
 class CellRef:
+    """
+    A reference to an allocated piece of simulation state
+    """
     def __init__(self):
         self.id = None
         self.topic = None
@@ -35,5 +38,27 @@ class CellRef:
     def emit(self, event):
         model_actions._current_context[0].emit(event, self.topic)
 
+    def set_value(self, new_value):
+        self.emit(set_value(new_value))
+
+    def add(self, addend):
+        self.emit(add_number(addend))
+
     def get(self):
         return model_actions._current_context[0].get(self.id).getValue()
+
+
+class set_value:
+    def __init__(self, new_value):
+        # def apply(cell):
+        #     return new_value
+        self.new_value = new_value
+
+    def apply(self, state):
+        return self.new_value
+
+    class Java:
+        implements = ["java.util.function.Function"]
+
+def add_number(addend):
+    pass
