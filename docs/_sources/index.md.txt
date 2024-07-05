@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# pymerlin 0.0.2
+# pymerlin
 
 pymerlin is a discrete event simulation framework, built for use in the [Aerie](https://github.com/NASA-AMMOS/aerie>) ecosystem.
 
