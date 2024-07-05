@@ -27,6 +27,5 @@ public class MerlinEntryPoint {
     public static void main(String[] args) {
         GatewayServer gatewayServer = new GatewayServer(new MerlinEntryPoint());
         gatewayServer.start();
-        System.out.println("Gateway Server Started");
     }
 }

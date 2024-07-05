@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Going further" href="tutorial2.html" /><link rel="prev" title="Tutorials" href="index.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>Getting Started - pymerlin 0.0.2 documentation</title>
+        <title>Getting Started - pymerlin 0.0.4-rc documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -179,7 +179,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">pymerlin 0.0.2 documentation</div></a>
+      <a href="../index.html"><div class="brand">pymerlin 0.0.4-rc documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -203,7 +203,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">pymerlin 0.0.2 documentation</span>
+  <span class="sidebar-brand-text">pymerlin 0.0.4-rc documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -295,8 +295,16 @@
         <article role="main" id="furo-main-content">
           <section id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This page is under construction. Please bear with us as we port our <a class="reference external" href="https://nasa-ammos.github.io/aerie-docs/tutorials/mission-modeling/introduction/">Java tutorial</a> to python.</p>
+</div>
 <p>Welcome Aerie modeling padawans! For your training today, you will be learning the basics of mission modeling in Aerie by building your own simple model of an on-board spacecraft solid state recorder (SSR). This model will track the recording rate into the recorder from a couple instruments along with the integrated data volume over time. Through the process of building this model, you’ll learn about the fundamental objects of a model, activities and resources, and their structure. You’ll be introduced to the different categories of resources and learn how you define and implement each along with restrictions on when you can/can’t modify them. As a bonus, we will also cover how you can make your resources “unit aware” to prevent those pesky issues that come along with performing unit conversions and how you can test your model without having to pull your model into an Aerie deployment.</p>
 <p>Let the training begin!</p>
+<section id="installing-pymerlin">
+<h2>Installing pymerlin<a class="headerlink" href="#installing-pymerlin" title="Link to this heading">¶</a></h2>
+<p>If you haven’t already, go to the <a class="reference internal" href="../quickstart.html"><span class="std std-doc">quickstart</span></a> guide to get set up with pymerlin.</p>
+</section>
 <section id="creating-a-mission-model">
 <h2>Creating a Mission Model<a class="headerlink" href="#creating-a-mission-model" title="Link to this heading">¶</a></h2>
 <p>Start by creating a <code class="docutils literal notranslate"><span class="pre">mission.py</span></code> file with the following contents:</p>
@@ -334,9 +342,10 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">recording_rate</span> <span class="o">=</span> <span class="n">registrar</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="o">//</span> <span class="n">Megabits</span><span class="o">/</span><span class="n">s</span>
 </pre></div>
 </div>
-<blockquote>
-<div><p>Tip: As you are coding, take advantage of your IDE to auto import the modeling framework classes you need like <code class="docutils literal notranslate"><span class="pre">MutableResource</span></code>.</p>
-</div></blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>As you are coding, take advantage of your IDE to auto import the modeling framework classes you need like <code class="docutils literal notranslate"><span class="pre">MutableResource</span></code>.</p>
+</div>
 <p>Let’s tease apart this line of code and use it as an opportunity to provide a brief overview of the various types of resources available to you as a modeler. The mission modeling framework provides two primary classes from which to define resources:</p>
 <ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">MutableResource</span></code> - resource whose value can be explicitly updated by activities or other modeling code after it has been defined. Updates to the resource take the form of “Effects” such as <code class="docutils literal notranslate"><span class="pre">increase</span></code>, <code class="docutils literal notranslate"><span class="pre">decrease</span></code>, or <code class="docutils literal notranslate"><span class="pre">set</span></code>. The values of this category of resource are explicitly tracked in objects called “Cells” within Aerie, which you can read about in detail in the <a class="reference external" href="https://ammos.nasa.gov/aerie-docs/overview/software-design-document/#cells">Aerie Software Design Document</a> if you are interested.</p></li>
@@ -350,9 +359,9 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">Clock</span></code> - special resource type to provide “stopwatch” like functionality that allows you to track the time since an event occurred.</p></li>
 </ul>
 <p>TODO: Add more content on <code class="docutils literal notranslate"><span class="pre">Clock</span></code></p>
-<p>:::info</p>
+<div class="info docutils">
 <p>Polynomial resources currently cannot be rendered in the Aerie UI and must be transformed to a linear resource (an example of this is shown later in the tutorial)</p>
-<p>:::</p>
+</div>
 <p>Looking back at our resource declaration, you can see that <code class="docutils literal notranslate"><span class="pre">RecordingRate</span></code> is a <code class="docutils literal notranslate"><span class="pre">MutableResource</span></code> (we will emit effects on this resource in our first activity) of the type <code class="docutils literal notranslate"><span class="pre">Discrete&lt;Double&gt;</span></code>, so the value of the resource will stay constant until the next time we compute effects on it.</p>
 <p>Next, we must define and initialize our <code class="docutils literal notranslate"><span class="pre">RecordingRate</span></code> resource, which we can do in a class constructor that takes one parameter we’ll called <code class="docutils literal notranslate"><span class="pre">registrar</span></code> of type <code class="docutils literal notranslate"><span class="pre">Registrar</span></code>. You can think of the <code class="docutils literal notranslate"><span class="pre">Registrar</span></code> class as your link to what will ultimately get exposed in the UI and in a second we will use this class to register <code class="docutils literal notranslate"><span class="pre">RecordingRate</span></code>. But first, let’s add the following line to the constructor we just made to fully define our resource.</p>
 <p>Both the <code class="docutils literal notranslate"><span class="pre">MutableResource</span></code> and <code class="docutils literal notranslate"><span class="pre">Discrete</span></code> classes have static helper functions for initializing resources of their type. If you included those functions via <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">static</span></code> statements, you get the simple line above. The <code class="docutils literal notranslate"><span class="pre">discrete()</span></code> function expects an initial value for the resource, which we have specified as <code class="docutils literal notranslate"><span class="pre">0.0</span></code>.</p>
@@ -461,6 +470,7 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Getting Started</a><ul>
+<li><a class="reference internal" href="#installing-pymerlin">Installing pymerlin</a></li>
 <li><a class="reference internal" href="#creating-a-mission-model">Creating a Mission Model</a></li>
 <li><a class="reference internal" href="#your-first-resource">Your First Resource</a></li>
 </ul>
@@ -474,7 +484,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=e3a6060d"></script>
+</div><script src="../_static/documentation_options.js?v=126c459f"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=4e2eecee"></script>

@@ -13,11 +13,10 @@ from py4j.java_gateway import JavaGateway, CallbackServerParameters, GatewayPara
 
 @contextmanager
 def start_gateway(jar_path, java_executable='java'):
-    print("Starting gateway at " + jar_path)
     process = subprocess.Popen(
         [java_executable, '-jar', jar_path],
         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    print(process.stdout.readline().decode())  # wait for server to be ready
+    process.stdout.readline()  # wait for server to be ready
     try:
         gateway = JavaGateway(gateway_parameters=GatewayParameters(auto_convert=True),
                               callback_server_parameters=CallbackServerParameters())
