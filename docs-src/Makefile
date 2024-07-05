@@ -17,4 +17,4 @@ help:
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O); touch _build/.nojekyll; rm -rf ../docs; mv _build/html ../docs; echo "moved HTML pages to ../docs"
+	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O); touch _build/html/.nojekyll; rm -rf ../docs; mv _build/html ../docs; echo "moved HTML pages to ../docs"

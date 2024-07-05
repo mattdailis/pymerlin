@@ -1,9 +1,11 @@
 from pymerlin import MissionModel, simulate, Schedule, Directive
+from pymerlin._internal._registrar import CellRef
+
 
 @MissionModel
 class FireSat:
     def __init__(self, registrar):
-        self.counter = registrar.cell(0)
+        self.counter: CellRef = registrar.cell(0)
         registrar.resource("counter", self.counter.get)
 
 @FireSat.ActivityType
