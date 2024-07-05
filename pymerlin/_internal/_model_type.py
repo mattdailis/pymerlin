@@ -23,12 +23,12 @@ class ModelType:
                                         gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.driver.Topic()))
 
     def instantiate(self, start_time, config, builder):
-        cell_type = CellType(self.gateway)
-
         registrar = Registrar()
         model = self.model_class(registrar)
 
-        for cell_ref, initial_value in registrar.cells:
+        default_cell_type = CellType(self.gateway)
+        for cell_ref, initial_value, evolution in registrar.cells:
+            cell_type = default_cell_type if evolution is None else CellType(self.gateway, evolution=evolution)
             topic = self.gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.driver.Topic()
             cell_id = builder.allocate(self.gateway.jvm.org.apache.commons.lang3.mutable.MutableObject(initial_value),
                                        cell_type, self.gateway.jvm.java.util.function.Function.identity(), topic)

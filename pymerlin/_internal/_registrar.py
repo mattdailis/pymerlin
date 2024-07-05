@@ -1,4 +1,4 @@
-from pymerlin import model_actions
+from pymerlin._internal import _globals
 
 
 class Registrar:
@@ -7,9 +7,9 @@ class Registrar:
         self.resources = []
         self.topics = []
 
-    def cell(self, initial_value):
+    def cell(self, initial_value, evolution=None):
         ref = CellRef()
-        self.cells.append((ref, initial_value))
+        self.cells.append((ref, initial_value, evolution))
         return ref
 
     def resource(self, name, f):
@@ -31,12 +31,15 @@ class CellRef:
     """
     A reference to an allocated piece of simulation state
     """
+
     def __init__(self):
         self.id = None
         self.topic = None
 
     def emit(self, event):
-        model_actions._current_context[0].emit(event, self.topic)
+        if callable(event):
+            event = FunctionalEffect(event)
+        _globals._current_context[0].emit(event, self.topic)
 
     def set_value(self, new_value):
         self.emit(set_value(new_value))
@@ -45,7 +48,7 @@ class CellRef:
         self.emit(add_number(addend))
 
     def get(self):
-        return model_actions._current_context[0].get(self.id).getValue()
+        return _globals._current_context[0].get(self.id).getValue()
 
 
 class set_value:
@@ -59,6 +62,18 @@ class set_value:
 
     class Java:
         implements = ["java.util.function.Function"]
+
+
+class FunctionalEffect:
+    def __init__(self, f):
+        self.f = f
+
+    def apply(self, state):
+        return self.f(state)
+
+    class Java:
+        implements = ["java.util.function.Function"]
+
 
 def add_number(addend):
     pass

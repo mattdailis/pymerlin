@@ -15,7 +15,13 @@ class TestMissionModel:
     def __init__(self, registrar: Registrar):
         self.list = registrar.cell([])
         self.counter = registrar.cell(0)
-        # self.linear = registrar.cell(line(0, 1))
+        self.linear = registrar.cell((0, 1), evolution=linear_evolution)
+
+def linear_evolution(x, d):
+    initial = x[0]
+    rate = x[1]
+    delta = rate * d.micros / 1_000_000
+    return initial + delta, rate
 
 
 class LinearCell:
@@ -114,8 +120,6 @@ def test_forgot_to_await():
         simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity"))), "24:00:00")
         # TODO make sure ample information is extracted from the java exception
 
-    print()
-
 
 def test_spawn():
     """
@@ -189,5 +193,34 @@ def test_discrete_condition():
                      Span("other_activity", Duration.of(15, SECONDS), Duration.ZERO)]
 
 
+def test_concurrent_effects():
+    """
+    Make sure the counter gets incremented when expected by observing it from another activity
+    """
+
+    @TestMissionModel.ActivityType
+    async def activity(mission: TestMissionModel):
+        mission.counter.emit(lambda x: x + 1)
+        assert mission.counter.get() == 1
+        await delay("00:00:00")
+        assert mission.counter.get() == 2
+
+    simulate(TestMissionModel,
+             Schedule.build(("00:00:00", Directive("activity")), ("00:00:00", Directive("activity"))),
+             "24:00:00")
+
+
 def test_autonomous_condition():
-    pass
+    """
+    Check that a task is resumed correctly when a condition becomes true
+    """
+
+    @TestMissionModel.ActivityType
+    async def activity(mission: TestMissionModel):
+        assert mission.linear.get()[0] == 0
+        await delay("00:00:01")
+        assert mission.linear.get()[0] == 1
+        await delay("00:00:02")
+        assert mission.linear.get()[0] == 3
+
+    simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity"))), "24:00:00")

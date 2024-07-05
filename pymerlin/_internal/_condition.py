@@ -1,4 +1,5 @@
 from pymerlin import model_actions
+from pymerlin._internal._context import _context
 from pymerlin._internal._querier_adapter import QuerierAdapter
 
 
@@ -11,7 +12,7 @@ class Condition:
         self.func = func
 
     def nextSatisfied(self, querier, horizon):
-        with model_actions._context(QuerierAdapter(querier)):
+        with _context(QuerierAdapter(querier)):
             if self.func():
                 return self.gateway.jvm.java.util.Optional.of(self.gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.Duration.ZERO)
             else:
