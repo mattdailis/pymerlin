@@ -20,4 +20,4 @@ class Schedule:
     def empty():
         return Schedule.build()
 
-Directive = namedtuple("Directive", "type")
+Directive = namedtuple("Directive", "type args")

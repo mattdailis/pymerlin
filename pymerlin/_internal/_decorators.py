@@ -23,8 +23,8 @@ def MissionModel(cls):
         if func.__name__ in cls.activity_types:
             warnings.warn("Re-defining activity type: " + func.__name__)
         cls.activity_types[func.__name__] = func
-        def inner(*args, **kwargs):
-            return TaskSpecification(func, args, kwargs)
-        return inner
+        def innermost(mission=None, **kwargs):
+            return TaskSpecification(func, kwargs, mission)
+        return innermost
     cls.ActivityType = inner
     return cls

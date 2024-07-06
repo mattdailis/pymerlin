@@ -18,7 +18,7 @@ class DirectiveType:
         return None
 
     def getTaskFactory(self, model_id, args):
-        return TaskFactory(lambda: Task(self.gateway, models_by_id[model_id], self.activity, self.input_topic, self.output_topic))
+        return TaskFactory(lambda: Task(self.gateway, models_by_id[model_id], self.activity, args, self.input_topic, self.output_topic))
 
     class Java:
         implements = ["gov.nasa.jpl.aerie.merlin.protocol.model.DirectiveType"]

@@ -22,6 +22,7 @@ class CellType:
         return cell_id
 
     def apply(self, state, effect):
+        # TODO pass reference to effect.apply? Do we get a reference back? How expensive is that?
         current_state = _globals.cell_values_by_id[state]
         new_state = effect.apply(current_state)
         _globals.cell_values_by_id[state] = new_state

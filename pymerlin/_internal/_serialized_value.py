@@ -48,3 +48,19 @@ def to_serialized_value(gateway, value):
                 to_serialized_value(gateway, v) for v in value
             ], gateway._gateway_client))
     raise NotImplementedError(value)
+
+
+def to_map_str_serialized_value(gateway, dictionary):
+    if type(dictionary) != dict:
+        raise ValueError("dictionary must be a dict, was " + str(type(dictionary)))
+    return {
+        k: to_serialized_value(gateway, v)
+        for k, v in dictionary.items()
+    }
+
+
+def from_map_str_serialized_value(gateway, dictionary):
+    return {
+        k: from_serialized_value(gateway, v)
+        for k, v in dictionary.items()
+    }

@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Documentation" href="documentation.html" /><link rel="prev" title="License" href="license.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Architecture" href="architecture.html" /><link rel="prev" title="pymerlin.model_actions" href="apidocs/pymerlin/pymerlin.model_actions.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>Publishing to pypi - pymerlin 0.0.5 documentation</title>
+        <title>Common Errors - pymerlin 0.0.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
@@ -191,7 +191,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -211,7 +211,7 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <ul>
+  <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="1_tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="1_tutorials/1_gettingstarted.html">Getting Started</a></li>
@@ -243,16 +243,16 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="common-errors.html">Common Errors</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Common Errors</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developer.html">Developing pymerlin</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Publishing to pypi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publishing.html">Publishing to pypi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a></li>
 </ul>
 
@@ -274,7 +274,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="_sources/publishing.md.txt" title="View this page">
+  <a class="muted-link" href="_sources/common-errors.md.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -288,21 +288,27 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="publishing-to-pypi">
-<h1>Publishing to pypi<a class="headerlink" href="#publishing-to-pypi" title="Link to this heading">¶</a></h1>
-<p>Make sure your <code class="docutils literal notranslate"><span class="pre">.pypirc</span></code> file exists and includes your pypi API key.</p>
-<p>Run these commands from the root of the repository</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-rf<span class="w"> </span>dist
-python3<span class="w"> </span>-m<span class="w"> </span>build<span class="w">     </span>
-python3<span class="w"> </span>-m<span class="w"> </span>twine<span class="w"> </span>upload<span class="w"> </span>dist/*
+          <section id="common-errors">
+<h1>Common Errors<a class="headerlink" href="#common-errors" title="Link to this heading">¶</a></h1>
+<p>This section describes some errors you might encounter, and what to do about them</p>
+<section id="importerror-circular-import">
+<h2>ImportError - circular import<a class="headerlink" href="#importerror-circular-import" title="Link to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ImportError</span><span class="p">:</span> <span class="n">cannot</span> <span class="kn">import</span> <span class="nn">name</span> <span class="s1">&#39;...&#39;</span> <span class="kn">from</span> <span class="nn">partially</span> <span class="n">initialized</span> <span class="n">module</span> <span class="s1">&#39;mission&#39;</span> <span class="p">(</span><span class="n">most</span> <span class="n">likely</span> <span class="n">due</span> <span class="n">to</span> <span class="n">a</span> <span class="n">circular</span> <span class="n">import</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>This error means you have two python files that import each other. This can occur if you have an activity defined in
+one file, and a model in another, and the two reference each other.</p>
+<p>The recommended practice here is <em>not</em> to import activities from the model file - activities should reference the model,
+not the other way around. The activity files will need to be imported from your main file prior to running simulation.
+Convenient as it may seem, we do <em>not</em> recommend using your model file as your main file - make a separate <code class="docutils literal notranslate"><span class="pre">main.py</span></code> and
+import both the model and the activities.</p>
+</section>
 </section>
 
         </article>
@@ -310,23 +316,23 @@ python3<span class="w"> </span>-m<span class="w"> </span>twine<span class="w"> <
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="documentation.html">
+          <a class="next-page" href="architecture.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Documentation</div>
+                <div class="title">Architecture</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="license.html">
+          <a class="prev-page" href="apidocs/pymerlin/pymerlin.model_actions.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">License</div>
+                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.model_actions</span></code></div>
                 
               </div>
             </a>
@@ -348,8 +354,27 @@ python3<span class="w"> </span>-m<span class="w"> </span>twine<span class="w"> <
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Common Errors</a><ul>
+<li><a class="reference internal" href="#importerror-circular-import">ImportError - circular import</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

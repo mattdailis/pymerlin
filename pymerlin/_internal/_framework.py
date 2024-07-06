@@ -7,7 +7,9 @@ from pymerlin._internal import _globals
 from pymerlin._internal._gateway import start_gateway
 from pymerlin._internal._model_type import ModelType
 from pymerlin._internal._py4j_utilities import make_array
-from pymerlin._internal._serialized_value import from_serialized_value
+from pymerlin._internal._schedule import Directive
+from pymerlin._internal._serialized_value import from_serialized_value, to_map_str_serialized_value
+from pymerlin._internal._task_specification import TaskSpecification
 from pymerlin.duration import Duration, MICROSECONDS
 
 
@@ -25,11 +27,14 @@ class Consumer:
 def make_schedule(gateway, schedule):
     entry_list = []
     for offset, directive in schedule.entries:
+        if type(directive) == TaskSpecification:
+            x: TaskSpecification = directive
+            directive = Directive(x.func.__name__, x.args)
         entry_list.append(gateway.jvm.org.apache.commons.lang3.tuple.Pair.of(
             gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.Duration.MICROSECOND.times(offset.micros),
             gateway.jvm.gov.nasa.ammos.aerie.merlin.python.Directive(
                 directive.type,
-                gateway.jvm.java.util.Map.of())))
+                to_map_str_serialized_value(gateway, directive.args))))
     return gateway.jvm.gov.nasa.ammos.aerie.merlin.python.Schedule.build(
         make_array(
             gateway,
@@ -41,7 +46,8 @@ def make_schedule(gateway, schedule):
 def simulate_helper(gateway, model_type, config, schedule, duration):
     valid_types = set(model_type.getDirectiveTypes().keys())
     for offset, directive in schedule.entries:
-        if directive.type not in valid_types:
+        type_name = directive.type if type(directive) == Directive else directive.func.__name__
+        if type_name not in valid_types:
             raise Exception("Unknown activity type: " + directive.type)
     merlin = gateway.entry_point.getMerlin()
     if type(duration) is str:

@@ -77,7 +77,7 @@ def test_noop():
     """
     Schedule with noop should have a single span, and all profiles should have exactly one segment
     """
-    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:01", Directive("noop"))), "24:00:00")
+    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:01", noop())), "24:00:00")
     assert spans == [Span("noop", Duration.from_string("00:00:01"), Duration.ZERO)]
 
 
@@ -95,7 +95,7 @@ def test_effect():
         return
 
     simulate(TestMissionModel,
-             Schedule.build(("00:00:00", Directive("activity")), ("00:00:01", Directive("delay_one_hour"))), "24:00:00")
+             Schedule.build(("00:00:00", activity()), ("00:00:01", delay_one_hour())), "24:00:00")
 
 
 def test_exception():
@@ -105,7 +105,7 @@ def test_exception():
         raise Exception("Exception in task!")
 
     with pytest.raises(Py4JJavaError) as e:
-        simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity"))), "24:00:00")
+        simulate(TestMissionModel, Schedule.build(("00:00:00", activity())), "24:00:00")
         # TODO make sure ample information is extracted from the java exception
 
 
@@ -117,7 +117,7 @@ def test_forgot_to_await():
         delay("00:00:01")
 
     with pytest.raises(Py4JJavaError) as e:
-        simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity"))), "24:00:00")
+        simulate(TestMissionModel, Schedule.build(("00:00:00", activity())), "24:00:00")
         # TODO make sure ample information is extracted from the java exception
 
 
@@ -129,7 +129,7 @@ def test_spawn():
     @TestMissionModel.ActivityType
     async def activity(mission: TestMissionModel):
         mission.counter.set_value(123)
-        spawn(other_activity(mission))
+        spawn(other_activity(mission=mission))
         mission.counter.set_value(345)
         assert mission.counter.get() == 345
 
@@ -139,7 +139,7 @@ def test_spawn():
         await delay("00:00:01")
         assert mission.counter.get() == 345
 
-    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity"))),
+    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", activity())),
                                        "24:00:00")
     assert spans == [Span("activity", Duration.ZERO, Duration.SECOND),
                      Span("other_activity", Duration.ZERO, Duration.SECOND)]
@@ -164,7 +164,7 @@ def test_call():
         assert mission.counter.get() == 123
         mission.counter.set_value(345)
 
-    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity"))),
+    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", activity())),
                                        "24:00:00")
     assert spans == [Span("activity", Duration.ZERO, Duration.of(2, SECONDS)),
                      Span("other_activity", Duration.ZERO, Duration.SECOND)]
@@ -185,8 +185,8 @@ def test_discrete_condition():
     async def other_activity(mission: TestMissionModel):
         mission.counter.set_value(345)
 
-    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity")),
-                                                                        ("00:00:15", Directive("other_activity"))),
+    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", activity()),
+                                                                        ("00:00:15", other_activity())),
                                        "24:00:00")
 
     assert spans == [Span("activity", Duration.ZERO, Duration.of(15, SECONDS)),
@@ -206,7 +206,7 @@ def test_concurrent_effects():
         assert mission.counter.get() == 2
 
     simulate(TestMissionModel,
-             Schedule.build(("00:00:00", Directive("activity")), ("00:00:00", Directive("activity"))),
+             Schedule.build(("00:00:00", activity()), ("00:00:00", activity())),
              "24:00:00")
 
 
@@ -223,4 +223,30 @@ def test_autonomous_condition():
         await delay("00:00:02")
         assert mission.linear.get()[0] == 3
 
-    simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity"))), "24:00:00")
+    simulate(TestMissionModel, Schedule.build(("00:00:00", activity())), "24:00:00")
+
+
+@pytest.mark.skip("Support for non-keyword args not yet implemented")
+def test_activity_args():
+    """
+    Check that an activity receives args in the correct order
+    """
+
+    @TestMissionModel.ActivityType
+    async def activity(mission: TestMissionModel, number1, number2):
+        assert number1 == 123
+        assert number2 == 123
+
+    simulate(TestMissionModel, Schedule.build(("00:00:00", activity(123, 345))), "24:00:00")
+
+def test_activity_kwargs():
+    """
+    Check that an activity receives keyword args
+    """
+
+    @TestMissionModel.ActivityType
+    async def activity(mission: TestMissionModel, number1, number2):
+        assert number1 == 123
+        assert number2 == 345
+
+    simulate(TestMissionModel, Schedule.build(("00:00:00", activity(number2=345, number1=123))), "24:00:00")

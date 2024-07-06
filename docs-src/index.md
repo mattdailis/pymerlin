@@ -31,6 +31,7 @@ quickstart
 2_guides/index
 3_explanation/index
 apidocs/index
+common-errors
 ```
 
 ```{toctree}
