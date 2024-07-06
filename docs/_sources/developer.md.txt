@@ -8,3 +8,11 @@ Additional libraries:
 - build (for packaging)
 - twine (for publishing)
 - pytest (for running tests)
+
+## Building pymerlin.jar
+
+```shell
+cd java
+./gradlew assemble
+mv pymerlin/build/libs/pymerlin.jar ../pymerlin/_internal/jars
+```

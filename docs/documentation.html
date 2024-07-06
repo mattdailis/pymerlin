@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Publishing to pypi" href="publishing.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>Documentation - pymerlin 0.0.5 documentation</title>
+        <title>Documentation - pymerlin 0.0.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
@@ -179,7 +179,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">pymerlin 0.0.5 documentation</div></a>
+      <a href="index.html"><div class="brand">pymerlin 0.0.6 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -191,7 +191,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -203,7 +203,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">pymerlin 0.0.5 documentation</span>
+  <span class="sidebar-brand-text">pymerlin 0.0.6 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -225,6 +225,7 @@
 <li class="toctree-l2"><a class="reference internal" href="2_guides/telecom.html">Modeling Telecom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="2_guides/scheduling.html">Scheduling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="2_guides/spice.html">Using spice for geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_guides/build-jar.html">Build an Aerie-compatible JAR file</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="3_explanation/index.html">Background</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Background</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -288,7 +289,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -306,6 +307,18 @@ make<span class="w"> </span>clean<span class="w"> </span>html
 <p>This documentation is built using <a class="reference external" href="https://www.sphinx-doc.org/en/master/">sphinx</a> with the <a class="reference external" href="https://mystmd.org/">MyST</a>
 plugin, using the <a class="reference external" href="https://pradyunsg.me/furo/">Furo</a> theme. Python docstrings are automatically parsed and included in
 this documentation using the <a class="reference external" href="https://sphinx-autodoc2.readthedocs.io">sphinx-autodoc2</a> extension.</p>
+<section id="style">
+<h2>Style<a class="headerlink" href="#style" title="Link to this heading">¶</a></h2>
+<p>Refer to <a class="reference external" href="https://developers.google.com/style">https://developers.google.com/style</a> for guidance. Any particularly salient points should be reproduced in this document.</p>
+<p>pymerlin is always lowercase. It may be styled as regular text or in a code block like this: <code class="docutils literal notranslate"><span class="pre">pymerlin</span></code> depending on the
+context.</p>
+</section>
+<section id="referencing-aerie">
+<h2>Referencing Aerie<a class="headerlink" href="#referencing-aerie" title="Link to this heading">¶</a></h2>
+<p>pymerlin documentation should be self-contained for users who are not using an Aerie deployment - this means that
+some concepts will be repeated across pymerlin and Aerie documentation. In these scenarios, the relevant Aerie
+documentation page should be linked in a “Further reading” section at the bottom of the page.</p>
+</section>
 </section>
 
         </article>
@@ -343,13 +356,33 @@ this documentation using the <a class="reference external" href="https://sphinx-
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Documentation</a><ul>
+<li><a class="reference internal" href="#style">Style</a></li>
+<li><a class="reference internal" href="#referencing-aerie">Referencing Aerie</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=282f96c0"></script>
+</div><script src="_static/documentation_options.js?v=1fd71caa"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=4e2eecee"></script>

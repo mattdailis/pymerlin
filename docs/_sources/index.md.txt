@@ -4,16 +4,12 @@ hide-toc: true
 
 # pymerlin
 
-pymerlin is a discrete event simulation framework, built for use in the [Aerie](https://github.com/NASA-AMMOS/aerie>) ecosystem.
-
-To learn more about Aerie, read the [Aerie Docs](https://nasa-ammos.github.io/aerie-docs).
-
-Ready to get started? Check out the [Quickstart](./quickstart.md) guide.
-
 ```{include} ../README.md
 :start-after: <!-- start elevator-pitch -->
 :end-before: <!-- end elevator-pitch -->
 ```
+
+Ready to get started? Check out the [Quickstart](./quickstart.md) guide.
 
 ## Source code
 

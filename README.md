@@ -1,20 +1,23 @@
 # pymerlin
 
 <!-- start elevator-pitch -->
-A python modeling framework for Aerie.
+pymerlin is a discrete event simulation framework, built for use in the [Aerie](https://github.com/NASA-AMMOS/aerie>) ecosystem.
+
+To learn more about Aerie, read the [Aerie Docs](https://nasa-ammos.github.io/aerie-docs).
 <!-- end elevator-pitch -->
 
 ### TODO:
 
 - [ ] Daemon tasks
-- [ ] More interesting cells and resources
-- [x] Conditions on discrete cells
-- [ ] Conditions on continuous cells
+- [x] More interesting cells and resources
+- [x] Conditions on static cells
+- [x] Conditions on autonomous cells
 - [x] Child tasks
 - [ ] Spiceypy
 - [ ] JPL time
 - [ ] pip-installable models
 - [ ] build Aerie-compatible jars and provide docker-compose file with python
+- [ ] checkpoint restart
 
 ## Prerequisites
 
@@ -50,8 +53,13 @@ hybrid system, which may be more difficult to characterize.
 
 ## Building pymerlin.jar
 
+If any changes are made to the java code, rebuild the jar and place it in the correct location as follows:
+
 ```shell
-cd pymerlin-java
+cd java
 ./gradlew assemble
 mv pymerlin/build/libs/pymerlin.jar ../pymerlin/_internal/jars
 ```
+
+The jar lives inside of the `pymerlin` python source directory because that ensures that it will be packaged
+(and accessible) in a distribution.

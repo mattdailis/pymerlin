@@ -48,7 +48,7 @@ def simulate_helper(gateway, model_type, config, schedule, duration):
     for offset, directive in schedule.entries:
         type_name = directive.type if type(directive) == Directive else directive.func.__name__
         if type_name not in valid_types:
-            raise Exception("Unknown activity type: " + directive.type)
+            raise Exception("Unknown activity type: " + type_name)
     merlin = gateway.entry_point.getMerlin()
     if type(duration) is str:
         duration = Duration.from_string(duration)

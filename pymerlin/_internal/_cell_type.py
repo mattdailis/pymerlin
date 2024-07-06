@@ -21,11 +21,11 @@ class CellType:
         _globals.next_cell_id += 1
         return cell_id
 
-    def apply(self, state, effect):
-        # TODO pass reference to effect.apply? Do we get a reference back? How expensive is that?
-        current_state = _globals.cell_values_by_id[state]
-        new_state = effect.apply(current_state)
-        _globals.cell_values_by_id[state] = new_state
+    def apply(self, state_id, effect_id):
+        current_state = _globals.cell_values_by_id[state_id]
+        effect = _globals.effects_by_id[effect_id]
+        new_state = effect(current_state)
+        _globals.cell_values_by_id[state_id] = new_state
 
     def step(self, state, java_duration):
         if self.evolution is None:

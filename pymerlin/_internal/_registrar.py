@@ -37,9 +37,15 @@ class CellRef:
         self.topic = None
 
     def emit(self, event):
-        if callable(event):
-            event = FunctionalEffect(event)
-        _globals._current_context[0].emit(event, self.topic)
+        # if callable(event):
+        #     event = FunctionalEffect(event)
+        # _globals._current_context[0].emit(event, self.topic)
+
+        if not callable(event):
+            raise Exception("Expecting effect to be callable")
+        _globals.effects_by_id[_globals.next_effect_id] = event
+        _globals._current_context[0].emit(_globals.next_effect_id, self.topic)
+        _globals.next_effect_id += 1
 
     def set_value(self, new_value):
         self.emit(set_value(new_value))
@@ -51,28 +57,19 @@ class CellRef:
         return _globals.cell_values_by_id[_globals._current_context[0].get(self.id)]
 
 
-class set_value:
-    def __init__(self, new_value):
-        # def apply(cell):
-        #     return new_value
-        self.new_value = new_value
-
-    def apply(self, state):
-        return self.new_value
-
-    class Java:
-        implements = ["java.util.function.Function"]
+def set_value(new_value):
+    return lambda x: new_value
 
 
-class FunctionalEffect:
-    def __init__(self, f):
-        self.f = f
-
-    def apply(self, state):
-        return self.f(state)
-
-    class Java:
-        implements = ["java.util.function.Function"]
+# class FunctionalEffect:
+#     def __init__(self, f):
+#         self.f = f
+#
+#     def apply(self, state):
+#         return self.f(state)
+#
+#     class Java:
+#         implements = ["java.util.function.Function"]
 
 
 def add_number(addend):

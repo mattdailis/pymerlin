@@ -9,4 +9,5 @@ powermodel
 telecom
 scheduling
 spice
+build-jar
 ```

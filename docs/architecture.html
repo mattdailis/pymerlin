@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Developing pymerlin" href="developer.html" /><link rel="prev" title="Common Errors" href="common-errors.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>Architecture - pymerlin 0.0.5 documentation</title>
+        <title>Architecture - pymerlin 0.0.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
@@ -179,7 +179,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">pymerlin 0.0.5 documentation</div></a>
+      <a href="index.html"><div class="brand">pymerlin 0.0.6 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -203,7 +203,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">pymerlin 0.0.5 documentation</span>
+  <span class="sidebar-brand-text">pymerlin 0.0.6 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -225,6 +225,7 @@
 <li class="toctree-l2"><a class="reference internal" href="2_guides/telecom.html">Modeling Telecom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="2_guides/scheduling.html">Scheduling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="2_guides/spice.html">Using spice for geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_guides/build-jar.html">Build an Aerie-compatible JAR file</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="3_explanation/index.html">Background</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Background</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -309,6 +310,23 @@ performance of their simulation will port their code to Java - which has the dou
 communication overhead, as well as giving the engineer a single Java process to instrument and analyze, rather than a
 hybrid system, which may be more difficult to characterize.</p>
 </section>
+<section id="round-trips">
+<h2>Round trips<a class="headerlink" href="#round-trips" title="Link to this heading">¶</a></h2>
+<p>Some objects that the mission model provides to the simulation driver are <em>pass-through</em> objects - i.e. the driver
+merely returns these objects to the mission model when it is appropriate to do so. These objects need not be converted
+to Java types - it is sufficient to pass a handle to the simulation driver, as long as the handle can be used to look
+up the original object when needed. This is why certain global variables exist in <code class="docutils literal notranslate"><span class="pre">_globals.py</span></code> - they are used to cache
+python objects and pass only their id to the Java process.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>As implemented, this can be a source of a memory leak. Some careful cleanup is required to make this approach viable
+for larger use cases</p>
+</div>
+<p>For resources and activity arguments (i.e. things that are represented as “SerializedValue” on the Java side), it is
+important <em>not</em> to make use of the python cache. This will help with integrating a python mission model with the rest
+of the Aerie system by allowing the python code to handle inputs generated elsewhere in the system, and provide outputs
+that can be understood by the rest of the system.</p>
+</section>
 </section>
 
         </article>
@@ -368,6 +386,7 @@ hybrid system, which may be more difficult to characterize.</p>
             <ul>
 <li><a class="reference internal" href="#">Architecture</a><ul>
 <li><a class="reference internal" href="#approachability-over-performance">Approachability over performance</a></li>
+<li><a class="reference internal" href="#round-trips">Round trips</a></li>
 </ul>
 </li>
 </ul>
@@ -379,7 +398,7 @@ hybrid system, which may be more difficult to characterize.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=282f96c0"></script>
+</div><script src="_static/documentation_options.js?v=1fd71caa"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=4e2eecee"></script>

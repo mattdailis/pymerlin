@@ -21,10 +21,10 @@ class SerializedValueVisitor:
         return str(value)
 
     def onMap(self, value):
-        return {k: from_serialized_value(self.gateway, v) for k, v in value.items()}
+        return MapConverter().convert({k: from_serialized_value(self.gateway, v) for k, v in value.items()}, self.gateway._gateway_client)
 
     def onList(self, value):
-        return [from_serialized_value(self.gateway, v) for v in value]
+        return ListConverter().convert([from_serialized_value(self.gateway, v) for v in value], self.gateway._gateway_client)
 
     class Java:
         implements = ["gov.nasa.jpl.aerie.merlin.protocol.types.SerializedValue$Visitor"]

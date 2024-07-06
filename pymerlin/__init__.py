@@ -28,8 +28,7 @@ def checkout():
     async def test_activity(mission: TestMissionModel):
         mission.counter.emit(lambda x: x + 1)
 
-
-    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("test_activity"))), "00:00:01")
+    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", test_activity())), "00:00:01")
     if profiles != {'counter': [ProfileSegment(extent=Duration.from_string("+00:00:01.000000"), dynamics=1.0)]}:
         print("Profiles didn't check out: ", profiles)
         success = False

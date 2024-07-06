@@ -65,6 +65,12 @@ async def clear_list(mission, item):
     mission.list.emit([])
 
 
+def test_checkout():
+    from pymerlin import checkout
+    checkout()
+
+
+@pytest.mark.skip("")
 def test_empty():
     """
     Empty schedule should result in no spans

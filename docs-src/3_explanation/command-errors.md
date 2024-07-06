@@ -9,14 +9,14 @@ A command error, sometimes called a command file error, describes the situation 
 The consequence of a command error can range from lost opportunities (e.g. a spacecraft does not record data of a particular event of interest), to loss of mission (the spacecraft is permanently incapacitated).
 
 The flight system’s fault protection subsystem is designed to minimize the consequence of command error by putting the spacecraft into a “safe mode” when certain automatic fault detection, isolation, and recovery (FDIR) mechanisms are triggered. There are, however, command errors that FDIRs are powerless against:
-- CFDP 2 delayed packets (Clipper)
-- Incorrect inputs to maneuvers (Mars Climate Orbiter)
-- Unexpected failure modes of FSW (MSL sol 200)
-- Incorrect observation timings (I don’t have a specific example here)
-- Incorrect Earth vector values (Viking)
-- Concurrent communication of multiple spacecraft in a constellation (MMS)
-- Unintentional sequence deletes (MSL)
-- Sequences that don’t set a new parameter that was added in a new FSW version (MSL)
+- CFDP 2 delayed packets
+- Incorrect inputs to maneuvers
+- Unexpected failure modes of FSW
+- Incorrect observation timings
+- Incorrect Earth vector values
+- Concurrent communication of multiple spacecraft in a constellation
+- Unintentional sequence deletes
+- Sequences that don’t set a new parameter that was added in a new FSW version
 
 ## Avoiding Command Errors
 In order to reduce the risk of command error, the ground system may perform certain checks before allowing a message to be sent to the spacecraft. These checks range from constraints on the syntax of command files, to some abstract interpretation of the command files, to simulation of these command files. Some desirable characteristics of a ground system check:
