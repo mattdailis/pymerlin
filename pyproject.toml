@@ -4,13 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pymerlin"
-version = "0.0.6"
+version = "0.0.7"
 dependencies = [
-  "bokeh>=3.4.2",
-  "numpy>=2.0.0",
   "py4j>=0.10.9.7"
 ]
-requires-python = ">=3.6"
+requires-python = ">=3.11"
 authors = [
   {name = "Matthew Dailis", email = "matthew.l.dailis@jpl.nasa.gov"},
 ]
@@ -26,6 +24,10 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
+plotting = [
+  "bokeh>=3.4.2",
+  "numpy>=2.0.0"
+]
 #gui = ["PyQt5"]
 #cli = [
 #  "rich",
@@ -34,11 +36,11 @@ classifiers = [
 #spice = ["spiceypy"]
 
 [project.urls]
-Homepage = "https://example.com"
-Documentation = "https://readthedocs.org"
+Homepage = "https://mattdailis.github.io/pymerlin"
+Documentation = "https://mattdailis.github.io/pymerlin"
 Repository = "https://github.com/mattdailis/pymerlin"
 "Bug Tracker" = "https://github.com/mattdailis/pymerlin/issues"
-Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
+Changelog = "https://github.com/mattdailis/pymerlin/blob/main/CHANGELOG.md"
 
 #[project.scripts]
 #spam-cli = "spam:main_cli"
