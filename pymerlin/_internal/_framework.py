@@ -3,6 +3,7 @@ from collections import namedtuple
 
 from py4j.java_gateway import Py4JJavaError, get_field
 
+from pymerlin._internal import _globals
 from pymerlin._internal._gateway import start_gateway
 from pymerlin._internal._model_type import ModelType
 from pymerlin._internal._py4j_utilities import make_array
@@ -67,6 +68,10 @@ def simulate(model_type, schedule, duration):
             e.java_exception.printStackTrace()
             # TODO extract all info from java exception and raise a purely python exception
             raise e
+
+        finally:
+            # If we haven't run out of memory from this data structure yet, now's a good time to empty it
+            _globals.cell_values_by_id.clear()
 
 
 ProfileSegment = namedtuple("ProfileSegment", "extent dynamics")

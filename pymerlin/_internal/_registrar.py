@@ -48,7 +48,7 @@ class CellRef:
         self.emit(add_number(addend))
 
     def get(self):
-        return _globals._current_context[0].get(self.id).getValue()
+        return _globals.cell_values_by_id[_globals._current_context[0].get(self.id)]
 
 
 class set_value:

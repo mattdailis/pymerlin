@@ -18,10 +18,10 @@ A python modeling framework for Aerie.
 
 ## Prerequisites
 
-- python >=3.6.3 (only tested on 3.12 so far...)
+- python >=3.6.3 (only tested on 3.11 so far...)
 - java >=21
 
-~~Install pymerlin by running `pip install pymerlin`~~ (doesn't work yet)
+Install pymerlin by running `pip install pymerlin`
 
 1. Make a venv `python -m venv venv`
 2. Activate the venv `source ./venv/bin/activate`

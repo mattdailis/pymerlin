@@ -1,5 +1,6 @@
 from py4j.java_collections import MapConverter
 
+from pymerlin._internal import _globals
 from pymerlin._internal._cell_type import CellType
 from pymerlin._internal._directive_type import DirectiveType
 from pymerlin._internal._globals import models_by_id
@@ -30,8 +31,9 @@ class ModelType:
         for cell_ref, initial_value, evolution in registrar.cells:
             cell_type = default_cell_type if evolution is None else CellType(self.gateway, evolution=evolution)
             topic = self.gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.driver.Topic()
-            cell_id = builder.allocate(self.gateway.jvm.org.apache.commons.lang3.mutable.MutableObject(initial_value),
-                                       cell_type, self.gateway.jvm.java.util.function.Function.identity(), topic)
+            _globals.cell_values_by_id[_globals.next_cell_id] = initial_value
+            cell_id = builder.allocate(_globals.next_cell_id, cell_type, self.gateway.jvm.java.util.function.Function.identity(), topic)
+            _globals.next_cell_id += 1
             cell_ref.id = cell_id
             cell_ref.topic = topic
 

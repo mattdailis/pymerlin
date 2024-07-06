@@ -1,3 +1,4 @@
+from pymerlin._internal import _globals
 from pymerlin._internal._effect_trait import EffectTrait
 from pymerlin.duration import Duration, MICROSECONDS
 
@@ -15,16 +16,22 @@ class CellType:
         return EffectTrait()
 
     def duplicate(self, state):
-        return self.gateway.jvm.org.apache.commons.lang3.mutable.MutableObject(state.getValue())
+        cell_id = _globals.next_cell_id
+        _globals.cell_values_by_id[cell_id] = _globals.cell_values_by_id[state]
+        _globals.next_cell_id += 1
+        return cell_id
 
     def apply(self, state, effect):
-        state.setValue(effect.apply(state.getValue()))
+        current_state = _globals.cell_values_by_id[state]
+        new_state = effect.apply(current_state)
+        _globals.cell_values_by_id[state] = new_state
 
     def step(self, state, java_duration):
         if self.evolution is None:
             return
+        current_state = _globals.cell_values_by_id[state]
         duration = Duration.of(java_duration.dividedBy(self.gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.Duration.MICROSECOND), MICROSECONDS)
-        state.setValue(self.evolution(state.getValue(), duration))
+        _globals.cell_values_by_id[state] = self.evolution(current_state, duration)
 
     def getExpiry(self, state):
         return self.gateway.jvm.java.util.Optional.empty()
