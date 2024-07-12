@@ -106,6 +106,12 @@ API
       .. autodoc2-docstring:: pymerlin.duration.Duration.negate
          :parser: myst
 
+   .. py:method:: to_number_in(unit)
+      :canonical: pymerlin.duration.Duration.to_number_in
+
+      .. autodoc2-docstring:: pymerlin.duration.Duration.to_number_in
+         :parser: myst
+
    .. py:method:: of(scalar, unit)
       :canonical: pymerlin.duration.Duration.of
       :staticmethod:

@@ -31,3 +31,31 @@ For resources and activity arguments (i.e. things that are represented as "Seria
 important _not_ to make use of the python cache. This will help with integrating a python mission model with the rest
 of the Aerie system by allowing the python code to handle inputs generated elsewhere in the system, and provide outputs
 that can be understood by the rest of the system.
+
+## Async/await vs threads
+
+pymerlin requires tasks to be defined as async functions (a.k.a coroutines), and for them to pause by calling and awaiting
+a model action. The task's loop is pause, and kept in memory until it is time to resume the task, at which point that
+loop is resumed. Alternatively, this could be done via threads, though as of writing that has not been prototyped. Python's
+Global Interpreter Lock (GIL) poses some restrictions to threads - but in the Aerie paradigm, where only one thread is
+running at a time, perhaps these restrictions are insignificant. It would be worth a try.
+
+## Use pythonic idioms
+
+To the extent possible, pymerlin should expose pythonic APIs. This means:
+- Use `snake_case` for functions, methods, and variables
+- Use `CAPITAL_SNAKE_CASE` for constants
+- Use `lowercasenospaces` for modules
+- Use `TitleCase` for classes
+- Leverage context managers for cleanup
+- Prefer duck typing to explicit inheritance
+- Public API should include docstrings and type annotations
+- Prefix private attributes with one underscore
+- Prefer simple attributes to properties
+- Override operators where appropriate
+- Enumerate entry points into public API in the __init__.py's __all__ attribute.
+
+Consult [PEP8](https://peps.python.org/pep-0008/#naming-conventions) for additional ideas.
+
+### But what about Aerie idioms?
+For now, stick to pythonic style - cross that bridge when uploading pymerlin can build Aerie-compatible jars

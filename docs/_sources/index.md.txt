@@ -30,6 +30,7 @@ quickstart
 3_explanation/index
 apidocs/index
 common-errors
+glossary
 ```
 
 ```{toctree}

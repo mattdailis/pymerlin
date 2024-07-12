@@ -2,11 +2,15 @@ from py4j.java_collections import MapConverter
 
 from pymerlin._internal import _globals
 from pymerlin._internal._cell_type import CellType
+from pymerlin._internal._context import _context
 from pymerlin._internal._directive_type import DirectiveType
 from pymerlin._internal._globals import models_by_id
 from pymerlin._internal._output_type import OutputType
 from pymerlin._internal._registrar import Registrar
 from pymerlin._internal._resource import Resource
+from pymerlin._internal._task import Task, get_topics
+from pymerlin._internal._task_factory import TaskFactory
+from pymerlin._internal._task_specification import TaskSpecification
 
 
 class ModelType:
@@ -25,7 +29,13 @@ class ModelType:
 
     def instantiate(self, start_time, config, builder):
         registrar = Registrar()
-        model = self.model_class(registrar)
+
+        def spawn(child: TaskSpecification):
+            new_task = Task(self.gateway, (self.model, self.model_type), child, child.args, *get_topics(self.model_type, child.func))
+            builder.daemon(TaskFactory(lambda: new_task))
+
+        with _context(None, spawner=spawn):
+            model = self.model_class(registrar)
 
         default_cell_type = CellType(self.gateway)
         for cell_ref, initial_value, evolution in registrar.cells:

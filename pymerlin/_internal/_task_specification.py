@@ -1,16 +1,16 @@
 class TaskSpecification:
-    def __init__(self, func, kwargs, mission, validations):
+    def __init__(self, func, kwargs, model, validations):
         self.func = func
         self.args = kwargs
-        self.mission = mission
+        self.model = model
         self.validations = validations  #
         # self.kwargs = kwargs
 
     def instantiate(self):
-        if self.mission is None:
+        if self.model is None:
             return self.func(**self.args) #, **self.kwargs)
         else:
-            return self.func(self.mission, **self.args)  # , **self.kwargs)
+            return self.func(self.model, **self.args)  # , **self.kwargs)
 
     def validate(self):
         return [

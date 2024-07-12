@@ -1,5 +1,7 @@
 import asyncio
+from typing import Coroutine
 
+from pymerlin._internal import _globals
 from pymerlin._internal._condition import Condition
 from pymerlin._internal._context import _context, _set_yield_callback, _clear_context, _clear_yield_callback
 from pymerlin._internal._serialized_value import from_map_str_serialized_value
@@ -14,26 +16,24 @@ class Task:
     def __init__(self, gateway, model, activity, args, input_topic=None, output_topic=None):
         self.gateway = gateway
         self.model, self.model_type = model
-        self.activity = activity
-        self.input_topic = input_topic
-        self.output_topic = output_topic
         self.continuation = None
         self.task_handle = None
         self.loop = None
-        self.args = args
+        self.task_provider = lambda: activity_wrapper(activity, model[0],
+                                                 from_map_str_serialized_value(gateway, args),
+                                                 input_topic, output_topic)
 
     def step(self, scheduler):
-        def spawn(child: TaskSpecification):
-            new_task = Task(self.gateway, (self.model, self.model_type), child, child.args, *get_topics(self.model_type, child.func))
-            scheduler.spawn(self.gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.InSpan.Fresh, TaskFactory(lambda: new_task))
+        def spawn(child: TaskSpecification | Coroutine):
+            if type(child) == TaskSpecification:
+                new_task = Task(self.gateway, (self.model, self.model_type), child, child.args, *get_topics(self.model_type, child.func))
+                scheduler.spawn(self.gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.InSpan.Fresh, TaskFactory(lambda: new_task))
+            else:
+                raise Exception(repr(type(child)) + " is not currently supported by spawn")
         with _context(scheduler, spawn):
             if self.continuation is None:
                 self.loop = asyncio.new_event_loop()
-                if self.input_topic is not None:
-                    scheduler.emit({}, self.input_topic)
-                task_handle, future, done_callback = run_task(self.loop, self.activity, self.model, from_map_str_serialized_value(self.gateway, self.args))
-                if self.output_topic is not None:
-                    scheduler.emit("doesn't matter", self.output_topic)
+                task_handle, future, done_callback = run_task(self.loop, self.task_provider)
                 self.task_handle = task_handle
 
             else:
@@ -56,7 +56,7 @@ class Task:
             if type(result) == Calling:
                 new_task = Task(self.gateway, (self.model, self.model_type), result.child, {}, *get_topics(self.model_type, result.child.func))
                 return TaskStatus.calling(self.gateway, self.gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.InSpan.Fresh,
-                                TaskFactory(lambda: new_task), self)
+                                          TaskFactory(lambda: new_task), self)
             raise Exception("Invalid response from task")
 
     def release(self):
@@ -70,15 +70,22 @@ class Task:
     class Java:
         implements = ["gov.nasa.jpl.aerie.merlin.protocol.model.Task"]
 
+async def activity_wrapper(task, model, args, input_topic, output_topic):
+    if input_topic is not None:
+        _globals._current_context[0].emit({}, input_topic)
+    await task.__call__(model, **args)
+    if output_topic is not None:
+        _globals._current_context[0].emit({}, output_topic)
+
 def get_topics(model_type, func):
     for activity_func, input_topic, output_topic in model_type.activity_types:
         if activity_func is func:
             return input_topic, output_topic
     return None, None
 
-def run_task(loop, task, model, args):
+def run_task(loop, task_provider):
     future = loop.create_future()
-    task_handle = loop.create_task(propagate_exception(lambda: task.__call__(model, **args)))
+    task_handle = loop.create_task(propagate_exception(task_provider))
     done_callback = on_task_finish(future)
     task_handle.add_done_callback(done_callback)
     _set_yield_callback(on_task_yield(future, task_handle, done_callback))

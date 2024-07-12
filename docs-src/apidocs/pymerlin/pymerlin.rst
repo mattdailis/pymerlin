@@ -32,6 +32,18 @@ Functions
           :parser: myst
           :summary:
 
+Data
+~~~~
+
+.. list-table::
+   :class: autosummary longtable
+   :align: left
+
+   * - :py:obj:`__all__ <pymerlin.__all__>`
+     - .. autodoc2-docstring:: pymerlin.__all__
+          :parser: myst
+          :summary:
+
 API
 ~~~
 
@@ -39,4 +51,11 @@ API
    :canonical: pymerlin.checkout
 
    .. autodoc2-docstring:: pymerlin.checkout
+      :parser: myst
+
+.. py:data:: __all__
+   :canonical: pymerlin.__all__
+   :value: None
+
+   .. autodoc2-docstring:: pymerlin.__all__
       :parser: myst

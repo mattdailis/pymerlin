@@ -22,6 +22,7 @@ To learn more about Aerie, read the [Aerie Docs](https://nasa-ammos.github.io/ae
 - [ ] Cell expiry
 - [ ] Polynomial evolution of cells
 - [ ] Value schemas (inferred from python types, maybe?)
+- [ ] Garbage collection of cells and effects (perhaps by wrapping integers in Supplier, and using `weakref.finalize`?)
 
 ## Prerequisites
 

@@ -50,19 +50,19 @@ async def noop(mission):
 
 @TestMissionModel.ActivityType
 async def add_to_list(mission, item):
-    mission.counter.set_value(mission.counter.get() + 1)
+    mission.counter.set(mission.counter.get() + 1)
     mission.list.emit(mission.list.get() + [item])
 
 
 @TestMissionModel.ActivityType
 async def delay_one_hour(mission):
-    mission.counter.set_value(mission.counter.get() + 1)
+    mission.counter.set(mission.counter.get() + 1)
     await delay("01:00:00")
 
 
 @TestMissionModel.ActivityType
 async def clear_list(mission, item):
-    mission.counter.set_value(mission.counter.get() + 1)
+    mission.counter.set(mission.counter.get() + 1)
     mission.list.emit([])
 
 
@@ -71,7 +71,6 @@ def test_checkout():
     checkout()
 
 
-@pytest.mark.skip("")
 def test_empty():
     """
     Empty schedule should result in no spans
@@ -128,16 +127,16 @@ def test_forgot_to_await():
         # TODO make sure ample information is extracted from the java exception
 
 
-def test_spawn():
+def test_spawn_activity():
     """
     Check that spawning a child activity creates the correct spans, and that concurrent events become visible after yield
     """
 
     @TestMissionModel.ActivityType
     async def activity(mission: TestMissionModel):
-        mission.counter.set_value(123)
+        mission.counter.set(123)
         spawn(other_activity(mission=mission))
-        mission.counter.set_value(345)
+        mission.counter.set(345)
         assert mission.counter.get() == 345
 
     @TestMissionModel.ActivityType
@@ -152,6 +151,31 @@ def test_spawn():
                      Span("other_activity", Duration.ZERO, Duration.SECOND)]
 
 
+def test_spawn_task():
+    """
+    Check that spawning a child task creates no new spans, and that concurrent events become visible after yield
+    """
+
+    @TestMissionModel.ActivityType
+    async def activity(mission: TestMissionModel):
+        mission.counter.set(123)
+        spawn(anonymous_task(mission=mission))
+        mission.counter.set(345)
+        assert mission.counter.get() == 345
+        await delay("00:00:05")
+        assert mission.counter.get() == 678
+
+    async def anonymous_task(mission: TestMissionModel):
+        assert mission.counter.get() == 123
+        await delay("00:00:01")
+        assert mission.counter.get() == 345
+        mission.counter.set(678)
+
+    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", activity())),
+                                       "24:00:00")
+    assert spans == [Span("activity", Duration.ZERO, Duration.of(5, SECONDS)),]
+
+
 def test_call():
     """
     Check that calling a child activity creates the correct spans, and that the parent resumes after the child finishes
@@ -159,7 +183,7 @@ def test_call():
 
     @TestMissionModel.ActivityType
     async def activity(mission: TestMissionModel):
-        mission.counter.set_value(123)
+        mission.counter.set(123)
         await call(other_activity(mission))
         assert mission.counter.get() == 345
         await delay("00:00:01")
@@ -169,7 +193,7 @@ def test_call():
         assert mission.counter.get() == 123
         await delay("00:00:01")
         assert mission.counter.get() == 123
-        mission.counter.set_value(345)
+        mission.counter.set(345)
 
     profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", activity())),
                                        "24:00:00")
@@ -184,13 +208,13 @@ def test_discrete_condition():
 
     @TestMissionModel.ActivityType
     async def activity(mission: TestMissionModel):
-        mission.counter.set_value(123)
+        mission.counter.set(123)
         await wait_until(lambda: mission.counter.get() == 345)
         assert mission.counter.get() == 345
 
     @TestMissionModel.ActivityType
     async def other_activity(mission: TestMissionModel):
-        mission.counter.set_value(345)
+        mission.counter.set(345)
 
     profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", activity()),
                                                                         ("00:00:15", other_activity())),

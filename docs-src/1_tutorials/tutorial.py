@@ -1,7 +1,7 @@
 from pymerlin import MissionModel, simulate, Schedule, Duration
 from pymerlin._internal._decorators import Validation
 from pymerlin._internal._registrar import CellRef
-from pymerlin.model_actions import delay
+from pymerlin.model_actions import delay, spawn
 
 
 @MissionModel
@@ -21,11 +21,31 @@ class DataModel:
         self.recording_rate = registrar.cell(0)
         registrar.resource("recording_rate", self.recording_rate.get)
 
+        self.ssr_volume_simple = registrar.cell(0.0)
+        registrar.resource("ssr_volume_simple", self.ssr_volume_simple.get)
+
+        self.ssr_volume_sampled = registrar.cell(0.0)
+        registrar.resource("ssr_volume_sampled", self.ssr_volume_sampled.get)
+
+        spawn(lambda: integrate_sampled_ssr(self))
+
+INTEGRATION_SAMPLE_INTERVAL = Duration.of(60, Duration.SECONDS)
+async def integrate_sampled_ssr(data_model: DataModel):
+    while (True):
+        await delay(INTEGRATION_SAMPLE_INTERVAL)
+        current_recording_rate = data_model.recording_rate.get()
+        data_model.ssr_volume_sampled += (
+                current_recording_rate
+                * INTEGRATION_SAMPLE_INTERVAL.to_number_in(Duration.SECONDS)
+                / 1000.0)  # Mbit -> Gbit
+
 @Model.ActivityType
 @Validation(lambda rate: rate < 100.0, "Collection rate is beyond buffer limit of 100.0 Mbps")
-async def create_data(model, rate=0.0, duration="01:00:00"):
+async def collect_data(model, rate=0.0, duration="01:00:00"):
+    duration = Duration.from_string(duration)
     model.data_model.recording_rate += rate
-    await delay(Duration.from_string(duration))
+    await delay(duration)
+    model.data_model.ssr_volume_simple += rate * duration.to_number_in(Duration.SECONDS) / 1000.0
     model.data_model.recording_rate -= rate
 
 from enum import Enum
@@ -35,13 +55,12 @@ class MagDataCollectionMode(Enum):
     HIGH_RATE = 5000.0  # kbps
 
 def main():
-    # print(simulate(
-    #     Model,
-    #     # Schedule.build(("00:00:01", Directive("create_data", {"rate": 20.0, "duration": "00:00:01"}))),
-    #     Schedule.build(("00:00:01", create_data(rate=200.0, duration="00:00:01"))),
-    #     "01:00:00"
-    # ))
-    print(MagDataCollectionMode.HIGH_RATE)
+    print(simulate(
+        Model,
+        # Schedule.build(("00:00:01", Directive("collect_data", {"rate": 20.0, "duration": "00:00:01"}))),
+        Schedule.build(("00:00:01", collect_data(rate=200.0, duration="00:00:01"))),
+        "01:00:00"
+    ))
 
 if __name__ == '__main__':
     main()

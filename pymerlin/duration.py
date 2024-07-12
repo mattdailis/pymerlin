@@ -79,6 +79,13 @@ class Duration:
     def negate(self):
         return Duration(-self.micros)
 
+    def to_number_in(self, unit):
+        """
+        Return a number representing this duration in the given unit
+        """
+
+        return self.micros / unit.micros
+
     @staticmethod
     def of(scalar, unit):
         return unit.times(scalar)

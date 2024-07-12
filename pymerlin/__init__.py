@@ -40,3 +40,16 @@ def checkout():
         print("pymerlin checkout successful: All systems GO 🚀")
     else:
         print("Checkout detected issues ⚠️")
+
+
+__all__ = [
+    MissionModel,
+    simulate,
+    Span,
+    ProfileSegment,
+    Registrar,
+    Schedule,
+    Directive,
+    Duration,
+    checkout
+]
