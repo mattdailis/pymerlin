@@ -1,5 +1,9 @@
 # Contributing
 
+:::{note}
+These guidelines are copied from [Aerie's contributing guidelines](https://github.com/NASA-AMMOS/aerie/blob/develop/docs/CONTRIBUTING.md).
+:::
+
 We would love for you to contribute to pymerlin and help make it even better than it is today! As a contributor, here are the guidelines we would like you to follow:
 
 - [Question or Problem?](#question)

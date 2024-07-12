@@ -31,3 +31,4 @@ def start_gateway(jar_path, java_executable='java'):
         for line in process.stderr:
             print(line.decode(), end='')
         process.terminate()
+        process.wait()

@@ -1,3 +1,0 @@
-# Install
-
-content goes here

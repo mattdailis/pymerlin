@@ -37,7 +37,6 @@ common-errors
 architecture
 developer
 contribute
-install
 license
 publishing
 documentation

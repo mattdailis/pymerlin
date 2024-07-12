@@ -1,6 +1,7 @@
 import pytest
 
 from pymerlin import MissionModel
+from pymerlin._internal._decorators import Validation, ValidationResult
 from pymerlin._internal._registrar import Registrar
 from pymerlin.duration import Duration, SECONDS
 from pymerlin import simulate, Span
@@ -256,3 +257,42 @@ def test_activity_kwargs():
         assert number2 == 345
 
     simulate(TestMissionModel, Schedule.build(("00:00:00", activity(number2=345, number1=123))), "24:00:00")
+
+
+def test_validation():
+    @TestMissionModel.ActivityType
+    @Validation(lambda count: count > 0, "count must be positive")
+    @Validation(lambda axis: axis in ["X", "Y", "Z"], "axis must be X, Y, or Z")
+    @Validation(lambda count, axis: count > 10 if axis == "X" else True, "count must be at least 10 if axis is X")
+    async def activity(mission: TestMissionModel, count, axis):
+        pass
+
+    assert activity(count=-1, axis="Z").validate() == [
+        ValidationResult(False, "count must be positive"),
+        ValidationResult(True, "axis must be X, Y, or Z"),
+        ValidationResult(True, "count must be at least 10 if axis is X")
+    ]
+
+    assert activity(count=5, axis="X").validate() == [
+        ValidationResult(True, "count must be positive"),
+        ValidationResult(True, "axis must be X, Y, or Z"),
+        ValidationResult(False, "count must be at least 10 if axis is X")
+    ]
+
+    assert activity(count=5, axis="Y").validate() == [
+        ValidationResult(True, "count must be positive"),
+        ValidationResult(True, "axis must be X, Y, or Z"),
+        ValidationResult(True, "count must be at least 10 if axis is X")
+    ]
+
+    assert activity(count=11, axis="X").validate() == [
+        ValidationResult(True, "count must be positive"),
+        ValidationResult(True, "axis must be X, Y, or Z"),
+        ValidationResult(True, "count must be at least 10 if axis is X")
+    ]
+
+    assert activity(count=5, axis=3.14).validate() == [
+        ValidationResult(True, "count must be positive"),
+        ValidationResult(False, "axis must be X, Y, or Z"),
+        ValidationResult(True, "count must be at least 10 if axis is X")
+    ]

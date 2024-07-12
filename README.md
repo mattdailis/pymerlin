@@ -18,6 +18,10 @@ To learn more about Aerie, read the [Aerie Docs](https://nasa-ammos.github.io/ae
 - [ ] pip-installable models
 - [ ] build Aerie-compatible jars and provide docker-compose file with python
 - [ ] checkpoint restart
+- [ ] Use available port to allow multiple pymerlin programs to run independently
+- [ ] Cell expiry
+- [ ] Polynomial evolution of cells
+- [ ] Value schemas (inferred from python types, maybe?)
 
 ## Prerequisites
 

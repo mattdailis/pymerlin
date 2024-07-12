@@ -1,3 +1,5 @@
+from contextlib import contextmanager
+
 from pymerlin._internal import _globals
 
 
@@ -47,7 +49,7 @@ class CellRef:
         _globals._current_context[0].emit(_globals.next_effect_id, self.topic)
         _globals.next_effect_id += 1
 
-    def set_value(self, new_value):
+    def set(self, new_value):
         self.emit(set_value(new_value))
 
     def add(self, addend):
@@ -56,10 +58,34 @@ class CellRef:
     def get(self):
         return _globals.cell_values_by_id[_globals._current_context[0].get(self.id)]
 
+    def __iadd__(self, other):
+        self.emit(lambda x: x + other)
+        return self
+
+    def __isub__(self, other):
+        self.emit(lambda x: x - other)
+        return self
+
+    def __imul__(self, other):
+        self.emit(lambda x: x * other)
+        return self
+
+    def __idiv__(self, other):
+        self.emit(lambda x: x / other)
+        return self
+
+    def __imod__(self, other):
+        self.emit(lambda x: x % other)
+        return self
 
 def set_value(new_value):
     return lambda x: new_value
 
+@contextmanager
+def using(cell_ref, quantity):
+    cell_ref += quantity
+    yield
+    cell_ref -= quantity
 
 # class FunctionalEffect:
 #     def __init__(self, f):

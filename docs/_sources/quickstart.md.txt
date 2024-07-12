@@ -4,7 +4,7 @@ This section describes how to get started with `pymerlin` 🎉
 
 ## Installation
 
-First, make sure you have Java 21 JRE and python 12 installed on your machine.
+First, make sure you have Java 21 JRE and python >=3.11 installed on your machine.
 
 - Java: [https://adoptium.net/temurin/releases/](https://adoptium.net/temurin/releases/)
 - Python: [https://www.python.org/downloads/release/python-3120/](https://www.python.org/downloads/release/python-3120/)
@@ -23,4 +23,4 @@ Check that the installation succeeded by running:
 python3 -c "import pymerlin; pymerlin.checkout()"
 ```
 
-If you see `pymerlin checkout successful: All systems GO 🚀`, you're ready to get started with the [tutorial](1_tutorials/1_gettingstarted).
+If you see `pymerlin checkout successful: All systems GO 🚀`, you're ready to get started with the [tutorial](1_tutorials/1-gettingstarted).

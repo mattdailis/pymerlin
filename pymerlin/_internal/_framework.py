@@ -1,4 +1,5 @@
 import os
+import warnings
 from collections import namedtuple
 
 from py4j.java_gateway import Py4JJavaError, get_field
@@ -59,6 +60,12 @@ def simulate_helper(gateway, model_type, config, schedule, duration):
 
 
 def simulate(model_type, schedule, duration):
+    for _, directive in schedule.entries:
+        if type(directive) == TaskSpecification:
+            for result in directive.validate():
+                if not result.success:
+                    warnings.warn(repr(directive) + " failed validation: " + result.message)
+
     if not type(model_type) == ModelType:
         model_type = ModelType(model_type)
     jar_path = os.path.join(os.path.dirname(__file__), "jars", "pymerlin.jar")
