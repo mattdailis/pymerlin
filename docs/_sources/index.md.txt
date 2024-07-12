@@ -11,6 +11,8 @@ hide-toc: true
 
 Ready to get started? Check out the [Quickstart](./quickstart.md) guide.
 
+![codescreenshot](jupyter_screenshot.png)
+
 ## Source code
 
 You can access the source code at: [https://github.com/mattdailis/pymerlin](https://github.com/mattdailis/pymerlin).
