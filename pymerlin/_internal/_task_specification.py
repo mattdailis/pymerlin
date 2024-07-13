@@ -1,4 +1,4 @@
-class TaskSpecification:
+class TaskInstance:
     def __init__(self, func, kwargs, model, validations, definition):
         self.func = func
         self.args = kwargs
@@ -20,7 +20,7 @@ class TaskSpecification:
         ]
 
     def __repr__(self):
-        return f"{self.func.__name__}({', '.join(f'{k}={v}' for k, v in self.args.items())})"
+        return f"{self.definition.name}({', '.join(f'{k}={v}' for k, v in self.args.items())})"
 
     def __call__(self, *args, **kwargs):
         return self.instantiate()

@@ -1,3 +1,4 @@
+from pymerlin._internal._decorators import TaskDefinition
 from pymerlin._internal._globals import models_by_id
 from pymerlin._internal._input_type import InputType
 from pymerlin._internal._serialized_value import from_map_str_serialized_value
@@ -8,6 +9,8 @@ from pymerlin._internal._threaded_task import ThreadedTaskHost
 
 class DirectiveType:
     def __init__(self, gateway, activity, input_topic, output_topic):
+        if type(activity) is not TaskDefinition:
+            raise ValueError("Activity must be of type TaskDefinition, but was: " + repr(activity))
         self.gateway = gateway
         self.activity = activity
         self.input_topic = input_topic
@@ -20,7 +23,7 @@ class DirectiveType:
         return None
 
     def getTaskFactory(self, model_id, args):
-        task_provider = lambda: activity_wrapper(self.activity, from_map_str_serialized_value(self.gateway, args), models_by_id[model_id][0], self.input_topic, self.output_topic)
+        task_provider = TaskDefinition(lambda: activity_wrapper(self.activity, from_map_str_serialized_value(self.gateway, args), models_by_id[model_id][0], self.input_topic, self.output_topic))
         return TaskFactory(lambda: ThreadedTaskHost(self.gateway, models_by_id[model_id][1], task_provider))
 
     class Java:

@@ -1,6 +1,5 @@
 from pymerlin._internal import _globals
-from pymerlin._internal._decorators import ActivityDefinition
-from pymerlin._internal._execution_mode import TaskExecutionMode
+from pymerlin._internal._decorators import TaskDefinition
 
 
 # async def activity_wrapper(task, args, model, input_topic, output_topic):
@@ -14,14 +13,16 @@ from pymerlin._internal._execution_mode import TaskExecutionMode
 #         _globals._current_context[0].emit({}, output_topic)
 
 def activity_wrapper(task, args, model, input_topic, output_topic):
+    if type(task) is not TaskDefinition:
+        raise ValueError("Hmm, why? " + repr(task))
     if input_topic is not None:
         _globals._current_context[0].emit(args, input_topic)
-    task.__call__(model, **args)
+    task.run_task_definition(model, **args)
     if output_topic is not None:
         _globals._current_context[0].emit({}, output_topic)
 
 def get_topics(model_type, func):
-    if type(func) is not ActivityDefinition:
+    if type(func) is not TaskDefinition:
         raise Exception("Whoa there buddy")
     for activity_func, input_topic, output_topic in model_type.activity_types:
         if activity_func is func:

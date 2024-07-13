@@ -5,6 +5,7 @@ from threading import Thread
 from pymerlin._internal import _globals
 from pymerlin._internal._condition import Condition
 from pymerlin._internal._context import _set_context, _clear_context
+from pymerlin._internal._decorators import TaskDefinition
 from pymerlin._internal._task_factory import TaskFactory
 from pymerlin._internal._task_status import Completed, Delayed, Awaiting, Calling
 
@@ -21,6 +22,8 @@ Error = namedtuple("Error", "exception")
 
 class ThreadedTaskHost:
     def __init__(self, gateway, model_type, task_provider):
+        if type(task_provider) is not TaskDefinition:
+            raise ValueError(repr(task_provider))
         self.gateway = gateway
         self.task_thread = _ThreadedTask(task_provider, model_type, gateway)
         self.task_thread_started = False
@@ -79,7 +82,7 @@ class _ThreadedTask:
     def _run(self, scheduler):
         try:
             _set_context(scheduler, self._spawn, self)
-            result = self.task.__call__()
+            result = self.task.run_task_definition()
             self.outbox.put(Finished(result))
         except TaskAbort:
             self.outbox.put(Aborted())

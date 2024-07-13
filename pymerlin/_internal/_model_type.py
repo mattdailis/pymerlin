@@ -30,7 +30,7 @@ class ModelType:
         registrar = Registrar()
 
         def spawn(coro):
-            new_task = ThreadedTaskHost(self.gateway, self, None)
+            new_task = ThreadedTaskHost(self.gateway, self, coro)
             builder.daemon(TaskFactory(lambda: new_task))
 
         with _context(None, spawner=spawn):
@@ -64,7 +64,7 @@ class ModelType:
             {
                 activity_type[0].name: DirectiveType(
                     self.gateway,
-                    activity_type[0],  # function
+                    activity_type[0],  # TaskDefinition
                     activity_type[1],  # input_topic
                     activity_type[2])  # output_topic
                 for activity_type in self.activity_types

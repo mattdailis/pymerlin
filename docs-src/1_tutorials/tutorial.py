@@ -1,7 +1,8 @@
 from pymerlin import MissionModel, simulate, Schedule, Duration
-from pymerlin._internal._decorators import Validation
+from pymerlin._internal._decorators import Validation, Task
 from pymerlin._internal._registrar import CellRef
-from pymerlin.model_actions import delay, spawn
+from pymerlin._internal._schedule import Directive
+from pymerlin.model_actions import delay, spawn_task
 
 
 @MissionModel
@@ -12,7 +13,7 @@ class Model:
         registrar.resource("counter", self.counter.get)
 
 @Model.ActivityType
-async def increment_counter(model):
+def increment_counter(model):
     counter = model.counter
     counter.set_value(counter.get() + 1)
 
@@ -27,12 +28,14 @@ class DataModel:
         self.ssr_volume_sampled = registrar.cell(0.0)
         registrar.resource("ssr_volume_sampled", self.ssr_volume_sampled.get)
 
-        spawn(lambda: integrate_sampled_ssr(self))
+        spawn_task(integrate_sampled_ssr, dict(data_model=self))
 
 INTEGRATION_SAMPLE_INTERVAL = Duration.of(60, Duration.SECONDS)
-async def integrate_sampled_ssr(data_model: DataModel):
+
+@Task
+def integrate_sampled_ssr(data_model: DataModel):
     while (True):
-        await delay(INTEGRATION_SAMPLE_INTERVAL)
+        delay(INTEGRATION_SAMPLE_INTERVAL)
         current_recording_rate = data_model.recording_rate.get()
         data_model.ssr_volume_sampled += (
                 current_recording_rate
@@ -41,10 +44,10 @@ async def integrate_sampled_ssr(data_model: DataModel):
 
 @Model.ActivityType
 @Validation(lambda rate: rate < 100.0, "Collection rate is beyond buffer limit of 100.0 Mbps")
-async def collect_data(model, rate=0.0, duration="01:00:00"):
+def collect_data(model, rate=0.0, duration="01:00:00"):
     duration = Duration.from_string(duration)
     model.data_model.recording_rate += rate
-    await delay(duration)
+    delay(duration)
     model.data_model.ssr_volume_simple += rate * duration.to_number_in(Duration.SECONDS) / 1000.0
     model.data_model.recording_rate -= rate
 
@@ -57,8 +60,8 @@ class MagDataCollectionMode(Enum):
 def main():
     print(simulate(
         Model,
-        # Schedule.build(("00:00:01", Directive("collect_data", {"rate": 20.0, "duration": "00:00:01"}))),
-        Schedule.build(("00:00:01", collect_data(rate=200.0, duration="00:00:01"))),
+        Schedule.build(("00:00:01", Directive("collect_data", {"rate": 20.0, "duration": "00:00:01"}))),
+        # Schedule.build(("00:00:01", collect_data(rate=200.0, duration="00:00:01"))),
         "01:00:00"
     ))
 
