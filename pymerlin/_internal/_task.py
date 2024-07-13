@@ -13,23 +13,19 @@ from pymerlin._internal._task_status import Completed, Delayed, Awaiting, Callin
 
 
 class Task:
-    def __init__(self, gateway, model, activity, args, input_topic=None, output_topic=None):
+    def __init__(self, gateway, model_type, task_provider):
         self.gateway = gateway
-        self.model, self.model_type = model
+        self.model_type = model_type
         self.continuation = None
         self.task_handle = None
         self.loop = None
-        self.task_provider = lambda: activity_wrapper(activity, model[0],
-                                                 from_map_str_serialized_value(gateway, args),
-                                                 input_topic, output_topic)
+        self.task_provider = task_provider
 
     def step(self, scheduler):
-        def spawn(child: TaskSpecification | Coroutine):
-            if type(child) == TaskSpecification:
-                new_task = Task(self.gateway, (self.model, self.model_type), child, child.args, *get_topics(self.model_type, child.func))
-                scheduler.spawn(self.gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.InSpan.Fresh, TaskFactory(lambda: new_task))
-            else:
-                raise Exception(repr(type(child)) + " is not currently supported by spawn")
+        def spawn(task_provider):
+            new_task = Task(self.gateway, self.model_type, task_provider)
+            scheduler.spawn(self.gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.InSpan.Fresh,
+                            TaskFactory(lambda: new_task))
         with _context(scheduler, spawn):
             if self.continuation is None:
                 self.loop = asyncio.new_event_loop()
@@ -54,7 +50,7 @@ class Task:
             if type(result) == Awaiting:
                 return TaskStatus.awaiting(self.gateway, Condition(self.gateway, result.condition), self)
             if type(result) == Calling:
-                new_task = Task(self.gateway, (self.model, self.model_type), result.child, {}, *get_topics(self.model_type, result.child.func))
+                new_task = Task(self.gateway, self.model_type, result.child)
                 return TaskStatus.calling(self.gateway, self.gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.InSpan.Fresh,
                                           TaskFactory(lambda: new_task), self)
             raise Exception("Invalid response from task")
@@ -70,18 +66,6 @@ class Task:
     class Java:
         implements = ["gov.nasa.jpl.aerie.merlin.protocol.model.Task"]
 
-async def activity_wrapper(task, model, args, input_topic, output_topic):
-    if input_topic is not None:
-        _globals._current_context[0].emit({}, input_topic)
-    await task.__call__(model, **args)
-    if output_topic is not None:
-        _globals._current_context[0].emit({}, output_topic)
-
-def get_topics(model_type, func):
-    for activity_func, input_topic, output_topic in model_type.activity_types:
-        if activity_func is func:
-            return input_topic, output_topic
-    return None, None
 
 def run_task(loop, task_provider):
     future = loop.create_future()

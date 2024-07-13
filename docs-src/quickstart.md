@@ -23,4 +23,4 @@ Check that the installation succeeded by running:
 python3 -c "import pymerlin; pymerlin.checkout()"
 ```
 
-If you see `pymerlin checkout successful: All systems GO 🚀`, you're ready to get started with the [tutorial](1_tutorials/1-gettingstarted).
+If you see `pymerlin checkout successful: All systems GO 🚀`, you're ready to get started with the [tutorial](1_tutorials/getting-started/index.md).

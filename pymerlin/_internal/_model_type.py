@@ -8,9 +8,8 @@ from pymerlin._internal._globals import models_by_id
 from pymerlin._internal._output_type import OutputType
 from pymerlin._internal._registrar import Registrar
 from pymerlin._internal._resource import Resource
-from pymerlin._internal._task import Task, get_topics
+from pymerlin._internal._task import Task
 from pymerlin._internal._task_factory import TaskFactory
-from pymerlin._internal._task_specification import TaskSpecification
 
 
 class ModelType:
@@ -30,12 +29,14 @@ class ModelType:
     def instantiate(self, start_time, config, builder):
         registrar = Registrar()
 
-        def spawn(child: TaskSpecification):
-            new_task = Task(self.gateway, (self.model, self.model_type), child, child.args, *get_topics(self.model_type, child.func))
+        def spawn(coro):
+            new_task = Task(self.gateway, self, None)
             builder.daemon(TaskFactory(lambda: new_task))
 
         with _context(None, spawner=spawn):
             model = self.model_class(registrar)
+
+        model._model_type = self
 
         default_cell_type = CellType(self.gateway)
         for cell_ref, initial_value, evolution in registrar.cells:

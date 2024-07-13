@@ -1,14 +1,13 @@
 import pytest
+from py4j.java_gateway import Py4JJavaError
 
 from pymerlin import MissionModel
+from pymerlin import Schedule
+from pymerlin import simulate, Span
 from pymerlin._internal._decorators import Validation, ValidationResult
 from pymerlin._internal._registrar import Registrar
 from pymerlin.duration import Duration, SECONDS
-from pymerlin import simulate, Span
 from pymerlin.model_actions import delay, spawn, call, wait_until
-from pymerlin import Schedule, Directive
-
-from py4j.java_gateway import Py4JJavaError
 
 
 @MissionModel
@@ -18,29 +17,12 @@ class TestMissionModel:
         self.counter = registrar.cell(0)
         self.linear = registrar.cell((0, 1), evolution=linear_evolution)
 
+
 def linear_evolution(x, d):
     initial = x[0]
     rate = x[1]
     delta = rate * d.micros / 1_000_000
     return initial + delta, rate
-
-
-class LinearCell:
-    def __init__(self, initial, rate_per_second):
-        self.initial = initial
-        self.rate_per_second = rate_per_second
-
-    def step(self, duration):
-        self.initial += duration.times(self.rate_per_second * 1_000_000)
-
-    def duplicate(self):
-        return LinearCell(self.initial, self.rate_per_second)
-
-
-
-def line(initial, rate_per_second):
-    return LinearCell(initial, rate_per_second)
-
 
 
 @TestMissionModel.ActivityType
@@ -135,7 +117,7 @@ def test_spawn_activity():
     @TestMissionModel.ActivityType
     async def activity(mission: TestMissionModel):
         mission.counter.set(123)
-        spawn(other_activity(mission=mission))
+        spawn(mission, other_activity(mission=mission))
         mission.counter.set(345)
         assert mission.counter.get() == 345
 
@@ -159,13 +141,13 @@ def test_spawn_task():
     @TestMissionModel.ActivityType
     async def activity(mission: TestMissionModel):
         mission.counter.set(123)
-        spawn(anonymous_task(mission=mission))
+        spawn(None, subtask(mission=mission))
         mission.counter.set(345)
         assert mission.counter.get() == 345
         await delay("00:00:05")
         assert mission.counter.get() == 678
 
-    async def anonymous_task(mission: TestMissionModel):
+    async def subtask(mission: TestMissionModel):
         assert mission.counter.get() == 123
         await delay("00:00:01")
         assert mission.counter.get() == 345
@@ -184,7 +166,7 @@ def test_call():
     @TestMissionModel.ActivityType
     async def activity(mission: TestMissionModel):
         mission.counter.set(123)
-        await call(other_activity(mission))
+        await call(mission, other_activity(mission))
         assert mission.counter.get() == 345
         await delay("00:00:01")
 
@@ -199,6 +181,30 @@ def test_call():
                                        "24:00:00")
     assert spans == [Span("activity", Duration.ZERO, Duration.of(2, SECONDS)),
                      Span("other_activity", Duration.ZERO, Duration.SECOND)]
+
+
+def test_call_task():
+    """
+    Check that calling a child tas creates no new spans, and that the parent resumes after the child finishes
+    """
+
+    @TestMissionModel.ActivityType
+    async def activity(mission: TestMissionModel):
+        mission.counter.set(123)
+        await call(mission, subtask(mission))
+        assert mission.counter.get() == 345
+        await delay("00:00:01")
+
+    async def subtask(mission: TestMissionModel):
+        assert mission.counter.get() == 123
+        await delay("00:00:01")
+        assert mission.counter.get() == 123
+        mission.counter.set(345)
+
+    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", activity())),
+                                       "24:00:00")
+    assert spans == [Span("activity", Duration.ZERO, Duration.of(2, SECONDS)),]
+
 
 
 def test_discrete_condition():

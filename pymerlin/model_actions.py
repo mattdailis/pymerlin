@@ -8,6 +8,11 @@ import asyncio
 import pymerlin._internal._task_status
 import pymerlin.duration
 import pymerlin._internal._globals
+from pymerlin._internal._spawn_helpers import activity_wrapper, get_topics
+from pymerlin._internal._task_specification import TaskSpecification
+
+
+# from pymerlin._internal._task import activity_wrapper, get_topics
 
 
 async def delay(duration):
@@ -18,16 +23,32 @@ async def delay(duration):
     return await _yield_with(pymerlin._internal._task_status.Delayed(duration))
 
 
-def spawn(child):
+def spawn(model, child):
     """
     :param coro:
     :return:
     """
-    pymerlin._internal._globals._current_context[1](child)
+    if type(child) is TaskSpecification:
+        task_provider = lambda: activity_wrapper(
+            child,
+            child.args,
+            model,
+            *get_topics(model._model_type, child.func))
+        pymerlin._internal._globals._current_context[1](task_provider)
+    else:
+        pymerlin._internal._globals._current_context[1](lambda: child)
 
 
-async def call(child):
-    return await _yield_with(pymerlin._internal._task_status.Calling(child))
+async def call(model, child):
+    if type(child) is TaskSpecification:
+        task_provider = lambda: activity_wrapper(
+            child,
+            child.args,
+            model,
+            *get_topics(model._model_type, child.func))
+        return await _yield_with(pymerlin._internal._task_status.Calling(task_provider))
+    else:
+        return await _yield_with(pymerlin._internal._task_status.Calling(lambda: child))
 
 
 async def wait_until(condition):

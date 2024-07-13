@@ -2,6 +2,7 @@
 This section contains targeted how-to guides for things you might want to do with pymerlin.
 
 ```{toctree}
+organization
 jupyter
 datamodel
 powermodel

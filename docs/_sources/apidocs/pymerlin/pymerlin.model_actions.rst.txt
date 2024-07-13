@@ -48,13 +48,13 @@ API
    .. autodoc2-docstring:: pymerlin.model_actions.delay
       :parser: myst
 
-.. py:function:: spawn(child)
+.. py:function:: spawn(model, child)
    :canonical: pymerlin.model_actions.spawn
 
    .. autodoc2-docstring:: pymerlin.model_actions.spawn
       :parser: myst
 
-.. py:function:: call(child)
+.. py:function:: call(model, child)
    :canonical: pymerlin.model_actions.call
    :async:
 
