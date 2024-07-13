@@ -4,7 +4,7 @@ from py4j.java_gateway import Py4JJavaError
 from pymerlin import MissionModel
 from pymerlin import Schedule
 from pymerlin import simulate, Span
-from pymerlin._internal._decorators import Validation, ValidationResult
+from pymerlin._internal._decorators import Validation, ValidationResult, Task
 from pymerlin._internal._registrar import Registrar
 from pymerlin.duration import Duration, SECONDS
 from pymerlin.model_actions import delay, spawn, call, wait_until
@@ -26,24 +26,24 @@ def linear_evolution(x, d):
 
 
 @TestMissionModel.ActivityType
-async def noop(mission):
+def noop(mission):
     pass
 
 
 @TestMissionModel.ActivityType
-async def add_to_list(mission, item):
+def add_to_list(mission, item):
     mission.counter.set(mission.counter.get() + 1)
     mission.list.emit(mission.list.get() + [item])
 
 
 @TestMissionModel.ActivityType
-async def delay_one_hour(mission):
+def delay_one_hour(mission):
     mission.counter.set(mission.counter.get() + 1)
-    await delay("01:00:00")
+    delay("01:00:00")
 
 
 @TestMissionModel.ActivityType
-async def clear_list(mission, item):
+def clear_list(mission, item):
     mission.counter.set(mission.counter.get() + 1)
     mission.list.emit([])
 
@@ -75,10 +75,10 @@ def test_effect():
     """
 
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel):
-        await delay("00:00:00")
+    def activity(mission: TestMissionModel):
+        delay("00:00:00")
         assert mission.counter.get() == 0
-        await delay("00:05:00")
+        delay("00:05:00")
         assert mission.counter.get() == 1
         return
 
@@ -88,8 +88,8 @@ def test_effect():
 
 def test_exception():
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel):
-        await delay("00:00:00")
+    def activity(mission: TestMissionModel):
+        delay("00:00:00")
         raise Exception("Exception in task!")
 
     with pytest.raises(Py4JJavaError) as e:
@@ -100,7 +100,7 @@ def test_exception():
 @pytest.mark.skip("This test hangs, but it would be nice if it raised an exception instead")
 def test_forgot_to_await():
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel):
+    def activity(mission: TestMissionModel):
         delay("00:00:01")
         delay("00:00:01")
 
@@ -115,16 +115,16 @@ def test_spawn_activity():
     """
 
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel):
+    def activity(mission: TestMissionModel):
         mission.counter.set(123)
         spawn(mission, other_activity(mission=mission))
         mission.counter.set(345)
         assert mission.counter.get() == 345
 
     @TestMissionModel.ActivityType
-    async def other_activity(mission: TestMissionModel):
+    def other_activity(mission: TestMissionModel):
         assert mission.counter.get() == 123
-        await delay("00:00:01")
+        delay("00:00:01")
         assert mission.counter.get() == 345
 
     profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", activity())),
@@ -139,17 +139,18 @@ def test_spawn_task():
     """
 
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel):
+    def activity(mission: TestMissionModel):
         mission.counter.set(123)
         spawn(None, subtask(mission=mission))
         mission.counter.set(345)
         assert mission.counter.get() == 345
-        await delay("00:00:05")
+        delay("00:00:05")
         assert mission.counter.get() == 678
 
-    async def subtask(mission: TestMissionModel):
+    @Task
+    def subtask(mission: TestMissionModel):
         assert mission.counter.get() == 123
-        await delay("00:00:01")
+        delay("00:00:01")
         assert mission.counter.get() == 345
         mission.counter.set(678)
 
@@ -164,16 +165,16 @@ def test_call():
     """
 
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel):
+    def activity(mission: TestMissionModel):
         mission.counter.set(123)
-        await call(mission, other_activity(mission))
+        call(mission, other_activity(mission))
         assert mission.counter.get() == 345
-        await delay("00:00:01")
+        delay("00:00:01")
 
     @TestMissionModel.ActivityType
-    async def other_activity(mission: TestMissionModel):
+    def other_activity(mission: TestMissionModel):
         assert mission.counter.get() == 123
-        await delay("00:00:01")
+        delay("00:00:01")
         assert mission.counter.get() == 123
         mission.counter.set(345)
 
@@ -185,19 +186,19 @@ def test_call():
 
 def test_call_task():
     """
-    Check that calling a child tas creates no new spans, and that the parent resumes after the child finishes
+    Check that calling a child task creates no new spans, and that the parent resumes after the child finishes
     """
 
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel):
+    def activity(mission: TestMissionModel):
         mission.counter.set(123)
-        await call(mission, subtask(mission))
+        call(mission, subtask(mission))
         assert mission.counter.get() == 345
-        await delay("00:00:01")
+        delay("00:00:01")
 
-    async def subtask(mission: TestMissionModel):
+    def subtask(mission: TestMissionModel):
         assert mission.counter.get() == 123
-        await delay("00:00:01")
+        delay("00:00:01")
         assert mission.counter.get() == 123
         mission.counter.set(345)
 
@@ -213,13 +214,13 @@ def test_discrete_condition():
     """
 
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel):
+    def activity(mission: TestMissionModel):
         mission.counter.set(123)
-        await wait_until(lambda: mission.counter.get() == 345)
+        wait_until(lambda: mission.counter.get() == 345)
         assert mission.counter.get() == 345
 
     @TestMissionModel.ActivityType
-    async def other_activity(mission: TestMissionModel):
+    def other_activity(mission: TestMissionModel):
         mission.counter.set(345)
 
     profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", activity()),
@@ -236,10 +237,10 @@ def test_concurrent_effects():
     """
 
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel):
+    def activity(mission: TestMissionModel):
         mission.counter.emit(lambda x: x + 1)
         assert mission.counter.get() == 1
-        await delay("00:00:00")
+        delay("00:00:00")
         assert mission.counter.get() == 2
 
     simulate(TestMissionModel,
@@ -253,11 +254,11 @@ def test_autonomous_condition():
     """
 
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel):
+    def activity(mission: TestMissionModel):
         assert mission.linear.get()[0] == 0
-        await delay("00:00:01")
+        delay("00:00:01")
         assert mission.linear.get()[0] == 1
-        await delay("00:00:02")
+        delay("00:00:02")
         assert mission.linear.get()[0] == 3
 
     simulate(TestMissionModel, Schedule.build(("00:00:00", activity())), "24:00:00")
@@ -270,7 +271,7 @@ def test_activity_args():
     """
 
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel, number1, number2):
+    def activity(mission: TestMissionModel, number1, number2):
         assert number1 == 123
         assert number2 == 123
 
@@ -282,7 +283,7 @@ def test_activity_kwargs():
     """
 
     @TestMissionModel.ActivityType
-    async def activity(mission: TestMissionModel, number1, number2):
+    def activity(mission: TestMissionModel, number1, number2):
         assert number1 == 123
         assert number2 == 345
 
@@ -294,7 +295,7 @@ def test_validation():
     @Validation(lambda count: count > 0, "count must be positive")
     @Validation(lambda axis: axis in ["X", "Y", "Z"], "axis must be X, Y, or Z")
     @Validation(lambda count, axis: count > 10 if axis == "X" else True, "count must be at least 10 if axis is X")
-    async def activity(mission: TestMissionModel, count, axis):
+    def activity(mission: TestMissionModel, count, axis):
         pass
 
     assert activity(count=-1, axis="Z").validate() == [
@@ -326,3 +327,17 @@ def test_validation():
         ValidationResult(False, "axis must be X, Y, or Z"),
         ValidationResult(True, "count must be at least 10 if axis is X")
     ]
+
+
+def test_threaded_activity():
+    """
+    Check that an activity receives keyword args
+    """
+
+    @TestMissionModel.ActivityType
+    def activity(mission: TestMissionModel, number1, number2):
+        delay("00:00:01")
+        assert number1 == 123
+        assert number2 == 345
+
+    simulate(TestMissionModel, Schedule.build(("00:00:00", activity(number2=345, number1=123))), "24:00:00")

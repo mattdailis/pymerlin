@@ -59,3 +59,8 @@ Consult [PEP8](https://peps.python.org/pep-0008/#naming-conventions) for additio
 
 ### But what about Aerie idioms?
 For now, stick to pythonic style - cross that bridge when uploading pymerlin can build Aerie-compatible jars
+
+## Emphasize debuggability
+On one hand, we need to do our best not to show users Java stack traces - or at least show them when they're useful and
+not overwhelming. On the other hand, we must not _obscure_ useful debugging information. This is a delicate balance to
+strike.

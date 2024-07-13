@@ -8,7 +8,7 @@ To learn more about Aerie, read the [Aerie Docs](https://nasa-ammos.github.io/ae
 
 ### TODO:
 
-- [ ] Daemon tasks
+- [x] Daemon tasks
 - [x] More interesting cells and resources
 - [x] Conditions on static cells
 - [x] Conditions on autonomous cells
@@ -23,6 +23,8 @@ To learn more about Aerie, read the [Aerie Docs](https://nasa-ammos.github.io/ae
 - [ ] Polynomial evolution of cells
 - [ ] Value schemas (inferred from python types, maybe?)
 - [ ] Garbage collection of cells and effects (perhaps by wrapping integers in Supplier, and using `weakref.finalize`?)
+- [ ] Simulation configuration
+- [ ] Run with java that isn't simply the "java" executable on the path
 
 ## Prerequisites
 

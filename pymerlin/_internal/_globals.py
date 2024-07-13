@@ -1,9 +1,6 @@
 models_by_id = {}
 
 _current_context = [None, None]
-_yield_callback = []
-
-_future = [None]
 
 next_cell_id = 0
 
@@ -17,3 +14,5 @@ cell_values_by_id = {}
 effects_by_id = {}
 effects_by_id[0] = lambda x: x
 next_effect_id = 1
+
+reaction_context = None

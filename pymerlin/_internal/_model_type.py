@@ -8,8 +8,8 @@ from pymerlin._internal._globals import models_by_id
 from pymerlin._internal._output_type import OutputType
 from pymerlin._internal._registrar import Registrar
 from pymerlin._internal._resource import Resource
-from pymerlin._internal._task import Task
 from pymerlin._internal._task_factory import TaskFactory
+from pymerlin._internal._threaded_task import ThreadedTaskHost
 
 
 class ModelType:
@@ -30,7 +30,7 @@ class ModelType:
         registrar = Registrar()
 
         def spawn(coro):
-            new_task = Task(self.gateway, self, None)
+            new_task = ThreadedTaskHost(self.gateway, self, None)
             builder.daemon(TaskFactory(lambda: new_task))
 
         with _context(None, spawner=spawn):
@@ -49,7 +49,7 @@ class ModelType:
             cell_ref.topic = topic
 
         for activity, input_topic, output_topic in self.activity_types:
-            activity_type_name = activity.__name__
+            activity_type_name = activity.name
             builder.topic(f"ActivityType.Input.{activity_type_name}", input_topic, OutputType(self.gateway))
             builder.topic(f"ActivityType.Output.{activity_type_name}", output_topic, OutputType(self.gateway))
 
@@ -62,7 +62,7 @@ class ModelType:
     def getDirectiveTypes(self):
         return MapConverter().convert(
             {
-                activity_type[0].__name__: DirectiveType(
+                activity_type[0].name: DirectiveType(
                     self.gateway,
                     activity_type[0],  # function
                     activity_type[1],  # input_topic

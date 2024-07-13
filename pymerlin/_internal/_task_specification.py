@@ -1,9 +1,10 @@
 class TaskSpecification:
-    def __init__(self, func, kwargs, model, validations):
+    def __init__(self, func, kwargs, model, validations, definition):
         self.func = func
         self.args = kwargs
         self.model = model
         self.validations = validations  #
+        self.definition = definition
         # self.kwargs = kwargs
 
     def instantiate(self):
