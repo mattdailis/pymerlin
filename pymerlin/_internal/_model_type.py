@@ -33,7 +33,7 @@ class ModelType:
             new_task = ThreadedTaskHost(self.gateway, self, coro)
             builder.daemon(TaskFactory(lambda: new_task))
 
-        with _context(None, spawner=spawn):
+        with _context(None, spawner=spawn, model_type=self):
             model = self.model_class(registrar)
 
         model._model_type = self
@@ -66,7 +66,8 @@ class ModelType:
                     self.gateway,
                     activity_type[0],  # TaskDefinition
                     activity_type[1],  # input_topic
-                    activity_type[2])  # output_topic
+                    activity_type[2],  # output_topic
+                    self)                # model type
                 for activity_type in self.activity_types
             },
             self.gateway._gateway_client)

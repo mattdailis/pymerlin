@@ -1,6 +1,6 @@
 models_by_id = {}
 
-_current_context = [None, None]
+_current_context = [None, None, None]
 
 next_cell_id = 0
 

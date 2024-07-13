@@ -118,7 +118,7 @@ def test_spawn_activity():
     @TestMissionModel.ActivityType
     def activity(mission: TestMissionModel):
         mission.counter.set(123)
-        spawn_activity(mission, other_activity, {})
+        spawn_activity(other_activity(mission))
         mission.counter.set(345)
         assert mission.counter.get() == 345
 
@@ -168,7 +168,7 @@ def test_call():
     @TestMissionModel.ActivityType
     def activity(mission: TestMissionModel):
         mission.counter.set(123)
-        call(mission, other_activity, {})
+        call(other_activity(mission))
         assert mission.counter.get() == 345
         delay("00:00:01")
 
@@ -193,7 +193,7 @@ def test_call_task():
     @TestMissionModel.ActivityType
     def activity(mission: TestMissionModel):
         mission.counter.set(123)
-        call(mission, subtask, {})
+        call(subtask(mission))
         assert mission.counter.get() == 345
         delay("00:00:01")
 

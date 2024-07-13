@@ -5,8 +5,8 @@ from threading import Thread
 from pymerlin._internal import _globals
 from pymerlin._internal._condition import Condition
 from pymerlin._internal._context import _set_context, _clear_context
-from pymerlin._internal._decorators import TaskDefinition
 from pymerlin._internal._task_factory import TaskFactory
+from pymerlin._internal._task_specification import TaskInstance
 from pymerlin._internal._task_status import Completed, Delayed, Awaiting, Calling
 
 # Host-to-task message types
@@ -22,8 +22,11 @@ Error = namedtuple("Error", "exception")
 
 class ThreadedTaskHost:
     def __init__(self, gateway, model_type, task_provider):
-        if type(task_provider) is not TaskDefinition:
+        if type(task_provider) is not TaskInstance:
             raise ValueError(repr(task_provider))
+        from pymerlin._internal._model_type import ModelType
+        if type(model_type) is not ModelType:
+            raise ValueError(repr(model_type))
         self.gateway = gateway
         self.task_thread = _ThreadedTask(task_provider, model_type, gateway)
         self.task_thread_started = False
@@ -81,8 +84,8 @@ class _ThreadedTask:
 
     def _run(self, scheduler):
         try:
-            _set_context(scheduler, self._spawn, self)
-            result = self.task.run_task_definition()
+            _set_context(scheduler, self._spawn, self, self.model_type)
+            result = self.task.run()
             self.outbox.put(Finished(result))
         except TaskAbort:
             self.outbox.put(Aborted())
@@ -97,7 +100,7 @@ class _ThreadedTask:
         self.outbox.put(Yield(status))
         request = self.inbox.get()
         if type(request) == Resume:
-            _set_context(request.scheduler, self._spawn, self)
+            _set_context(request.scheduler, self._spawn, self, self.model_type)
             return
         elif type(request) == Abort:
             self.aborting = True

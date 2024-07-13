@@ -6,6 +6,10 @@ import inspect
 import warnings
 from dataclasses import dataclass
 
+from pymerlin._internal._serialized_value import from_map_str_serialized_value
+from pymerlin._internal._spawn_helpers import activity_wrapper, get_topics
+from pymerlin._internal._task_specification import TaskInstance
+
 
 def MissionModel(cls):
     """
@@ -19,7 +23,12 @@ def MissionModel(cls):
     cls.activity_types = {}
 
     def ActivityType(func):
-        activity_definition = wrap(func)
+        if type(func) == TaskDefinition:
+            activity_definition = func
+        elif callable(func):
+            activity_definition = TaskDefinition(func.__name__, lambda *args, **kwargs: activity_wrapper(TaskDefinition("inner", func), args, kwargs, *get_topics(activity_definition)))
+        else:
+            raise ValueError("Cannot decorate " + repr(func) + " with @ActivityType")
         if activity_definition.name in cls.activity_types:
             warnings.warn("Re-defining activity type: " + activity_definition.name)
         cls.activity_types[activity_definition.name] = activity_definition
@@ -29,7 +38,7 @@ def MissionModel(cls):
 
 
 def Task(func):
-    return TaskDefinition(func)
+    return TaskDefinition(func.__name__, func)
 
 
 def Validation(validator, message=None):
@@ -52,16 +61,32 @@ class ValidationResult:
 
 
 class TaskDefinition:
-    def __init__(self, inner):
-        self.inner = inner
-        self.name = inner.__name__
+    """
+    TaskDefinition can produce a TaskInstance given all of the arguments for that task
+    """
+    def __init__(self, name, func):
+        self.name = name
+        self.inner = func
         self.validations = []
 
     def add_validation(self, validation):
         self.validations.insert(0, validation)
 
-    def run_task_definition(self, *args, **kwargs):
-        return self.inner.__call__(*args, **kwargs)
+    def __call__(self, *args, **kwargs):
+        return self.make_instance(*args, **kwargs)
+
+    def make_instance(self, *args, **kwargs) -> TaskInstance:
+        # inspect.getfullargspec(self.inner)
+        # return self.inner.__call__(*args, **kwargs)
+        return TaskInstance(lambda: self.inner.__call__(*args, **kwargs))
+        # , f"{self.name}({', '.join(f'{k}={v}' for k, v in kwargs.items())})"
+
+    def get_task_factory(self, model, args, gateway, model_type):
+        from pymerlin._internal._task_factory import TaskFactory
+        from pymerlin._internal._threaded_task import ThreadedTaskHost
+
+        # It is expected that the first argument to an activity be the mission model
+        return TaskFactory(lambda: ThreadedTaskHost(gateway, model_type, self.make_instance(model, **from_map_str_serialized_value(gateway, args))))
 
 
 def wrap(x):
@@ -71,5 +96,5 @@ def wrap(x):
     if type(x) == TaskDefinition:
         return x
     if callable(x):
-        return TaskDefinition(x)
+        return TaskDefinition(x.__name__, x)
     raise Exception("Unhandled variant: " + str(type(x)))

@@ -6,8 +6,8 @@ with the `await` keyword - for example, `await delay("01:00:00")`
 import pymerlin._internal._task_status
 import pymerlin.duration
 import pymerlin._internal._globals
-from pymerlin._internal._decorators import TaskDefinition
 from pymerlin._internal._spawn_helpers import activity_wrapper, get_topics
+from pymerlin._internal._task_specification import TaskInstance
 
 
 def delay(duration):
@@ -18,18 +18,12 @@ def delay(duration):
     return _yield_with(pymerlin._internal._task_status.Delayed(duration))
 
 
-def spawn_activity(model, child, args):
+def spawn_activity(child):
     """
     :param coro:
     :return:
     """
-    topics = get_topics(model._model_type, child)
-    task_provider = TaskDefinition(lambda: activity_wrapper(
-        child,
-        args,
-        model,
-        *topics))
-    pymerlin._internal._globals._current_context[1](task_provider)
+    pymerlin._internal._globals._current_context[1](child)
 
 
 def spawn_task(child, args):
@@ -37,18 +31,18 @@ def spawn_task(child, args):
     :param coro:
     :return:
     """
-    pymerlin._internal._globals._current_context[1](TaskDefinition(lambda: child.run_task_definition(**args)))
+    pymerlin._internal._globals._current_context[1](child.make_instance(**args))
 
 
-def call(model, child, args):
-    if type(child) is not TaskDefinition:
+def call(child):
+    if type(child) is not TaskInstance:
         raise ValueError("Should be TaskDefinition, was: " + repr(child))
-    task_provider = TaskDefinition(lambda: activity_wrapper(
-        child,
-        args,
-        model,
-        *get_topics(model._model_type, child)))
-    return _yield_with(pymerlin._internal._task_status.Calling(task_provider))
+    # task_provider = TaskInstance(lambda: activity_wrapper(
+    #     child,
+    #     args,
+    #     model,
+    #     *get_topics(model._model_type, child)))
+    return _yield_with(pymerlin._internal._task_status.Calling(child))
 
 
 def wait_until(condition):
