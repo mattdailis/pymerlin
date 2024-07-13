@@ -341,11 +341,10 @@ that can be understood by the rest of the system.</p>
 </section>
 <section id="async-await-vs-threads">
 <h2>Async/await vs threads<a class="headerlink" href="#async-await-vs-threads" title="Link to this heading">¶</a></h2>
-<p>pymerlin requires tasks to be defined as async functions (a.k.a coroutines), and for them to pause by calling and awaiting
-a model action. The task’s loop is pause, and kept in memory until it is time to resume the task, at which point that
-loop is resumed. Alternatively, this could be done via threads, though as of writing that has not been prototyped. Python’s
-Global Interpreter Lock (GIL) poses some restrictions to threads - but in the Aerie paradigm, where only one thread is
-running at a time, perhaps these restrictions are insignificant. It would be worth a try.</p>
+<p>pymerlin originally required tasks to be defined as async functions (a.k.a coroutines), but that was in tension with
+the “approachability over performance” principle. Version 0.0.8 replaced async functions with regular functions, and
+used threads instead. This significantly simplified the implementation, as well as the mental model. If thread switching
+turns out to be a performance bottleneck, async tasks should be reintroduced as an optional alternative.</p>
 </section>
 <section id="use-pythonic-idioms">
 <h2>Use pythonic idioms<a class="headerlink" href="#use-pythonic-idioms" title="Link to this heading">¶</a></h2>
@@ -368,6 +367,12 @@ running at a time, perhaps these restrictions are insignificant. It would be wor
 <h3>But what about Aerie idioms?<a class="headerlink" href="#but-what-about-aerie-idioms" title="Link to this heading">¶</a></h3>
 <p>For now, stick to pythonic style - cross that bridge when uploading pymerlin can build Aerie-compatible jars</p>
 </section>
+</section>
+<section id="emphasize-debuggability">
+<h2>Emphasize debuggability<a class="headerlink" href="#emphasize-debuggability" title="Link to this heading">¶</a></h2>
+<p>On one hand, we need to do our best not to show users Java stack traces - or at least show them when they’re useful and
+not overwhelming. On the other hand, we must not <em>obscure</em> useful debugging information. This is a delicate balance to
+strike.</p>
 </section>
 </section>
 
@@ -434,6 +439,7 @@ running at a time, perhaps these restrictions are insignificant. It would be wor
 <li><a class="reference internal" href="#but-what-about-aerie-idioms">But what about Aerie idioms?</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#emphasize-debuggability">Emphasize debuggability</a></li>
 </ul>
 </li>
 </ul>

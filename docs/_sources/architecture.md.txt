@@ -34,11 +34,10 @@ that can be understood by the rest of the system.
 
 ## Async/await vs threads
 
-pymerlin requires tasks to be defined as async functions (a.k.a coroutines), and for them to pause by calling and awaiting
-a model action. The task's loop is pause, and kept in memory until it is time to resume the task, at which point that
-loop is resumed. Alternatively, this could be done via threads, though as of writing that has not been prototyped. Python's
-Global Interpreter Lock (GIL) poses some restrictions to threads - but in the Aerie paradigm, where only one thread is
-running at a time, perhaps these restrictions are insignificant. It would be worth a try.
+pymerlin originally required tasks to be defined as async functions (a.k.a coroutines), but that was in tension with
+the "approachability over performance" principle. Version 0.0.8 replaced async functions with regular functions, and
+used threads instead. This significantly simplified the implementation, as well as the mental model. If thread switching
+turns out to be a performance bottleneck, async tasks should be reintroduced as an optional alternative. 
 
 ## Use pythonic idioms
 
@@ -59,3 +58,8 @@ Consult [PEP8](https://peps.python.org/pep-0008/#naming-conventions) for additio
 
 ### But what about Aerie idioms?
 For now, stick to pythonic style - cross that bridge when uploading pymerlin can build Aerie-compatible jars
+
+## Emphasize debuggability
+On one hand, we need to do our best not to show users Java stack traces - or at least show them when they're useful and
+not overwhelming. On the other hand, we must not _obscure_ useful debugging information. This is a delicate balance to
+strike.

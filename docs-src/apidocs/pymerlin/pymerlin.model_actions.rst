@@ -21,8 +21,12 @@ Functions
      - .. autodoc2-docstring:: pymerlin.model_actions.delay
           :parser: myst
           :summary:
-   * - :py:obj:`spawn <pymerlin.model_actions.spawn>`
-     - .. autodoc2-docstring:: pymerlin.model_actions.spawn
+   * - :py:obj:`spawn_activity <pymerlin.model_actions.spawn_activity>`
+     - .. autodoc2-docstring:: pymerlin.model_actions.spawn_activity
+          :parser: myst
+          :summary:
+   * - :py:obj:`spawn_task <pymerlin.model_actions.spawn_task>`
+     - .. autodoc2-docstring:: pymerlin.model_actions.spawn_task
           :parser: myst
           :summary:
    * - :py:obj:`call <pymerlin.model_actions.call>`
@@ -43,34 +47,36 @@ API
 
 .. py:function:: delay(duration)
    :canonical: pymerlin.model_actions.delay
-   :async:
 
    .. autodoc2-docstring:: pymerlin.model_actions.delay
       :parser: myst
 
-.. py:function:: spawn(model, child)
-   :canonical: pymerlin.model_actions.spawn
+.. py:function:: spawn_activity(child)
+   :canonical: pymerlin.model_actions.spawn_activity
 
-   .. autodoc2-docstring:: pymerlin.model_actions.spawn
+   .. autodoc2-docstring:: pymerlin.model_actions.spawn_activity
       :parser: myst
 
-.. py:function:: call(model, child)
+.. py:function:: spawn_task(child, args)
+   :canonical: pymerlin.model_actions.spawn_task
+
+   .. autodoc2-docstring:: pymerlin.model_actions.spawn_task
+      :parser: myst
+
+.. py:function:: call(child)
    :canonical: pymerlin.model_actions.call
-   :async:
 
    .. autodoc2-docstring:: pymerlin.model_actions.call
       :parser: myst
 
 .. py:function:: wait_until(condition)
    :canonical: pymerlin.model_actions.wait_until
-   :async:
 
    .. autodoc2-docstring:: pymerlin.model_actions.wait_until
       :parser: myst
 
 .. py:function:: _yield_with(status)
    :canonical: pymerlin.model_actions._yield_with
-   :async:
 
    .. autodoc2-docstring:: pymerlin.model_actions._yield_with
       :parser: myst

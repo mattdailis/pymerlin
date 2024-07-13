@@ -321,17 +321,21 @@ with the <code class="docutils literal notranslate"><span class="pre">await</spa
 <tr class="row-odd"><td><p><a class="reference internal" href="#pymerlin.model_actions.delay" title="pymerlin.model_actions.delay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delay</span></code></a></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pymerlin.model_actions.spawn" title="pymerlin.model_actions.spawn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spawn</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pymerlin.model_actions.spawn_activity" title="pymerlin.model_actions.spawn_activity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spawn_activity</span></code></a></p></td>
 <td><p>:param coro:
 :return:</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pymerlin.model_actions.call" title="pymerlin.model_actions.call"><code class="xref py py-obj docutils literal notranslate"><span class="pre">call</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pymerlin.model_actions.spawn_task" title="pymerlin.model_actions.spawn_task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spawn_task</span></code></a></p></td>
+<td><p>:param coro:
+:return:</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pymerlin.model_actions.call" title="pymerlin.model_actions.call"><code class="xref py py-obj docutils literal notranslate"><span class="pre">call</span></code></a></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pymerlin.model_actions.wait_until" title="pymerlin.model_actions.wait_until"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_until</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pymerlin.model_actions.wait_until" title="pymerlin.model_actions.wait_until"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_until</span></code></a></p></td>
 <td><p>:param condition: A function returning True or False</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pymerlin.model_actions._yield_with" title="pymerlin.model_actions._yield_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_yield_with</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pymerlin.model_actions._yield_with" title="pymerlin.model_actions._yield_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_yield_with</span></code></a></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -342,30 +346,37 @@ with the <code class="docutils literal notranslate"><span class="pre">await</spa
 <h3>API<a class="headerlink" href="#api" title="Link to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="pymerlin.model_actions.delay">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.delay" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.delay" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pymerlin.model_actions.spawn">
-<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">spawn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.spawn" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pymerlin.model_actions.spawn_activity">
+<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">spawn_activity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.spawn_activity" title="Link to this definition">¶</a></dt>
+<dd><p>:param coro:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pymerlin.model_actions.spawn_task">
+<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">spawn_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.spawn_task" title="Link to this definition">¶</a></dt>
 <dd><p>:param coro:
 :return:</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymerlin.model_actions.call">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.call" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.call" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymerlin.model_actions.wait_until">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">wait_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.wait_until" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">wait_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.wait_until" title="Link to this definition">¶</a></dt>
 <dd><p>:param condition: A function returning True or False</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymerlin.model_actions._yield_with">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">_yield_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions._yield_with" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">_yield_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions._yield_with" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -432,7 +443,8 @@ with the <code class="docutils literal notranslate"><span class="pre">await</spa
 <li><a class="reference internal" href="#functions">Functions</a></li>
 <li><a class="reference internal" href="#api">API</a><ul>
 <li><a class="reference internal" href="#pymerlin.model_actions.delay"><code class="docutils literal notranslate"><span class="pre">delay()</span></code></a></li>
-<li><a class="reference internal" href="#pymerlin.model_actions.spawn"><code class="docutils literal notranslate"><span class="pre">spawn()</span></code></a></li>
+<li><a class="reference internal" href="#pymerlin.model_actions.spawn_activity"><code class="docutils literal notranslate"><span class="pre">spawn_activity()</span></code></a></li>
+<li><a class="reference internal" href="#pymerlin.model_actions.spawn_task"><code class="docutils literal notranslate"><span class="pre">spawn_task()</span></code></a></li>
 <li><a class="reference internal" href="#pymerlin.model_actions.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
 <li><a class="reference internal" href="#pymerlin.model_actions.wait_until"><code class="docutils literal notranslate"><span class="pre">wait_until()</span></code></a></li>
 <li><a class="reference internal" href="#pymerlin.model_actions._yield_with"><code class="docutils literal notranslate"><span class="pre">_yield_with()</span></code></a></li>
