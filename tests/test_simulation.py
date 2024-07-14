@@ -5,10 +5,13 @@ from pymerlin import MissionModel
 from pymerlin import Schedule
 from pymerlin import simulate, Span
 from pymerlin._internal._decorators import Validation, ValidationResult, Task
+from pymerlin._internal._framework import ProfileSegment
 from pymerlin._internal._registrar import Registrar
 from pymerlin._internal._schedule import Directive
-from pymerlin.duration import Duration, SECONDS
+from pymerlin.clock import clock
+from pymerlin.duration import Duration, SECONDS, MINUTES
 from pymerlin.model_actions import delay, spawn_activity, spawn_task, call, wait_until
+from pymerlin.reactions import monitor_updates
 
 
 @MissionModel
@@ -17,12 +20,15 @@ class TestMissionModel:
         self.list = registrar.cell([])
         self.counter = registrar.cell(0)
         self.linear = registrar.cell((0, 1), evolution=linear_evolution)
+        self.clock = clock(registrar)
+
+        registrar.resource("counter", self.counter.get)
 
 
 def linear_evolution(x, d):
     initial = x[0]
     rate = x[1]
-    delta = rate * d.micros / 1_000_000
+    delta = rate * d.to_number_in(SECONDS)
     return initial + delta, rate
 
 
@@ -66,7 +72,8 @@ def test_noop():
     """
     Schedule with noop should have a single span, and all profiles should have exactly one segment
     """
-    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:01", Directive("noop", {}))), "24:00:00")
+    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:01", Directive("noop", {}))),
+                                       "24:00:00")
     assert spans == [Span("noop", Duration.from_string("00:00:01"), Duration.ZERO)]
 
 
@@ -84,7 +91,8 @@ def test_effect():
         return
 
     simulate(TestMissionModel,
-             Schedule.build(("00:00:00", Directive("activity", {})), ("00:00:01", Directive("delay_one_hour", {}))), "24:00:00")
+             Schedule.build(("00:00:00", Directive("activity", {})), ("00:00:01", Directive("delay_one_hour", {}))),
+             "24:00:00")
 
 
 def test_exception():
@@ -157,7 +165,7 @@ def test_spawn_task():
 
     profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity", {}))),
                                        "24:00:00")
-    assert spans == [Span("activity", Duration.ZERO, Duration.of(5, SECONDS)),]
+    assert spans == [Span("activity", Duration.ZERO, Duration.of(5, SECONDS)), ]
 
 
 def test_call():
@@ -206,8 +214,7 @@ def test_call_task():
 
     profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity", {}))),
                                        "24:00:00")
-    assert spans == [Span("activity", Duration.ZERO, Duration.of(2, SECONDS)),]
-
+    assert spans == [Span("activity", Duration.ZERO, Duration.of(2, SECONDS)), ]
 
 
 def test_discrete_condition():
@@ -226,7 +233,8 @@ def test_discrete_condition():
         mission.counter.set(345)
 
     profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity", {})),
-                                                                        ("00:00:15", Directive("other_activity", dict()))),
+                                                                        ("00:00:15",
+                                                                         Directive("other_activity", dict()))),
                                        "24:00:00")
 
     assert spans == [Span("activity", Duration.ZERO, Duration.of(15, SECONDS)),
@@ -279,6 +287,7 @@ def test_activity_args():
 
     simulate(TestMissionModel, Schedule.build(("00:00:00", activity(123, 345))), "24:00:00")
 
+
 def test_activity_kwargs():
     """
     Check that an activity receives keyword args
@@ -289,7 +298,8 @@ def test_activity_kwargs():
         assert number1 == 123
         assert number2 == 345
 
-    simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity", dict(number2=345, number1=123)))), "24:00:00")
+    simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity", dict(number2=345, number1=123)))),
+             "24:00:00")
 
 
 @pytest.mark.skip()
@@ -332,15 +342,56 @@ def test_validation():
     ]
 
 
-def test_threaded_activity():
+def test_whenever_updates_condition():
     """
-    Check that an activity receives keyword args
+    Check that a task is resumed correctly each time a cell is updated
     """
 
     @TestMissionModel.ActivityType
-    def activity(mission: TestMissionModel, number1, number2):
-        delay("00:00:01")
-        assert number1 == 123
-        assert number2 == 345
+    def activity(mission: TestMissionModel):
+        mission.counter.set(123)
+        expected_series = iter((345, 678, 91011))
+        for new_value in monitor_updates(lambda: mission.counter.get()):
+            print(new_value)
+            assert new_value == next(expected_series)
+        raise Exception("This should be unreachable")
 
-    simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity", dict(number2=345, number1=123)))), "24:00:00")
+    @TestMissionModel.ActivityType
+    def other_activity(mission: TestMissionModel):
+        mission.counter.set(345)
+        delay("00:00:07")
+        mission.counter.set(678)
+        delay("00:00:09")
+        mission.counter.set(91011)
+
+    profiles, spans, events = simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity", {})),
+                                                                        ("00:00:15",
+                                                                         Directive("other_activity", dict()))),
+                                       "24:00:00")
+
+    assert spans == [
+        Span("other_activity", Duration.of(15, SECONDS), Duration.of(16, SECONDS)),
+        Span("activity", Duration.ZERO, None)  # Unfinished]
+    ]
+
+    assert profiles["counter"] == [
+        ProfileSegment(extent=Duration.from_string("+00:00:15.000000"), dynamics=123.0),
+        ProfileSegment(extent=Duration.from_string("+00:00:07.000000"), dynamics=345.0),
+        ProfileSegment(extent=Duration.from_string("+00:00:09.000000"), dynamics=678.0),
+        ProfileSegment(extent=Duration.from_string("+23:59:29.000000"), dynamics=91011.0)
+    ]
+
+
+def test_clock():
+    @TestMissionModel.ActivityType
+    def activity(mission: TestMissionModel):
+        clock = mission.clock.start()
+        assert clock.get() == Duration.ZERO
+        delay("00:00:09")
+        assert clock.get() == Duration.of(9, SECONDS)
+        clock.reset()
+        assert clock.get() == Duration.ZERO
+        delay("12:34:56")
+        assert clock.get() == Duration.from_string("12:34:56")
+
+    simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity", {}))), "24:00:00")

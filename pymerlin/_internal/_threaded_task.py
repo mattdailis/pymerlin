@@ -8,6 +8,7 @@ from pymerlin._internal._context import _set_context, _clear_context
 from pymerlin._internal._task_factory import TaskFactory
 from pymerlin._internal._task_specification import TaskInstance
 from pymerlin._internal._task_status import Completed, Delayed, Awaiting, Calling
+from pymerlin.duration import MICROSECONDS
 
 # Host-to-task message types
 Resume = namedtuple("Resume", "scheduler")
@@ -116,7 +117,7 @@ def wrap_status(gateway, result, continuation, model_type):
     if type(result) == Delayed:
         return TaskStatus.delayed(gateway,
                                   gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.Duration.of(
-                                      result.duration.micros,
+                                      int(result.duration.to_number_in(MICROSECONDS)),
                                       gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.Duration.MICROSECONDS),
                                   continuation)
     if type(result) == Awaiting:

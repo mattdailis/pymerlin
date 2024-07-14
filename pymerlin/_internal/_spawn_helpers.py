@@ -1,7 +1,7 @@
 from pymerlin._internal import _globals
 
 
-# async def activity_wrapper(task, args, model, input_topic, output_topic):
+# def activity_wrapper(task, args, model, input_topic, output_topic):
 #     if input_topic is not None:
 #         _globals._current_context[0].emit(args, input_topic)
 #     if task.execution_mode == TaskExecutionMode.ASYNC:

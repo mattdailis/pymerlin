@@ -32,7 +32,7 @@ def make_schedule(gateway, schedule):
             x: TaskInstance = directive
             directive = Directive(x.definition.name, x.args)
         entry_list.append(gateway.jvm.org.apache.commons.lang3.tuple.Pair.of(
-            gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.Duration.MICROSECOND.times(offset.micros),
+            gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.Duration.MICROSECOND.times(int(offset.to_number_in(MICROSECONDS))),
             gateway.jvm.gov.nasa.ammos.aerie.merlin.python.Directive(
                 directive.type,
                 to_map_str_serialized_value(gateway, directive.args))))
@@ -53,7 +53,7 @@ def simulate_helper(gateway, model_type, config, schedule, duration):
     merlin = gateway.entry_point.getMerlin()
     if type(duration) is str:
         duration = Duration.from_string(duration)
-    duration = gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.Duration.MICROSECONDS.times(duration.micros)
+    duration = gateway.jvm.gov.nasa.jpl.aerie.merlin.protocol.types.Duration.MICROSECONDS.times(int(duration.to_number_in(MICROSECONDS)))
     start_time = gateway.jvm.java.time.Instant.EPOCH
     schedule = make_schedule(gateway, schedule)
     return merlin.simulate(model_type, config, schedule, start_time, duration)

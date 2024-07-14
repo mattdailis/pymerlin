@@ -21,7 +21,6 @@ this:
 ```python
 from enum import Enum
 
-
 class MagDataCollectionMode(Enum):
     OFF = 0.0  # kbps
     LOW_RATE = 500.0  # kbps
@@ -29,13 +28,13 @@ class MagDataCollectionMode(Enum):
 ```
 
 With our enumeration built, we can now add a couple of new resources to our `DataModel` class. The first resource, which
-we'll call `MagDataMode`, will track the current data collection mode for the magnetometer. Declare this resource as a
-discrete `MutableResource` of type `MagDataCollectionMode` and then add the following lines of code to the constructor
+we'll call `mag_data_mode`, will track the current data collection mode for the magnetometer. Declare this resource as a
+discrete `cell` of type `MagDataCollectionMode` and then add the following lines of code to the constructor
 to initialize the resource to `OFF` and register it with the UI.
 
 ```python
-self.MagDataMode = registrar.cell(discrete(MagDataCollectionMode.OFF));
-registrar.resource("MagDataMode", MagDataMode.get)
+self.mag_data_mode = registrar.cell(discrete(MagDataCollectionMode.OFF));
+registrar.resource("mag_data_mode", mag_data_mode.get)
 ```
 
 As you can see, declaring and defining this resource was not much different than when we built `recording_rate` except
@@ -44,16 +43,16 @@ that the type of the resource is an Enum rather than a number.
 Another resource we can add is one to track the numerical value of the data collection rate of the magnetometer, which
 is based on the collection mode. In other words, we can derive the value of the rate from the mode. Since we are
 deriving this value and don't intend to emit effects directly onto this resource, we can declare it as a
-discrete `Resource` of type `Double` instead of a `MutableResource`.
+discrete `Resource` of type `Double` instead of a `cell`.
 
 When we go to define this resource in the constructor, we need to tell the resource to get its value by mapping
-the `MagDataMode` to its corresponding rate. A special static method in the `DiscreteResourceMonad` class called `map()`
+the `mag_data_mode` to its corresponding rate. A special static method in the `DiscreteResourceMonad` class called `map()`
 allows us to define a function that operates on the value of a resource to get a derived resource value. In this case,
 that function is simply the getter function we added to the `MagDataCollectionMode`. The resulting definition and
-registration code for `MagDataRate` then becomes
+registration code for `mag_data_rate` then becomes
 
 ```python
-registrar.resource("MagDataRate", lambda: MagDataCollectionMode.get_data_rate(MagDataRate.get()));
+registrar.resource("mag_data_rate", lambda: MagDataCollectionMode.get_data_rate(mag_data_rate.get()));
 ```
 
 :::info

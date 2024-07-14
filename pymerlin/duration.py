@@ -67,24 +67,32 @@ class Duration:
  If you're just looking for a rough estimate, you can define 24-hour days and 7-day weeks and 30-day months
  within your own domain in terms of the precise units we give here.
     """
-    def __init__(self, micros):
-        self.micros = micros
+    __secret_key = object()
+
+    def __init__(self, duration_string):
+        if duration_string is Duration.__secret_key:
+            # This is used for internal methods in this class to construct an empty duration object
+            self.__micros = 0
+        else:
+            self.__micros = _micros_from_string(duration_string)
 
     def times(self, scalar):
-        return Duration(self.micros * scalar)
+        res = Duration(Duration.__secret_key)
+        res.__micros = self.__micros * scalar
+        return res
 
     def plus(self, other):
-        return Duration(self.micros + other.micros)
+        return Duration.of(self.__micros + other.__micros, MICROSECONDS)
 
     def negate(self):
-        return Duration(-self.micros)
+        return Duration.of(-self.__micros, MICROSECONDS)
 
     def to_number_in(self, unit):
         """
         Return a number representing this duration in the given unit
         """
 
-        return self.micros / unit.micros
+        return self.__micros / unit.__micros
 
     @staticmethod
     def of(scalar, unit):
@@ -125,71 +133,118 @@ class Duration:
             subseconds += "0"
         subseconds = int(subseconds)
 
-        result = Duration.of(hours, HOURS).plus(Duration.of(minutes, MINUTES)).plus(Duration.of(seconds, SECONDS)).plus(Duration.of(subseconds, MICROSECONDS))
+        result = Duration.of(hours, HOURS).plus(Duration.of(minutes, MINUTES)).plus(Duration.of(seconds, SECONDS)).plus(
+            Duration.of(subseconds, MICROSECONDS))
         if is_negative:
             return result.negate()
         else:
             return result
 
     def __repr__(self):
-        if self.micros < 0:
+        if self.__micros < 0:
             is_negative = True
-            micros = -self.micros
+            micros = -self.__micros
         else:
             is_negative = False
-            micros = self.micros
-        hours = int(micros / HOURS.micros)
-        micros -= hours * HOURS.micros
-        minutes = int(micros / MINUTES.micros)
+            micros = self.__micros
+        hours = int(micros / HOURS.to_number_in(MICROSECONDS))
+        micros -= hours * HOURS.to_number_in(MICROSECONDS)
+        minutes = int(micros / MINUTES.to_number_in(MICROSECONDS))
         assert minutes < 60
-        micros -= minutes * MINUTES.micros
-        seconds = int(micros / SECONDS.micros)
+        micros -= minutes * MINUTES.to_number_in(MICROSECONDS)
+        seconds = int(micros / SECONDS.to_number_in(MICROSECONDS))
         assert seconds < 60
-        micros -= seconds * SECONDS.micros
+        micros -= seconds * SECONDS.to_number_in(MICROSECONDS)
         microseconds = micros
         assert microseconds < 1_000_000, microseconds
         sign = "-" if is_negative else "+"
-        return sign + str(hours).zfill(2) + ":" + str(minutes).zfill(2) + ":" + str(seconds).zfill(2) + "." + str(microseconds).zfill(6)
+        return sign + str(hours).zfill(2) + ":" + str(minutes).zfill(2) + ":" + str(seconds).zfill(2) + "." + str(
+            microseconds).zfill(6)
 
     def __eq__(self, other):
-        return type(other) == type(self) and self.micros == other.micros
+        return type(other) == type(self) and self.__micros == other.__micros
 
     def __gt__(self, other):
-        return self.micros.__gt__(other)
+        return self.__micros.__gt__(other)
 
     def __ge__(self, other):
-        return self.micros.__ge__(other)
+        return self.__micros.__ge__(other)
 
     def __lt__(self, other):
-        return self.micros.__lt__(other)
+        return self.__micros.__lt__(other)
 
     def __le__(self, other):
-        return self.micros.__le__(other)
+        return self.__micros.__le__(other)
 
-Duration.ZERO = Duration(0)
-Duration.MICROSECOND = Duration(1)
-Duration.MICROSECONDS = Duration.MICROSECOND
-Duration.MILLISECOND = Duration.MICROSECONDS.times(1000)
-Duration.MILLISECONDS = Duration.MILLISECOND
-Duration.SECOND = Duration.MILLISECONDS.times(1000)
-Duration.SECONDS = Duration.SECOND
-Duration.MINUTE = Duration.SECOND.times(60)
-Duration.MINUTES = Duration.MINUTE
-Duration.HOUR = Duration.MINUTE.times(60)
-Duration.HOURS = Duration.HOUR
+    def __neg__(self):
+        return Duration.of(-self.__micros, MICROSECONDS)
 
-ZERO = Duration.ZERO
-MICROSECOND = Duration.MICROSECOND
-MICROSECONDS = Duration.MICROSECONDS
-MILLISECOND = Duration.MILLISECOND
-MILLISECONDS = Duration.MILLISECONDS
-SECOND = Duration.SECOND
-SECONDS = Duration.SECONDS
-MINUTE = Duration.MINUTE
-MINUTES = Duration.MINUTES
-HOUR = Duration.HOUR
-HOURS = Duration.HOURS
+    def __add__(self, other):
+        return self.plus(other)
 
+
+def _micros_from_string(duration_string):
+    SECONDS_TO_MICROSECONDS = 1_000_000
+    MINUTES_TO_MICROSECONDS = SECONDS_TO_MICROSECONDS * 60
+    HOURS_TO_MICROSECONDS = MINUTES_TO_MICROSECONDS * 60
+
+    is_negative = False
+    hours, minutes, seconds_string = duration_string.split(":")
+    assert len(minutes) == 2
+    if hours.startswith("-"):
+        is_negative = True
+        hours = hours[1:]
+    elif hours.startswith("+"):
+        is_negative = False
+        hours = hours[1:]
+    hours = int(hours)
+    minutes = int(minutes)
+    if "." in seconds_string:
+        seconds, subseconds = seconds_string.split(".")
+    else:
+        seconds = seconds_string
+        subseconds = "000000"
+    assert len(seconds) == 2
+    seconds = int(seconds)
+    if len(subseconds) > 6:
+        subseconds = subseconds[:6]
+    while len(subseconds) < 6:
+        subseconds += "0"
+    subseconds = int(subseconds)
+
+    result = ((hours * HOURS_TO_MICROSECONDS)
+              + (minutes * MINUTES_TO_MICROSECONDS)
+              + (seconds * SECONDS_TO_MICROSECONDS)
+              + subseconds)
+    if is_negative:
+        return -result
+    else:
+        return result
+
+
+ZERO = Duration("00:00:00")
+MICROSECOND = Duration("00:00:00.000001")
+MICROSECONDS = MICROSECOND
+MILLISECOND = MICROSECONDS.times(1000)
+MILLISECONDS = MILLISECOND
+SECOND = MILLISECONDS.times(1000)
+SECONDS = SECOND
+MINUTE = SECOND.times(60)
+MINUTES = MINUTE
+HOUR = MINUTE.times(60)
+HOURS = HOUR
+
+Duration.ZERO = ZERO
+Duration.MICROSECOND = MICROSECOND
+Duration.MICROSECONDS = MICROSECONDS
+Duration.MILLISECOND = MILLISECOND
+Duration.MILLISECONDS = MILLISECONDS
+Duration.SECOND = SECOND
+Duration.SECONDS = SECONDS
+Duration.MINUTE = MINUTE
+Duration.MINUTES = MINUTES
+Duration.HOUR = HOUR
+Duration.HOURS = HOURS
 
 if __name__ == "__main__":
     print(Duration.from_string("00:00:00.000"))
