@@ -147,6 +147,7 @@ class Duration:
         else:
             is_negative = False
             micros = self.__micros
+        micros = int(micros)
         hours = int(micros / HOURS.to_number_in(MICROSECONDS))
         micros -= hours * HOURS.to_number_in(MICROSECONDS)
         minutes = int(micros / MINUTES.to_number_in(MICROSECONDS))

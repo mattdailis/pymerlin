@@ -111,13 +111,13 @@ implementation of this function looks like this:
 
 ```python
 @Task
-def integrate_sampled_ssr():
-    while (True):
+def integrate_sampled_ssr(data_model: DataModel):
+    while True:
         delay(INTEGRATION_SAMPLE_INTERVAL)
-        current_recording_rate = currentValue(recording_rate)
-        ssr_volume_sampled += (
-                current_recording_rate 
-                * INTEGRATION_SAMPLE_INTERVAL.to_number_in(Duration.SECONDS) 
+        current_recording_rate = data_model.recording_rate.get()
+        data_model.ssr_volume_sampled += (
+                current_recording_rate
+                * INTEGRATION_SAMPLE_INTERVAL.to_number_in(Duration.SECONDS)
                 / 1000.0)  # Mbit -> Gbit
 ```
 

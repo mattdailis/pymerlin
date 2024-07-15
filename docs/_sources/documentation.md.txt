@@ -16,7 +16,7 @@ Commit both `docs-src` and `docs` to git.
 
 This documentation is built using [sphinx](https://www.sphinx-doc.org/en/master/) with the [MyST](https://mystmd.org/)
 plugin, using the [Furo](https://pradyunsg.me/furo/) theme. Python docstrings are automatically parsed and included in
-this documentation using the [sphinx-autodoc2](https://sphinx-autodoc2.readthedocs.io) extension.
+this documentation using the sphinx-autodoc extension.
 
 ## Target Audience
 
@@ -59,3 +59,26 @@ documentation page should be linked in a "Further reading" section at the bottom
 ## Glossary
 
 Keep the [glossary](./glossary) up to date by following instructions here: https://mystmd.org/guide/glossaries-and-terms
+
+## Code snippets
+There are two ways to include code snippets:
+
+As python snippets:
+````
+```python
+"YOUR CODE HERE"
+```
+````
+
+and using doctest-compatible blocks:
+```
+:::{testcode}
+"YOUR CODE HERE"
+:::
+```
+
+The difference is that the doctest style can be tested by running `make doctest`, which can help detect breaking
+changes that require changes to the documentation.
+
+You can also use `testcleanup` to run "hidden" snippets of code, and `testoutput` to assert that the standard output
+contains the expected string.

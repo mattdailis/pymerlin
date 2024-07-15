@@ -48,7 +48,7 @@ def Validation(validator, message=None):
             filtered[arg] = args[arg]
         return ValidationResult(validator(**filtered), message)
     def inner(func):
-        activity_definition = wrap(func)
+        activity_definition = TaskDefinition(func.__name__, lambda *args, **kwargs: activity_wrapper(TaskDefinition("inner", func), args, kwargs, *get_topics(activity_definition)))
         activity_definition.add_validation(dict_validator)
         return activity_definition
     return inner

@@ -9,8 +9,8 @@ from pymerlin._internal._framework import ProfileSegment
 from pymerlin._internal._registrar import Registrar
 from pymerlin._internal._schedule import Directive
 from pymerlin.clock import clock
-from pymerlin.duration import Duration, SECONDS, MINUTES
-from pymerlin.model_actions import delay, spawn_activity, spawn_task, call, wait_until
+from pymerlin.duration import Duration, SECONDS
+from pymerlin.model_actions import delay, spawn, call, wait_until
 from pymerlin.reactions import monitor_updates
 
 
@@ -118,7 +118,7 @@ def test_forgot_to_await():
         # TODO make sure ample information is extracted from the java exception
 
 
-def test_spawn_activity():
+def test_spawn():
     """
     Check that spawning a child activity creates the correct spans, and that concurrent events become visible after yield
     """
@@ -126,7 +126,7 @@ def test_spawn_activity():
     @TestMissionModel.ActivityType
     def activity(mission: TestMissionModel):
         mission.counter.set(123)
-        spawn_activity(other_activity(mission))
+        spawn(other_activity(mission))
         mission.counter.set(345)
         assert mission.counter.get() == 345
 
@@ -150,7 +150,7 @@ def test_spawn_task():
     @TestMissionModel.ActivityType
     def activity(mission: TestMissionModel):
         mission.counter.set(123)
-        spawn_task(subtask, {"mission": mission})
+        spawn(subtask(mission))
         mission.counter.set(345)
         assert mission.counter.get() == 345
         delay("00:00:05")
@@ -396,11 +396,69 @@ def test_clock():
 
     simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity", {}))), "24:00:00")
 
+
 def test_registrar_warning():
     @MissionModel
     class Squirrel:
         def __init__(self, registrar):
             self.registrar = registrar  # Squirreling away the registrar
 
-    with pytest.warns(match="Saving registrar in a field or local variable is not recommended - it only works during model initialization"):
+    with pytest.warns(
+            match="Saving registrar in a field or local variable is not recommended - it only works during model initialization"):
         simulate(Squirrel, Schedule.empty(), "24:00:00")
+
+
+def constant_slope(rate):
+    def evolution(initial, d):
+        delta = rate * d.to_number_in(SECONDS)
+        return initial + delta
+
+    return evolution
+
+
+def test_derivation():
+    @MissionModel
+    class TestModel:
+        def __init__(self, registrar):
+            self.base = registrar.cell(0, evolution=constant_slope(1))
+            self.scaled = self.base * 12
+            self.quadratic = self.base ** 2
+            self.binned = self.base - (self.base % 10)
+            self.zero = self.base - self.base
+
+            registrar.resource("base", self.base.get)
+            registrar.resource("quadratic", self.quadratic.get)
+            registrar.resource("binned", self.binned.get)
+
+            spawn(sampler(self))
+
+    @Task
+    def sampler(model):
+        while True:
+            delay("00:11:01")
+            model.base.emit(lambda x: x)  # force a sample
+            assert model.scaled.get() == model.base.get() * 12
+            assert model.quadratic.get() == model.base.get() ** 2
+            assert model.binned.get() == model.base.get() - (model.base.get() % 10)
+            assert model.zero.get() == 0
+
+    profiles, spans, events = simulate(TestModel, Schedule.empty(), "01:00:00")
+    assert profiles == {
+        'base': [ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=0.0),
+                 ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=661.0),
+                 ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=1322.0),
+                 ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=1983.0),
+                 ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=2644.0),
+                 ProfileSegment(extent=Duration("+00:04:55.000000"), dynamics=3305.0)],
+        'binned': [ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=0.0),
+                   ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=660.0),
+                   ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=1320.0),
+                   ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=1980.0),
+                   ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=2640.0),
+                   ProfileSegment(extent=Duration("+00:04:55.000000"), dynamics=3300.0)],
+        'quadratic': [ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=0.0),
+                      ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=436921.0),
+                      ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=1747684.0),
+                      ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=3932289.0),
+                      ProfileSegment(extent=Duration("+00:11:01.000000"), dynamics=6990736.0),
+                      ProfileSegment(extent=Duration("+00:04:55.000000"), dynamics=10923025.0)]}

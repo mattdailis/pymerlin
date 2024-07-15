@@ -11,21 +11,21 @@ mission, the magnetometer is placed in a high rate collection mode and at other 
 mode. For our model, we want to be able to track the collection mode over time along with the associated data collection
 rate of that mode.
 
-The first thing we'll do to accomplish this is create a Java enumeration called `MagDataCollectionMode` that gives us
-the list of available collection modes along with a mapping of those modes to data collection rates
-using [enum fields](https://issac88.medium.com/java-enum-fields-methods-constructors-3a19256f58b). We will also add a
-getter method to get the data rate based on the mode. Let's say that we have three modes, `OFF`, `LOW_RATE`,
-and `HIGH_RATE` with values `0.0`, `500.0`, and `5000.0`, respectively. After coding this up, our enum should look like
-this:
+The first thing we'll do to accomplish this is create a python dictionary called `MagDataCollectionMode` that gives us
+the list of available collection modes along with a mapping of those modes to data collection rates. Let's say that we
+have three modes, `OFF`, `LOW_RATE`, and `HIGH_RATE` with values `0.0`, `500.0`, and `5000.0`, respectively. After
+coding this up, our enum should look like this:
 
 :::{testcode}
-from enum import Enum
-
-class MagDataCollectionMode(Enum):
-    OFF = 0.0  # kbps
-    LOW_RATE = 500.0  # kbps
-    HIGH_RATE = 5000.0  # kbps
+MagDataCollectionMode = {
+    "OFF": 0.0, # kbps
+    "LOW_RATE": 500.0, # kbps
+    "HIGH_RATE": 5000.0 # kbps
+}
 :::
+
+% TODO: consider using aenum to allow for duplicate right-hand-sides of these
+assignments https://stackoverflow.com/a/35968057/15403349
 
 With our enumeration built, we can now add a couple of new resources to our `DataModel` class. The first resource, which
 we'll call `mag_data_mode`, will track the current data collection mode for the magnetometer. Declare this resource as a
@@ -33,7 +33,7 @@ discrete `cell` of type `MagDataCollectionMode` and then add the following lines
 to initialize the resource to `OFF` and register it with the UI.
 
 ```python
-self.mag_data_mode = registrar.cell(discrete(MagDataCollectionMode.OFF));
+self.mag_data_mode = registrar.cell("OFF")
 registrar.resource("mag_data_mode", mag_data_mode.get)
 ```
 
@@ -46,19 +46,20 @@ deriving this value and don't intend to emit effects directly onto this resource
 discrete `Resource` of type `Double` instead of a `cell`.
 
 When we go to define this resource in the constructor, we need to tell the resource to get its value by mapping
-the `mag_data_mode` to its corresponding rate. A special static method in the `DiscreteResourceMonad` class called `map()`
+the `mag_data_mode` to its corresponding rate. A special static method in the `DiscreteResourceMonad` class
+called `map()`
 allows us to define a function that operates on the value of a resource to get a derived resource value. In this case,
 that function is simply the getter function we added to the `MagDataCollectionMode`. The resulting definition and
 registration code for `mag_data_rate` then becomes
 
 ```python
-registrar.resource("mag_data_rate", lambda: MagDataCollectionMode.get_data_rate(mag_data_rate.get()));
+self.mag_data_rate = self.mag_data_mode.map(lambda mode: MagDataCollectionMode[mode])
+registrar.resource("mag_data_rate", self.mag_data_rate.get)
 ```
 
-:::info
-
-Instead of deriving a resource value from a function using `map()`, there are a number of static methods in
-the `DiscreteResources` class, which you can use to `add()`, `multiply()`, `divide()`, etc. resources. For example, you
-could have a `Total` resource that simple used `add()` to sum some resources together.
-
+:::{info}
+Instead of deriving a cell value from a function using `map()`, you can directly add or subtract cells, for example:
+`````python
+self.total_data_rate = self.mag_data_rate + self.recording_rate
+````
 :::

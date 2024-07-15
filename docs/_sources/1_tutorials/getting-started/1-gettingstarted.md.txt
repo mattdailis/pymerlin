@@ -267,13 +267,13 @@ with using(model.data_model.recording_rate, rate):
 With our effect model in place, we are done coding up the `collect_data` activity and the final result should look
 something like this:
 
-[//]: # (:::{doctest})
+% :::{doctest})
 
-[//]: # (>>> print&#40;"This parrot wouldn't voom if you put 3000 volts through it!"&#41;)
+% >>> print&#40;"This parrot wouldn't voom if you put 3000 volts through it!"&#41;)
 
-[//]: # (This parrot wouldn't voom if you put 3000 volts through it!!)
+% This parrot wouldn't voom if you put 3000 volts through it!!)
 
-[//]: # (:::)
+% :::)
 
 :::{testsetup}
 import pymerlin
@@ -318,7 +318,7 @@ res = simulate(
     Schedule.build(("00:00:01", Directive("collect_data", {"rate": 20.0, "duration": "00:00:01"}))),
     "01:00:00"
 )
-if str(res) != "({'recording_rate': [ProfileSegment(extent=+00:00:01.0000.0, dynamics=0.0), ProfileSegment(extent=+00:00:01.0000.0, dynamics=20.0), ProfileSegment(extent=+00:59:58.0000.0, dynamics=0.0)]}, [], [])":
+if str(res) != "({'recording_rate': [ProfileSegment(extent=+00:00:01.0000.0, dynamics=0.0), ProfileSegment(extent=+00:00:01.0000.0, dynamics=20.0), ProfileSegment(extent=+00:59:58.0000.0, dynamics=0.0)]}, [Span(type='collect_data', start=+00:00:01.0000.0, duration=+00:00:01.0000.0)], [])":
     print(res)  # This causes cleanup to fail
 :::
 

@@ -1,6 +1,0 @@
-pymerlin.model\_actions.spawn\_task
-===================================
-
-.. currentmodule:: pymerlin.model_actions
-
-.. autofunction:: spawn_task

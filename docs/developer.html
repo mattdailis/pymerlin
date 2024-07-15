@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contribute.html" /><link rel="prev" title="Architecture" href="architecture.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>Developing pymerlin - pymerlin 0.0.8 documentation</title>
+        <title>Developing pymerlin - pymerlin 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
@@ -179,7 +179,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">pymerlin 0.0.8 documentation</div></a>
+      <a href="index.html"><div class="brand">pymerlin 0.0.9 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -203,7 +203,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">pymerlin 0.0.8 documentation</span>
+  <span class="sidebar-brand-text">pymerlin 0.0.9 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -264,8 +264,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.html">pymerlin.model_actions</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of pymerlin.model_actions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.call.html">pymerlin.model_actions.call</a></li>
 <li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.delay.html">pymerlin.model_actions.delay</a></li>
-<li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.spawn_activity.html">pymerlin.model_actions.spawn_activity</a></li>
-<li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.spawn_task.html">pymerlin.model_actions.spawn_task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.spawn.html">pymerlin.model_actions.spawn</a></li>
 <li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.wait_until.html">pymerlin.model_actions.wait_until</a></li>
 </ul>
 </li>
@@ -356,6 +355,22 @@ mv<span class="w"> </span>pymerlin/build/libs/pymerlin.jar<span class="w"> </spa
 <p>Future aspiration: use <code class="docutils literal notranslate"><span class="pre">tox</span></code> to test on multiple versions of python.</p>
 <p>Future aspiration: automated testing of tutorial snippets in docs</p>
 </section>
+<section id="performance-analysis">
+<h2>Performance analysis<a class="headerlink" href="#performance-analysis" title="Link to this heading">¶</a></h2>
+<p>While the <a class="reference internal" href="architecture.html"><span class="std std-doc">architecture</span></a> document asserts that performance is secondary to intuitiveness, it cannot
+be completely ignored. This section should be filled out with procedures and practices for measuring pymerlin performance.</p>
+<p>Some starting points for future exploration:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cProfile</span></code> is the built-in python profiler. It can be useful for understanding the call graph, and getting a sense for
+where time is spent, but it must be noted that it adds non-negligible overhead to the runtime of the program</p></li>
+<li><p><a class="reference external" href="https://github.com/plasma-umass/scalene?tab=readme-ov-file">scalene</a> promises a lot of information at low overhead,
+and includes memory profiling as well (which may well be a critical metric for pymerlin given all the caching going on)</p></li>
+<li><p>TODO we need a way to evaluate the “chattiness” of the interprocess communication</p></li>
+<li><p>TODO consider whether we need to also measure the Java process - perhaps simply a measure of total memory footprint
+would be sufficient?</p></li>
+</ul>
+<p>We would also want a standard benchmark to run for these measurements.</p>
+</section>
 </section>
 
         </article>
@@ -416,6 +431,7 @@ mv<span class="w"> </span>pymerlin/build/libs/pymerlin.jar<span class="w"> </spa
 <li><a class="reference internal" href="#">Developing pymerlin</a><ul>
 <li><a class="reference internal" href="#building-pymerlin-jar">Building pymerlin.jar</a></li>
 <li><a class="reference internal" href="#testing">Testing</a></li>
+<li><a class="reference internal" href="#performance-analysis">Performance analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -427,7 +443,7 @@ mv<span class="w"> </span>pymerlin/build/libs/pymerlin.jar<span class="w"> </spa
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=53b53b71"></script>
+</div><script src="_static/documentation_options.js?v=f7cdbf68"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=4e2eecee"></script>

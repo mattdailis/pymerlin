@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Publishing to pypi" href="publishing.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>Documentation - pymerlin 0.0.8 documentation</title>
+        <title>Documentation - pymerlin 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
@@ -179,7 +179,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">pymerlin 0.0.8 documentation</div></a>
+      <a href="index.html"><div class="brand">pymerlin 0.0.9 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -203,7 +203,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">pymerlin 0.0.8 documentation</span>
+  <span class="sidebar-brand-text">pymerlin 0.0.9 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -264,8 +264,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.html">pymerlin.model_actions</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of pymerlin.model_actions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.call.html">pymerlin.model_actions.call</a></li>
 <li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.delay.html">pymerlin.model_actions.delay</a></li>
-<li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.spawn_activity.html">pymerlin.model_actions.spawn_activity</a></li>
-<li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.spawn_task.html">pymerlin.model_actions.spawn_task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.spawn.html">pymerlin.model_actions.spawn</a></li>
 <li class="toctree-l4"><a class="reference internal" href="apidocs/_autosummary/pymerlin.model_actions.wait_until.html">pymerlin.model_actions.wait_until</a></li>
 </ul>
 </li>
@@ -341,7 +340,7 @@ make<span class="w"> </span>clean<span class="w"> </span>html
 <p>Commit both <code class="docutils literal notranslate"><span class="pre">docs-src</span></code> and <code class="docutils literal notranslate"><span class="pre">docs</span></code> to git.</p>
 <p>This documentation is built using <a class="reference external" href="https://www.sphinx-doc.org/en/master/">sphinx</a> with the <a class="reference external" href="https://mystmd.org/">MyST</a>
 plugin, using the <a class="reference external" href="https://pradyunsg.me/furo/">Furo</a> theme. Python docstrings are automatically parsed and included in
-this documentation using the <a class="reference external" href="https://sphinx-autodoc2.readthedocs.io">sphinx-autodoc2</a> extension.</p>
+this documentation using the sphinx-autodoc extension.</p>
 <section id="target-audience">
 <h2>Target Audience<a class="headerlink" href="#target-audience" title="Link to this heading">¶</a></h2>
 <p>When writing documentation, it’s important to have a specific target audience in mind, and to keep that consistent across
@@ -381,6 +380,26 @@ documentation page should be linked in a “Further reading” section at the bo
 <section id="glossary">
 <h2>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">¶</a></h2>
 <p>Keep the <a class="reference internal" href="glossary.html"><span class="doc std std-doc">glossary</span></a> up to date by following instructions here: https://mystmd.org/guide/glossaries-and-terms</p>
+</section>
+<section id="code-snippets">
+<h2>Code snippets<a class="headerlink" href="#code-snippets" title="Link to this heading">¶</a></h2>
+<p>There are two ways to include code snippets:</p>
+<p>As python snippets:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```python
+&quot;YOUR CODE HERE&quot;
+```
+</pre></div>
+</div>
+<p>and using doctest-compatible blocks:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">:::{</span><span class="n">testcode</span><span class="p">}</span>
+<span class="s2">&quot;YOUR CODE HERE&quot;</span>
+<span class="p">:::</span>
+</pre></div>
+</div>
+<p>The difference is that the doctest style can be tested by running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">doctest</span></code>, which can help detect breaking
+changes that require changes to the documentation.</p>
+<p>You can also use <code class="docutils literal notranslate"><span class="pre">testcleanup</span></code> to run “hidden” snippets of code, and <code class="docutils literal notranslate"><span class="pre">testoutput</span></code> to assert that the standard output
+contains the expected string.</p>
 </section>
 </section>
 
@@ -440,6 +459,7 @@ documentation page should be linked in a “Further reading” section at the bo
 <li><a class="reference internal" href="#style">Style</a></li>
 <li><a class="reference internal" href="#referencing-aerie">Referencing Aerie</a></li>
 <li><a class="reference internal" href="#glossary">Glossary</a></li>
+<li><a class="reference internal" href="#code-snippets">Code snippets</a></li>
 </ul>
 </li>
 </ul>
@@ -451,7 +471,7 @@ documentation page should be linked in a “Further reading” section at the bo
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=53b53b71"></script>
+</div><script src="_static/documentation_options.js?v=f7cdbf68"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=4e2eecee"></script>

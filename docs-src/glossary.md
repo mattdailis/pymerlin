@@ -1,6 +1,6 @@
 # Glossary
 
-[//]: # (Entries should be sorted alphabetically, cross-reference other entries, and end in periods.)
+% Entries should be sorted alphabetically, cross-reference other entries, and end in periods.)
 
 :::{glossary}
 Aerie
@@ -76,4 +76,4 @@ A `Registrar` means a "record-keeper" - you can "register" (verb) something with
 registrar is an object provided to the mission model at initialization time, which the model can use to register
 its cells and resources.
 
-[//]: # (You can use {term}`MyST` to create glossaries.)
+% You can use {term}`MyST` to create glossaries.)
