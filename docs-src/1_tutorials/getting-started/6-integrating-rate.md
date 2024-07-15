@@ -113,7 +113,7 @@ implementation of this function looks like this:
 @Task
 def integrate_sampled_ssr():
     while (True):
-        await delay(INTEGRATION_SAMPLE_INTERVAL)
+        delay(INTEGRATION_SAMPLE_INTERVAL)
         current_recording_rate = currentValue(recording_rate)
         ssr_volume_sampled += (
                 current_recording_rate 

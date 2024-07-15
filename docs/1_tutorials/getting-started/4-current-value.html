@@ -249,9 +249,30 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../apidocs/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of pymerlin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.duration.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.duration</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.model_actions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.model_actions</span></code></a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.html">pymerlin</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of pymerlin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.checkout.html">pymerlin.checkout</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.html">pymerlin.clock</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of pymerlin.clock</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.clock.html">pymerlin.clock.clock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.ClockMaker.html">pymerlin.clock.ClockMaker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.DerivedClock.html">pymerlin.clock.DerivedClock</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.duration.html">pymerlin.duration</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of pymerlin.duration</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.duration.Duration.html">pymerlin.duration.Duration</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.html">pymerlin.model_actions</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of pymerlin.model_actions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.call.html">pymerlin.model_actions.call</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.delay.html">pymerlin.model_actions.delay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.spawn_activity.html">pymerlin.model_actions.spawn_activity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.spawn_task.html">pymerlin.model_actions.spawn_task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.wait_until.html">pymerlin.model_actions.wait_until</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.reactions.html">pymerlin.reactions</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of pymerlin.reactions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.reactions.monitor_updates.html">pymerlin.reactions.monitor_updates</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -314,29 +335,29 @@
 <p>This page is under construction. Please bear with us as we port
 our <a class="reference external" href="https://nasa-ammos.github.io/aerie-docs/tutorials/mission-modeling/introduction/">Java tutorial</a> to python.</p>
 </div>
-<p>Now that we have our magnetometer resources, we need to build an activity that changes the <code class="docutils literal notranslate"><span class="pre">MagDataMode</span></code> for us (
-since <code class="docutils literal notranslate"><span class="pre">MagDataRate</span></code> is a derived resource, we shouldn’t have to touch it) and changes the overall SSR <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> to
+<p>Now that we have our magnetometer resources, we need to build an activity that changes the <code class="docutils literal notranslate"><span class="pre">mag_data_mode</span></code> for us (
+since <code class="docutils literal notranslate"><span class="pre">mag_data_rate</span></code> is a derived resource, we shouldn’t have to touch it) and changes the overall SSR <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> to
 reflect the magnetometer’s data rate change. This activity, which we’ll call <code class="docutils literal notranslate"><span class="pre">change_mag_mode</span></code>, only needs one parameter
 of type <code class="docutils literal notranslate"><span class="pre">MagDataCollectionMode</span></code> to allow the user to request a change to the mode. Let’s give that parameter a default
 value of <code class="docutils literal notranslate"><span class="pre">LOW_RATE</span></code>.</p>
 <p>In the effect model for this activity (which we’ll call <code class="docutils literal notranslate"><span class="pre">run()</span></code> by convention), we can use the <code class="docutils literal notranslate"><span class="pre">set()</span></code> method in
-the <code class="docutils literal notranslate"><span class="pre">DiscreteEffects</span></code> class to change the <code class="docutils literal notranslate"><span class="pre">MagDataMode</span></code> to the value provided by our mode parameter. The computation of
+the <code class="docutils literal notranslate"><span class="pre">DiscreteEffects</span></code> class to change the <code class="docutils literal notranslate"><span class="pre">mag_data_mode</span></code> to the value provided by our mode parameter. The computation of
 the change to the <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> caused by the mode change is a little tricky because we need to know both the value of
-the <code class="docutils literal notranslate"><span class="pre">MagDataRate</span></code> before and after the mode change. Once we know those value, we can subtract the old value from the new
+the <code class="docutils literal notranslate"><span class="pre">mag_data_rate</span></code> before and after the mode change. Once we know those value, we can subtract the old value from the new
 value to get the net increase to the <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code>. If the new value happens to be less than the old value, our answer
 will be negative, but that should be ok as long as we use the <code class="docutils literal notranslate"><span class="pre">increase()</span></code> method when effecting the <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code>
 resource.</p>
 <p>We can get the current value of a resource with a static method called <code class="docutils literal notranslate"><span class="pre">currentValue()</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Resources</span></code>
-class. For our case here, we want to get the current value of the <code class="docutils literal notranslate"><span class="pre">MagDataRate</span></code> <strong>before</strong> we actually change the mode
+class. For our case here, we want to get the current value of the <code class="docutils literal notranslate"><span class="pre">mag_data_rate</span></code> <strong>before</strong> we actually change the mode
 to the requested value, so we have to be a little careful about the order of operations within our effect model. The
 resulting activity type and its effect model should look something like this:</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Model.ActivityType</span><span class="p">()</span>
-<span class="n">async</span><span class="w"> </span><span class="n">def</span><span class="w"> </span><span class="nf">change_mag_mode</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="p">:</span><span class="w"> </span><span class="n">MagDataCollectionMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MagDataCollectionMode</span><span class="p">.</span><span class="na">LOW_RATE</span><span class="p">):</span>
-<span class="w">    </span><span class="n">current_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">data_model</span><span class="p">.</span><span class="na">MagDataRate</span><span class="p">.</span><span class="na">get</span><span class="p">()</span>
+<span class="n">def</span><span class="w"> </span><span class="nf">change_mag_mode</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="p">:</span><span class="w"> </span><span class="n">MagDataCollectionMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MagDataCollectionMode</span><span class="p">.</span><span class="na">LOW_RATE</span><span class="p">):</span>
+<span class="w">    </span><span class="n">current_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">data_model</span><span class="p">.</span><span class="na">mag_data_rate</span><span class="p">.</span><span class="na">get</span><span class="p">()</span>
 <span class="w">    </span><span class="n">new_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mode</span><span class="p">.</span><span class="na">get_data_rate</span><span class="p">()</span>
 <span class="w">    </span><span class="c1">// Divide by 10^3 for kbps-&gt;Mbps conversion</span>
 <span class="w">    </span><span class="n">model</span><span class="p">.</span><span class="na">data_model</span><span class="p">.</span><span class="na">recording_rate</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">new_rate</span><span class="o">-</span><span class="n">current_rate</span><span class="p">)</span><span class="o">/</span><span class="mf">1.0e3</span>
-<span class="w">    </span><span class="n">model</span><span class="p">.</span><span class="na">data_model</span><span class="p">.</span><span class="na">MagDataMode</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
+<span class="w">    </span><span class="n">model</span><span class="p">.</span><span class="na">data_model</span><span class="p">.</span><span class="na">mag_data_mode</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Looking at our new activity definition, you can see how we use the <code class="docutils literal notranslate"><span class="pre">increase()</span></code> effect on <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> to “increase”

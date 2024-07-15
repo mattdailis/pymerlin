@@ -18,14 +18,14 @@ getter method to get the data rate based on the mode. Let's say that we have thr
 and `HIGH_RATE` with values `0.0`, `500.0`, and `5000.0`, respectively. After coding this up, our enum should look like
 this:
 
-```python
+:::{testcode}
 from enum import Enum
 
 class MagDataCollectionMode(Enum):
     OFF = 0.0  # kbps
     LOW_RATE = 500.0  # kbps
     HIGH_RATE = 5000.0  # kbps
-```
+:::
 
 With our enumeration built, we can now add a couple of new resources to our `DataModel` class. The first resource, which
 we'll call `mag_data_mode`, will track the current data collection mode for the magnetometer. Declare this resource as a

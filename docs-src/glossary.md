@@ -5,33 +5,46 @@
 :::{glossary}
 Aerie
   A suite of planning and scheduling, modeling and simulation, constraint checking and sequencing tools.
+
 Activity Type
   A named action or behavior of the system.
+
 Cell
   A container for a piece of simulation state. To guarantee correctness of simulation results, all mutable state must be
   tracked in cells.
+
 Daemon Task
   A Task that is spawned during mission model initialization, meaning it starts execution at the beginning of simulation
   rather than as a result of a Directive.
+
 Directive
   A request to instantiate a certain Activity Type with certain arguments at a certain time.
+
 Effect
   An action that changes the value of a cell. Effects are defined as functions from an old value to a new value.
+
 Effect Model
   The body of the function describing an activity's behavior during simulation.
+
 Merlin
   The modeling and simulation component of Aerie.
+
 Mission model
   A description of a system that Aerie understands. This primarily includes definitions of Activity Types and Resources.
+
 Profile
   A piece-wise defined function from time to a value
+
 Profile Segment
   A single piece of the Profile with a start and end time. Profile segments within one profile must be contiguous and
   non-overlapping.
+
 Resource
   A 
+
 Span
   A component of simulation results representing a start time, a duration, an optional parent, and some metadata.
+
 Validation
   A predicate on the arguments to an activity. Violation of a predicate does not preclude execution of the activity, but
   rather serves as a warning.

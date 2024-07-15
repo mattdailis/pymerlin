@@ -12,6 +12,7 @@ author = 'Matthew Dailis'
 
 # Keep project version synchronized with pyproject.toml
 import os, tomllib
+
 with open(os.path.join(os.path.dirname(__file__), "../pyproject.toml"), "rb") as f:
     release = tomllib.load(f)["project"]["version"]
 
@@ -24,10 +25,13 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))  # Source code dir relative to this file
 
 extensions = [
-    "autodoc2",
+    # "autodoc2",
     'myst_parser',
-    # 'sphinx.ext.autodoc',  # Core library for html generation from docstrings
-    # 'sphinx.ext.autosummary',  # Create neat summary tables
+    'sphinx.ext.doctest',
+    'sphinx.ext.autodoc',  # Core library for html generation from docstrings
+    'sphinx.ext.autosummary',  # Create neat summary tables
+    'sphinx.ext.coverage',
+    'sphinx.ext.napoleon',
 ]
 
 autodoc2_packages = [

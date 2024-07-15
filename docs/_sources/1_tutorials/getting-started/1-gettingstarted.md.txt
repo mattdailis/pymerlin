@@ -27,12 +27,10 @@ Start by creating a `mission.py` file with the following contents:
 ```python
 from pymerlin import MissionModel
 
-
 @MissionModel
 class Model:
     def __init__(self, registrar):
         self.data_model = DataModel(registrar)
-
 
 class DataModel:
     def __init__(self, registrar):
@@ -60,14 +58,14 @@ self.recording_rate = registrar.cell(0)  # Megabits/s
 ```
 
 <!--:::{tip}
-As you are coding, take advantage of your IDE to auto import the modeling framework classes you need like `MutableResource`.
+As you are coding, take advantage of your IDE to auto import the modeling framework classes you need like `cell`.
 :::-->
 
 Let's tease apart this line of code and use it as an opportunity to provide a brief overview of the various types of
 resources available to you as a modeler. The mission modeling framework provides two primary classes from which to
 define resources:
 
-1. `MutableResource` - resource whose value can be explicitly updated by activities or other modeling code after it has
+1. `cell` - resource whose value can be explicitly updated by activities or other modeling code after it has
    been defined. Updates to the resource take the form of "Effects" such as `increase`, `decrease`, or `set`. The values
    of this category of resource are explicitly tracked in objects called "Cells" within Aerie, which you can read about
    in detail in
@@ -77,7 +75,7 @@ define resources:
    resources cannot be updated via "Effects". The most common use of these resources are to create "derived" resources
    that are fully defined by the values of other resources (we will have some examples of these later). Since these
    resources get their value from other resources, they actually don't need to store their own value within a "Cell".
-   Interestingly, the `MutableResource` class extends the `Resource` class and includes additional logic to ensure
+   Interestingly, the `cell` class extends the `Resource` class and includes additional logic to ensure
    values are correctly stored in these "Cells".
 
 From these classes, there are a few different types of resources provided, which are primarily distinguished by how the
@@ -104,7 +102,7 @@ Polynomial resources currently cannot be rendered in the Aerie UI and must be tr
 example of this is shown later in the tutorial)
 :::
 
-Looking back at our resource declaration, you can see that `recording_rate` is a `MutableResource` (we will emit effects
+Looking back at our resource declaration, you can see that `recording_rate` is a `cell` (we will emit effects
 on this resource in our first activity) of the type `Discrete<Double>`, so the value of the resource will stay constant
 until the next time we compute effects on it.
 
@@ -113,7 +111,7 @@ parameter we'll called `registrar` of type `Registrar`. You can think of the `Re
 ultimately get exposed in the UI and in a second we will use this class to register `recording_rate`. But first, let's
 add the following line to the constructor we just made to fully define our resource.
 
-Both the `MutableResource` and `Discrete` classes have static helper functions for initializing resources of their type.
+Both the `cell` and `Discrete` classes have static helper functions for initializing resources of their type.
 If you included those functions via `import static` statements, you get the simple line above. The `discrete()` function
 expects an initial value for the resource, which we have specified as `0.0`.
 
@@ -152,12 +150,10 @@ the `Mission` class should look like this:
 ```python
 from pymerlin import MissionModel
 
-
 @MissionModel
 class Model:
     def __init__(self, registrar):
         self.data_model = DataModel(registrar)
-
 
 class DataModel:
     def __init__(self, registrar):
@@ -186,7 +182,7 @@ following decorator above that function, which allows pymerlin to recognize this
 
 ```python
 @Model.ActivityType
-async def collect_data(model):
+def collect_data(model):
     pass
 ```
 
@@ -202,7 +198,7 @@ operator without modifying its code.
 
 ```python
 @Model.ActivityType
-async def collect_data(model, rate=0.0, duration=Duration.from_string("01:00:00")):
+def collect_data(model, rate=0.0, duration=Duration.from_string("01:00:00")):
     pass
 ```
 
@@ -219,7 +215,7 @@ by adding a method to our class with a couple of annotations:
 ```python
 @Model.ActivityType
 @Validation(lambda rate: rate < 100.0, "Collection rate is beyond buffer limit of 100.0 Mbps")
-async def collect_data(model, rate=0.0, duration=Duration.from_string("01:00:00")):
+def collect_data(model, rate=0.0, duration=Duration.from_string("01:00:00")):
     pass
 ```
 
@@ -237,9 +233,9 @@ full duration of the activity. Within the `run()` method, we can add the follow 
 ```python
 @Model.ActivityType
 @Validation(lambda rate: rate < 100.0, "Collection rate is beyond buffer limit of 100.0 Mbps")
-async def collect_data(model, rate=0.0, duration=Duration.from_string("01:00:00")):
+def collect_data(model, rate=0.0, duration=Duration.from_string("01:00:00")):
     model.data_model.recording_rate += rate
-    await delay(duration);
+    delay(duration);
     model.data_model.recording_rate -= rate
 ```
 
@@ -265,23 +261,42 @@ If we wanted to save a line of code, we could have the "renewable" effect `using
 
 ```python
 with using(model.data_model.recording_rate, rate):
-    await delay(duration)
+    delay(duration)
 ```
 
 With our effect model in place, we are done coding up the `collect_data` activity and the final result should look
 something like this:
 
-```python
+[//]: # (:::{doctest})
+
+[//]: # (>>> print&#40;"This parrot wouldn't voom if you put 3000 volts through it!"&#41;)
+
+[//]: # (This parrot wouldn't voom if you put 3000 volts through it!!)
+
+[//]: # (:::)
+
+:::{testsetup}
+import pymerlin
+:::
+
+:::{testcode}
+# Comment
+pymerlin.checkout()
+:::
+
+:::{testoutput}
+pymerlin checkout successful: All systems GO 🚀
+:::
+
+:::{testcode}
 from pymerlin import MissionModel, Duration
 from pymerlin._internal._decorators import Validation
 from pymerlin.model_actions import delay
-
 
 @MissionModel
 class Model:
     def __init__(self, registrar):
         self.data_model = DataModel(registrar)
-        registrar.resource("counter", self.counter.get)
 
 class DataModel:
     def __init__(self, registrar):
@@ -290,11 +305,22 @@ class DataModel:
 
 @Model.ActivityType
 @Validation(lambda rate: rate < 100.0, "Collection rate is beyond buffer limit of 100.0 Mbps")
-async def collect_data(model, rate=0.0, duration="01:00:00"):
+def collect_data(model, rate=0.0, duration="01:00:00"):
     model.data_model.recording_rate += rate
-    await delay(Duration.from_string(duration))
+    delay(Duration.from_string(duration))
     model.data_model.recording_rate -= rate
-```
+:::
+
+:::{testcleanup}
+from pymerlin import simulate, Schedule, Directive
+res = simulate(
+    Model,
+    Schedule.build(("00:00:01", Directive("collect_data", {"rate": 20.0, "duration": "00:00:01"}))),
+    "01:00:00"
+)
+if str(res) != "({'recording_rate': [ProfileSegment(extent=+00:00:01.0000.0, dynamics=0.0), ProfileSegment(extent=+00:00:01.0000.0, dynamics=20.0), ProfileSegment(extent=+00:59:58.0000.0, dynamics=0.0)]}, [], [])":
+    print(res)  # This causes cleanup to fail
+:::
 
 Ok! Now we are all set to give this a spin.
 

@@ -21,7 +21,7 @@ effect model of the activities who change the `recording_rate`. Before we do thi
 resource in our `DataModel` class. For each method, we are going to build a different data volume resource so we can
 eventually compare them in the Aerie UI. As this is our simplest method, let's call this resource `ssr_volume_simple`
 and make it store volume in Gigabits (Gb). Since we are going to directly effect this resource in our activities, this
-will need to be a `MutableResource`. The declaration looks just like `recording_rate`
+will need to be a `cell`. The declaration looks just like `recording_rate`
 
 as does the definition, initialization, and registration in the constructor:
 
@@ -87,7 +87,7 @@ simple task from our top-level `Mission` class that runs in the background while
 completely independent of activities in the plan. Such tasks are known as `daemon` tasks, and your mission model can
 have an arbitrary number of them.
 
-Before we create this task, let's add another discrete `MutableResource` of type `double` called `ssr_volume_sampled` to
+Before we create this task, let's add another discrete `cell` of type `double` called `ssr_volume_sampled` to
 the `DataModel` class. Just as with other resources we have made, the declaration will look like
 
 and the definition, initialization, and registration in the constructor will be
@@ -110,9 +110,10 @@ function to take the "right" Reimann Sum (a "rectangle" rule approximation) of t
 implementation of this function looks like this:
 
 ```python
-async def integrate_sampled_ssr():
+@Task
+def integrate_sampled_ssr():
     while (True):
-        await delay(INTEGRATION_SAMPLE_INTERVAL)
+        delay(INTEGRATION_SAMPLE_INTERVAL)
         current_recording_rate = currentValue(recording_rate)
         ssr_volume_sampled += (
                 current_recording_rate 
@@ -153,14 +154,12 @@ multiplying
 the rate just before the latest change by the duration that has passed since the last change. Fortunately, there is a
 fairly easy way to do this in Aerie's modeling framework.
 
-Let's begin by creating one more discrete `MutableResource` called `ssr_volume_upon_rate_change` in our `DataModel`
-class (refer back to previous instances in this tutorial for how to declare and define one of these). In addition to our
-volume resource, we are also going to need a `Clock` resource to help us track the time between changes
-to `recording_rate`. Since this resource is more of a "helper" resource and doesn't need to be exposed to our planners,
-we'll make it `private` and not register it to the UI. Declaring and defining a `Clock` resource is not much different
-than declaring a `Discrete` except you don't have to specify a primitive type. The declaration looks like this
-
-and the definition in the constructor looks like this
+Let's begin by creating one more `cell` called `ssr_volume_upon_rate_change` in our `DataModel` class (refer back to
+previous instances in this tutorial for how to declare and define one of these). In addition to our volume resource, we
+are also going to need a `Clock` resource to help us track the time between changes to `recording_rate`. Since this
+resource is more of a "helper" resource and doesn't need to be exposed to our planners, we'll make it `private` and not
+register it to the UI. Declaring and defining a `Clock` resource is not much different than declaring a `Discrete`
+except you don't have to specify a primitive type.
 
 ```python
 self.time_since_last_rate_change = registrar.cell(Duration.ZERO, behavior=Clock.behavior)
@@ -170,24 +169,18 @@ This will start a "stopwatch" right at the start of the plan so we can track the
 the first time `recording_rate` is changed. We'll also need one more member variable of type `Double`, which we'll
 call `previous_rate` to keep track of the previous value of `recording_rate` for us.
 
-```java
-previous_recording_rate = 0.0
-```
-
 Our next step is to build our trigger to react when there is a change to `recording_rate`. We can do this by leveraging
 the `wheneverUpdates()` static method available within the framework's `Reactions` class
 
-```java
-Reactions.wheneverUpdates(recording_rate, this::upon_recording_rate_update)
+```python
+spawn(monitor_recording_rate_updates(data_model))
 ```
 
-:::note
-
+:::{note}
 The `Reactions` class has a couple more static methods that a modeler may find useful. The `every()` method allows you
 to specify a duration to call a recurring action (we could have used this instead of our `spawn()` for the sampled
 integration method). The `whenever()` method allows you to specify a `Condition`, which when met, would trigger an
 action of your choosing. An example of a condition could be when a resource reaches a certain threshold.
-
 :::
 
 As you can see, this method takes a resource as its first argument and some `Runnable`, like a function call, as it's
@@ -196,17 +189,19 @@ that function within our `DataModel` class. The implementation of that function 
 line by line.
 
 ```python
-upon_recording_rate_update():
-# Determine time elapsed since last update
-t = time_since_last_rate_change.get()
-# Update volume only if time has actually elapsed
-if !t.isZero():
-    ssr_volume_upon_rate_change += previous_recording_rate * t.to_number_in(Duration.SECONDS) / 1000.0)  # Mbit -> Gbit
-
-    previous_recording_rate = recording_rate.get()
-    # Restart clock (set back to zero)
-    ClockEffects.restart(time_since_last_rate_change)
-
+@Task
+def monitor_recording_rate_updates(data_model):
+    previous_recording_rate = 0.0
+    for new_value in monitor_updates(lambda: data_model.recording_rate.get()):
+        # Determine time elapsed since last update
+        t = time_since_last_rate_change.get()
+        # Update volume only if time has actually elapsed
+        if !t.isZero():
+            ssr_volume_upon_rate_change += previous_recording_rate * t.to_number_in(Duration.SECONDS) / 1000.0)  # Mbit -> Gbit
+        
+            previous_recording_rate = new_value
+            # Restart clock (set back to zero)
+            ClockEffects.restart(time_since_last_rate_change)
 ```
 
 When the `recording_rate` resource changes, the first thing we do is determine how much time has passed since it last
@@ -230,7 +225,7 @@ can build by using an `integrate()` static method provided by the `PolynomialRes
 we will actually see the volume increase linearly over time as opposed to in discrete chunks.
 Since `ssr_volume_polynomial` will be derived directly from `recording_rate`, we can make this a `Resource` as opposed
 to
-a `MutableResource`. The declaration of our new resource looks like this
+a `cell`. The declaration of our new resource looks like this
 
 while the definition and registration in the constructor of our `DataModel` class look like this
 

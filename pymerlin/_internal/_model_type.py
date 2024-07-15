@@ -1,3 +1,6 @@
+import sys
+import warnings
+
 from py4j.java_collections import MapConverter
 
 from pymerlin._internal import _globals
@@ -33,8 +36,11 @@ class ModelType:
             new_task = ThreadedTaskHost(self.gateway, self, coro)
             builder.daemon(TaskFactory(lambda: new_task))
 
+        original_refcount = sys.getrefcount(registrar)
         with _context(None, spawner=spawn, model_type=self):
             model = self.model_class(registrar)
+        if sys.getrefcount(registrar) > original_refcount:
+            warnings.warn("Saving registrar in a field or local variable is not recommended - it only works during model initialization")
 
         model._model_type = self
 

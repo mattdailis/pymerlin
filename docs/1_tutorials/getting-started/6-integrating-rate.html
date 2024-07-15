@@ -249,9 +249,30 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../apidocs/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of pymerlin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.duration.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.duration</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.model_actions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.model_actions</span></code></a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.html">pymerlin</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of pymerlin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.checkout.html">pymerlin.checkout</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.html">pymerlin.clock</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of pymerlin.clock</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.clock.html">pymerlin.clock.clock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.ClockMaker.html">pymerlin.clock.ClockMaker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.DerivedClock.html">pymerlin.clock.DerivedClock</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.duration.html">pymerlin.duration</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of pymerlin.duration</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.duration.Duration.html">pymerlin.duration.Duration</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.html">pymerlin.model_actions</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of pymerlin.model_actions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.call.html">pymerlin.model_actions.call</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.delay.html">pymerlin.model_actions.delay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.spawn_activity.html">pymerlin.model_actions.spawn_activity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.spawn_task.html">pymerlin.model_actions.spawn_task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.wait_until.html">pymerlin.model_actions.wait_until</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.reactions.html">pymerlin.reactions</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of pymerlin.reactions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.reactions.monitor_updates.html">pymerlin.reactions.monitor_updates</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -329,7 +350,7 @@ effect model of the activities who change the <code class="docutils literal notr
 resource in our <code class="docutils literal notranslate"><span class="pre">DataModel</span></code> class. For each method, we are going to build a different data volume resource so we can
 eventually compare them in the Aerie UI. As this is our simplest method, let’s call this resource <code class="docutils literal notranslate"><span class="pre">ssr_volume_simple</span></code>
 and make it store volume in Gigabits (Gb). Since we are going to directly effect this resource in our activities, this
-will need to be a <code class="docutils literal notranslate"><span class="pre">MutableResource</span></code>. The declaration looks just like <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code></p>
+will need to be a <code class="docutils literal notranslate"><span class="pre">cell</span></code>. The declaration looks just like <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code></p>
 <p>as does the definition, initialization, and registration in the constructor:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">ssr_volume_simple</span> <span class="o">=</span> <span class="n">registrar</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
 <span class="n">registrar</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s2">&quot;ssr_volume_simple&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssr_volume_simple</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
@@ -383,7 +404,7 @@ the <code class="docutils literal notranslate"><span class="pre">recording_rate<
 simple task from our top-level <code class="docutils literal notranslate"><span class="pre">Mission</span></code> class that runs in the background while the plan is being simulated, which is
 completely independent of activities in the plan. Such tasks are known as <code class="docutils literal notranslate"><span class="pre">daemon</span></code> tasks, and your mission model can
 have an arbitrary number of them.</p>
-<p>Before we create this task, let’s add another discrete <code class="docutils literal notranslate"><span class="pre">MutableResource</span></code> of type <code class="docutils literal notranslate"><span class="pre">double</span></code> called <code class="docutils literal notranslate"><span class="pre">ssr_volume_sampled</span></code> to
+<p>Before we create this task, let’s add another discrete <code class="docutils literal notranslate"><span class="pre">cell</span></code> of type <code class="docutils literal notranslate"><span class="pre">double</span></code> called <code class="docutils literal notranslate"><span class="pre">ssr_volume_sampled</span></code> to
 the <code class="docutils literal notranslate"><span class="pre">DataModel</span></code> class. Just as with other resources we have made, the declaration will look like</p>
 <p>and the definition, initialization, and registration in the constructor will be</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">ssr_volume_sampled</span> <span class="o">=</span> <span class="n">registrar</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
@@ -399,9 +420,10 @@ integration. Choosing <code class="docutils literal notranslate"><span class="pr
 parameters, which we will spawn from the <code class="docutils literal notranslate"><span class="pre">Mission</span></code> class shortly. For the sake of simplicity, we will define this
 function to take the “right” Reimann Sum (a “rectangle” rule approximation) of the <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> over time. The
 implementation of this function looks like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">integrate_sampled_ssr</span><span class="p">():</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@Task</span>
+<span class="k">def</span> <span class="nf">integrate_sampled_ssr</span><span class="p">():</span>
     <span class="k">while</span> <span class="p">(</span><span class="kc">True</span><span class="p">):</span>
-        <span class="k">await</span> <span class="n">delay</span><span class="p">(</span><span class="n">INTEGRATION_SAMPLE_INTERVAL</span><span class="p">)</span>
+        <span class="n">delay</span><span class="p">(</span><span class="n">INTEGRATION_SAMPLE_INTERVAL</span><span class="p">)</span>
         <span class="n">current_recording_rate</span> <span class="o">=</span> <span class="n">currentValue</span><span class="p">(</span><span class="n">recording_rate</span><span class="p">)</span>
         <span class="n">ssr_volume_sampled</span> <span class="o">+=</span> <span class="p">(</span>
                 <span class="n">current_recording_rate</span> 
@@ -437,28 +459,25 @@ take is to set up trigger that calls a function whenever <code class="docutils l
 multiplying
 the rate just before the latest change by the duration that has passed since the last change. Fortunately, there is a
 fairly easy way to do this in Aerie’s modeling framework.</p>
-<p>Let’s begin by creating one more discrete <code class="docutils literal notranslate"><span class="pre">MutableResource</span></code> called <code class="docutils literal notranslate"><span class="pre">ssr_volume_upon_rate_change</span></code> in our <code class="docutils literal notranslate"><span class="pre">DataModel</span></code>
-class (refer back to previous instances in this tutorial for how to declare and define one of these). In addition to our
-volume resource, we are also going to need a <code class="docutils literal notranslate"><span class="pre">Clock</span></code> resource to help us track the time between changes
-to <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code>. Since this resource is more of a “helper” resource and doesn’t need to be exposed to our planners,
-we’ll make it <code class="docutils literal notranslate"><span class="pre">private</span></code> and not register it to the UI. Declaring and defining a <code class="docutils literal notranslate"><span class="pre">Clock</span></code> resource is not much different
-than declaring a <code class="docutils literal notranslate"><span class="pre">Discrete</span></code> except you don’t have to specify a primitive type. The declaration looks like this</p>
-<p>and the definition in the constructor looks like this</p>
+<p>Let’s begin by creating one more <code class="docutils literal notranslate"><span class="pre">cell</span></code> called <code class="docutils literal notranslate"><span class="pre">ssr_volume_upon_rate_change</span></code> in our <code class="docutils literal notranslate"><span class="pre">DataModel</span></code> class (refer back to
+previous instances in this tutorial for how to declare and define one of these). In addition to our volume resource, we
+are also going to need a <code class="docutils literal notranslate"><span class="pre">Clock</span></code> resource to help us track the time between changes to <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code>. Since this
+resource is more of a “helper” resource and doesn’t need to be exposed to our planners, we’ll make it <code class="docutils literal notranslate"><span class="pre">private</span></code> and not
+register it to the UI. Declaring and defining a <code class="docutils literal notranslate"><span class="pre">Clock</span></code> resource is not much different than declaring a <code class="docutils literal notranslate"><span class="pre">Discrete</span></code>
+except you don’t have to specify a primitive type.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">time_since_last_rate_change</span> <span class="o">=</span> <span class="n">registrar</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">Duration</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">behavior</span><span class="o">=</span><span class="n">Clock</span><span class="o">.</span><span class="n">behavior</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will start a “stopwatch” right at the start of the plan so we can track the time between the start of the plan and
 the first time <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> is changed. We’ll also need one more member variable of type <code class="docutils literal notranslate"><span class="pre">Double</span></code>, which we’ll
 call <code class="docutils literal notranslate"><span class="pre">previous_rate</span></code> to keep track of the previous value of <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> for us.</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">previous_recording_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span>
-</pre></div>
-</div>
 <p>Our next step is to build our trigger to react when there is a change to <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code>. We can do this by leveraging
 the <code class="docutils literal notranslate"><span class="pre">wheneverUpdates()</span></code> static method available within the framework’s <code class="docutils literal notranslate"><span class="pre">Reactions</span></code> class</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">Reactions</span><span class="p">.</span><span class="na">wheneverUpdates</span><span class="p">(</span><span class="n">recording_rate</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">::</span><span class="n">upon_recording_rate_update</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">spawn</span><span class="p">(</span><span class="n">monitor_recording_rate_updates</span><span class="p">(</span><span class="n">data_model</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="note docutils">
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">Reactions</span></code> class has a couple more static methods that a modeler may find useful. The <code class="docutils literal notranslate"><span class="pre">every()</span></code> method allows you
 to specify a duration to call a recurring action (we could have used this instead of our <code class="docutils literal notranslate"><span class="pre">spawn()</span></code> for the sampled
 integration method). The <code class="docutils literal notranslate"><span class="pre">whenever()</span></code> method allows you to specify a <code class="docutils literal notranslate"><span class="pre">Condition</span></code>, which when met, would trigger an
@@ -468,17 +487,19 @@ action of your choosing. An example of a condition could be when a resource reac
 second argument. We have specified that the function <code class="docutils literal notranslate"><span class="pre">upon_recording_rate_update</span></code> be called, so now we have to implement
 that function within our <code class="docutils literal notranslate"><span class="pre">DataModel</span></code> class. The implementation of that function is below, which we will walk through
 line by line.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">upon_recording_rate_update</span><span class="p">():</span>
-<span class="c1"># Determine time elapsed since last update</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">time_since_last_rate_change</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-<span class="c1"># Update volume only if time has actually elapsed</span>
-<span class="k">if</span> <span class="err">!</span><span class="n">t</span><span class="o">.</span><span class="n">isZero</span><span class="p">():</span>
-    <span class="n">ssr_volume_upon_rate_change</span> <span class="o">+=</span> <span class="n">previous_recording_rate</span> <span class="o">*</span> <span class="n">t</span><span class="o">.</span><span class="n">to_number_in</span><span class="p">(</span><span class="n">Duration</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>  <span class="c1"># Mbit -&gt; Gbit</span>
-
-    <span class="n">previous_recording_rate</span> <span class="o">=</span> <span class="n">recording_rate</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-    <span class="c1"># Restart clock (set back to zero)</span>
-    <span class="n">ClockEffects</span><span class="o">.</span><span class="n">restart</span><span class="p">(</span><span class="n">time_since_last_rate_change</span><span class="p">)</span>
-
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@Task</span>
+<span class="k">def</span> <span class="nf">monitor_recording_rate_updates</span><span class="p">(</span><span class="n">data_model</span><span class="p">):</span>
+    <span class="n">previous_recording_rate</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">new_value</span> <span class="ow">in</span> <span class="n">monitor_updates</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">data_model</span><span class="o">.</span><span class="n">recording_rate</span><span class="o">.</span><span class="n">get</span><span class="p">()):</span>
+        <span class="c1"># Determine time elapsed since last update</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">time_since_last_rate_change</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="c1"># Update volume only if time has actually elapsed</span>
+        <span class="k">if</span> <span class="err">!</span><span class="n">t</span><span class="o">.</span><span class="n">isZero</span><span class="p">():</span>
+            <span class="n">ssr_volume_upon_rate_change</span> <span class="o">+=</span> <span class="n">previous_recording_rate</span> <span class="o">*</span> <span class="n">t</span><span class="o">.</span><span class="n">to_number_in</span><span class="p">(</span><span class="n">Duration</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>  <span class="c1"># Mbit -&gt; Gbit</span>
+        
+            <span class="n">previous_recording_rate</span> <span class="o">=</span> <span class="n">new_value</span>
+            <span class="c1"># Restart clock (set back to zero)</span>
+            <span class="n">ClockEffects</span><span class="o">.</span><span class="n">restart</span><span class="p">(</span><span class="n">time_since_last_rate_change</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>When the <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> resource changes, the first thing we do is determine how much time has passed since it last
@@ -501,7 +522,7 @@ can build by using an <code class="docutils literal notranslate"><span class="pr
 we will actually see the volume increase linearly over time as opposed to in discrete chunks.
 Since <code class="docutils literal notranslate"><span class="pre">ssr_volume_polynomial</span></code> will be derived directly from <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code>, we can make this a <code class="docutils literal notranslate"><span class="pre">Resource</span></code> as opposed
 to
-a <code class="docutils literal notranslate"><span class="pre">MutableResource</span></code>. The declaration of our new resource looks like this</p>
+a <code class="docutils literal notranslate"><span class="pre">cell</span></code>. The declaration of our new resource looks like this</p>
 <p>while the definition and registration in the constructor of our <code class="docutils literal notranslate"><span class="pre">DataModel</span></code> class look like this</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">self</span><span class="p">.</span><span class="na">ssr_volume_polynomial</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scale</span><span class="p">(</span>
 <span class="w">    </span><span class="n">PolynomialResources</span><span class="p">.</span><span class="na">integrate</span><span class="p">(</span><span class="n">as_polynomial</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="na">recording_rate</span><span class="p">),</span><span class="w"> </span><span class="mf">0.0</span><span class="p">),</span><span class="w"> </span><span class="mf">1e-3</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Gbit</span>

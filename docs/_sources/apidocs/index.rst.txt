@@ -1,10 +1,11 @@
-
 API Reference
-=============
+=====================
 
-Here, you can find the details of functions, classes, and data structures provided by the `pymerlin` package.
+Some words.
 
-.. toctree::
-   :titlesonly:
+.. autosummary::
+   :toctree: _autosummary
+   :template: custom-module-template.rst
+   :recursive:
 
-   pymerlin/pymerlin
+   pymerlin

@@ -1,0 +1,34 @@
+pymerlin.model\_actions
+=======================
+
+.. automodule:: pymerlin.model_actions
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      call
+      delay
+      spawn_activity
+      spawn_task
+      wait_until
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

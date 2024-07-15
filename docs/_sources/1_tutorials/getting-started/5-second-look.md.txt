@@ -13,15 +13,15 @@ can drag and drop onto the plan. Add two `change_mag_mode` activities and change
 to `HIGH_RATE`. Add a `collect_data` activity in between the two `change_mag_mode` activities and then simulate.
 
 You should now see our three resources populate with values in the timeline below. You'll notice that now
-the `recording_rate` resource starts at zero until the `MagDataMode` changes to `HIGH_RATE`, which pops up the rate
+the `recording_rate` resource starts at zero until the `mag_data_mode` changes to `HIGH_RATE`, which pops up the rate
 to `5 Mbps`. Then, the `collect_data` activity increases the rate by another `10` to `15 Mbps`, but immediately decreases
-after the end of the activity. Finally, the `MagDataMode` changes to `LOW_RATE`, which takes the rate down to `0.5 Mbps`
+after the end of the activity. Finally, the `mag_data_mode` changes to `LOW_RATE`, which takes the rate down to `0.5 Mbps`
 until the end of the plan.
 
 At this point, you can take the opportunity to play around with
 Aerie's [Timeline Editing](https://ammos.nasa.gov/aerie-docs/planning/timeline-editing/) capability to change the colors
-of activities or lines or put multiple resources onto one row. Try putting the `MagDataMode` and `MagDataRate` on the
-same row so you can easily see how the mode changes align with the rate changes and change the color of `MagDataRate` to
+of activities or lines or put multiple resources onto one row. Try putting the `mag_data_mode` and `mag_data_rate` on the
+same row so you can easily see how the mode changes align with the rate changes and change the color of `mag_data_rate` to
 red. With these changes you should get something similar to the screenshot below
 
 ![Tutorial Plan 2](assets/Tutorial_Plan_2.png)

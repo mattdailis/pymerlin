@@ -267,7 +267,28 @@ with using(model.data_model.recording_rate, rate):
 With our effect model in place, we are done coding up the `collect_data` activity and the final result should look
 something like this:
 
-```python
+[//]: # (:::{doctest})
+
+[//]: # (>>> print&#40;"This parrot wouldn't voom if you put 3000 volts through it!"&#41;)
+
+[//]: # (This parrot wouldn't voom if you put 3000 volts through it!!)
+
+[//]: # (:::)
+
+:::{testsetup}
+import pymerlin
+:::
+
+:::{testcode}
+# Comment
+pymerlin.checkout()
+:::
+
+:::{testoutput}
+pymerlin checkout successful: All systems GO 🚀
+:::
+
+:::{testcode}
 from pymerlin import MissionModel, Duration
 from pymerlin._internal._decorators import Validation
 from pymerlin.model_actions import delay
@@ -276,7 +297,6 @@ from pymerlin.model_actions import delay
 class Model:
     def __init__(self, registrar):
         self.data_model = DataModel(registrar)
-        registrar.resource("counter", self.counter.get)
 
 class DataModel:
     def __init__(self, registrar):
@@ -289,7 +309,18 @@ def collect_data(model, rate=0.0, duration="01:00:00"):
     model.data_model.recording_rate += rate
     delay(Duration.from_string(duration))
     model.data_model.recording_rate -= rate
-```
+:::
+
+:::{testcleanup}
+from pymerlin import simulate, Schedule, Directive
+res = simulate(
+    Model,
+    Schedule.build(("00:00:01", Directive("collect_data", {"rate": 20.0, "duration": "00:00:01"}))),
+    "01:00:00"
+)
+if str(res) != "({'recording_rate': [ProfileSegment(extent=+00:00:01.0000.0, dynamics=0.0), ProfileSegment(extent=+00:00:01.0000.0, dynamics=20.0), ProfileSegment(extent=+00:59:58.0000.0, dynamics=0.0)]}, [], [])":
+    print(res)  # This causes cleanup to fail
+:::
 
 Ok! Now we are all set to give this a spin.
 

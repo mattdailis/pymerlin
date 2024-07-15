@@ -249,9 +249,30 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../apidocs/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of pymerlin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.duration.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.duration</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.model_actions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.model_actions</span></code></a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.html">pymerlin</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of pymerlin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.checkout.html">pymerlin.checkout</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.html">pymerlin.clock</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of pymerlin.clock</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.clock.html">pymerlin.clock.clock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.ClockMaker.html">pymerlin.clock.ClockMaker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.DerivedClock.html">pymerlin.clock.DerivedClock</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.duration.html">pymerlin.duration</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of pymerlin.duration</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.duration.Duration.html">pymerlin.duration.Duration</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.html">pymerlin.model_actions</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of pymerlin.model_actions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.call.html">pymerlin.model_actions.call</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.delay.html">pymerlin.model_actions.delay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.spawn_activity.html">pymerlin.model_actions.spawn_activity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.spawn_task.html">pymerlin.model_actions.spawn_task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.wait_until.html">pymerlin.model_actions.wait_until</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.reactions.html">pymerlin.reactions</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of pymerlin.reactions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.reactions.monitor_updates.html">pymerlin.reactions.monitor_updates</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -332,12 +353,10 @@ test your model without having to pull your model into an Aerie deployment.</p>
 <p>Start by creating a <code class="docutils literal notranslate"><span class="pre">mission.py</span></code> file with the following contents:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymerlin</span> <span class="kn">import</span> <span class="n">MissionModel</span>
 
-
 <span class="nd">@MissionModel</span>
 <span class="k">class</span> <span class="nc">Model</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registrar</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_model</span> <span class="o">=</span> <span class="n">DataModel</span><span class="p">(</span><span class="n">registrar</span><span class="p">)</span>
-
 
 <span class="k">class</span> <span class="nc">DataModel</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registrar</span><span class="p">):</span>
@@ -362,13 +381,13 @@ of code:</p>
 </pre></div>
 </div>
 <!--:::{tip}
-As you are coding, take advantage of your IDE to auto import the modeling framework classes you need like `MutableResource`.
+As you are coding, take advantage of your IDE to auto import the modeling framework classes you need like `cell`.
 :::-->
 <p>Let’s tease apart this line of code and use it as an opportunity to provide a brief overview of the various types of
 resources available to you as a modeler. The mission modeling framework provides two primary classes from which to
 define resources:</p>
 <ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">MutableResource</span></code> - resource whose value can be explicitly updated by activities or other modeling code after it has
+<li><p><code class="docutils literal notranslate"><span class="pre">cell</span></code> - resource whose value can be explicitly updated by activities or other modeling code after it has
 been defined. Updates to the resource take the form of “Effects” such as <code class="docutils literal notranslate"><span class="pre">increase</span></code>, <code class="docutils literal notranslate"><span class="pre">decrease</span></code>, or <code class="docutils literal notranslate"><span class="pre">set</span></code>. The values
 of this category of resource are explicitly tracked in objects called “Cells” within Aerie, which you can read about
 in detail in
@@ -378,7 +397,7 @@ you are interested.</p></li>
 resources cannot be updated via “Effects”. The most common use of these resources are to create “derived” resources
 that are fully defined by the values of other resources (we will have some examples of these later). Since these
 resources get their value from other resources, they actually don’t need to store their own value within a “Cell”.
-Interestingly, the <code class="docutils literal notranslate"><span class="pre">MutableResource</span></code> class extends the <code class="docutils literal notranslate"><span class="pre">Resource</span></code> class and includes additional logic to ensure
+Interestingly, the <code class="docutils literal notranslate"><span class="pre">cell</span></code> class extends the <code class="docutils literal notranslate"><span class="pre">Resource</span></code> class and includes additional logic to ensure
 values are correctly stored in these “Cells”.</p></li>
 </ol>
 <p>From these classes, there are a few different types of resources provided, which are primarily distinguished by how the
@@ -404,14 +423,14 @@ event occurred.</p></li>
 <p>Polynomial resources currently cannot be rendered in the Aerie UI and must be transformed to a linear resource (an
 example of this is shown later in the tutorial)</p>
 </div>
-<p>Looking back at our resource declaration, you can see that <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> is a <code class="docutils literal notranslate"><span class="pre">MutableResource</span></code> (we will emit effects
+<p>Looking back at our resource declaration, you can see that <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> is a <code class="docutils literal notranslate"><span class="pre">cell</span></code> (we will emit effects
 on this resource in our first activity) of the type <code class="docutils literal notranslate"><span class="pre">Discrete&lt;Double&gt;</span></code>, so the value of the resource will stay constant
 until the next time we compute effects on it.</p>
 <p>Next, we must define and initialize our <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> resource, which we can do in a class constructor that takes one
 parameter we’ll called <code class="docutils literal notranslate"><span class="pre">registrar</span></code> of type <code class="docutils literal notranslate"><span class="pre">Registrar</span></code>. You can think of the <code class="docutils literal notranslate"><span class="pre">Registrar</span></code> class as your link to what will
 ultimately get exposed in the UI and in a second we will use this class to register <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code>. But first, let’s
 add the following line to the constructor we just made to fully define our resource.</p>
-<p>Both the <code class="docutils literal notranslate"><span class="pre">MutableResource</span></code> and <code class="docutils literal notranslate"><span class="pre">Discrete</span></code> classes have static helper functions for initializing resources of their type.
+<p>Both the <code class="docutils literal notranslate"><span class="pre">cell</span></code> and <code class="docutils literal notranslate"><span class="pre">Discrete</span></code> classes have static helper functions for initializing resources of their type.
 If you included those functions via <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">static</span></code> statements, you get the simple line above. The <code class="docutils literal notranslate"><span class="pre">discrete()</span></code> function
 expects an initial value for the resource, which we have specified as <code class="docutils literal notranslate"><span class="pre">0.0</span></code>.</p>
 <p>The last thing to do is to register <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> to the UI so we can view the resource as a timeline along with our
@@ -442,12 +461,10 @@ resource, so we also need to instantiate one of these special error registrars a
 the <code class="docutils literal notranslate"><span class="pre">Mission</span></code> class should look like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymerlin</span> <span class="kn">import</span> <span class="n">MissionModel</span>
 
-
 <span class="nd">@MissionModel</span>
 <span class="k">class</span> <span class="nc">Model</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registrar</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_model</span> <span class="o">=</span> <span class="n">DataModel</span><span class="p">(</span><span class="n">registrar</span><span class="p">)</span>
-
 
 <span class="k">class</span> <span class="nc">DataModel</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registrar</span><span class="p">):</span>
@@ -474,7 +491,7 @@ objects that exist within a plan.</p>
 <p>Since activity types are implemented by async functions in python, create a new function called <code class="docutils literal notranslate"><span class="pre">collect_data</span></code> and add the
 following decorator above that function, which allows pymerlin to recognize this function as an activity type.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@Model</span><span class="o">.</span><span class="n">ActivityType</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">collect_data</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">collect_data</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
     <span class="k">pass</span>
 </pre></div>
 </div>
@@ -488,7 +505,7 @@ two <a class="reference external" href="https://nasa-ammos.github.io/aerie-docs/
 and <code class="docutils literal notranslate"><span class="pre">duration</span></code>, and give them default arguments. Parameters allow the behavior of an activity to be modified by an
 operator without modifying its code.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@Model</span><span class="o">.</span><span class="n">ActivityType</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">collect_data</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;01:00:00&quot;</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">collect_data</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;01:00:00&quot;</span><span class="p">)):</span>
     <span class="k">pass</span>
 </pre></div>
 </div>
@@ -502,7 +519,7 @@ with <a class="reference external" href="https://nasa-ammos.github.io/aerie-docs
 by adding a method to our class with a couple of annotations:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@Model</span><span class="o">.</span><span class="n">ActivityType</span>
 <span class="nd">@Validation</span><span class="p">(</span><span class="k">lambda</span> <span class="n">rate</span><span class="p">:</span> <span class="n">rate</span> <span class="o">&lt;</span> <span class="mf">100.0</span><span class="p">,</span> <span class="s2">&quot;Collection rate is beyond buffer limit of 100.0 Mbps&quot;</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">collect_data</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;01:00:00&quot;</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">collect_data</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;01:00:00&quot;</span><span class="p">)):</span>
     <span class="k">pass</span>
 </pre></div>
 </div>
@@ -516,9 +533,9 @@ this by filling out the body of the <code class="docutils literal notranslate"><
 full duration of the activity. Within the <code class="docutils literal notranslate"><span class="pre">run()</span></code> method, we can add the follow code to get that behavior:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@Model</span><span class="o">.</span><span class="n">ActivityType</span>
 <span class="nd">@Validation</span><span class="p">(</span><span class="k">lambda</span> <span class="n">rate</span><span class="p">:</span> <span class="n">rate</span> <span class="o">&lt;</span> <span class="mf">100.0</span><span class="p">,</span> <span class="s2">&quot;Collection rate is beyond buffer limit of 100.0 Mbps&quot;</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">collect_data</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;01:00:00&quot;</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">collect_data</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;01:00:00&quot;</span><span class="p">)):</span>
     <span class="n">model</span><span class="o">.</span><span class="n">data_model</span><span class="o">.</span><span class="n">recording_rate</span> <span class="o">+=</span> <span class="n">rate</span>
-    <span class="k">await</span> <span class="n">delay</span><span class="p">(</span><span class="n">duration</span><span class="p">);</span>
+    <span class="n">delay</span><span class="p">(</span><span class="n">duration</span><span class="p">);</span>
     <span class="n">model</span><span class="o">.</span><span class="n">data_model</span><span class="o">.</span><span class="n">recording_rate</span> <span class="o">-=</span> <span class="n">rate</span>
 </pre></div>
 </div>
@@ -540,21 +557,26 @@ finally reversing the rate increase. Since there are no other actions after the 
 the end of the activity.</p>
 <p>If we wanted to save a line of code, we could have the “renewable” effect <code class="docutils literal notranslate"><span class="pre">using()</span></code> to achieve the same result:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">using</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">data_model</span><span class="o">.</span><span class="n">recording_rate</span><span class="p">,</span> <span class="n">rate</span><span class="p">):</span>
-    <span class="k">await</span> <span class="n">delay</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+    <span class="n">delay</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>With our effect model in place, we are done coding up the <code class="docutils literal notranslate"><span class="pre">collect_data</span></code> activity and the final result should look
 something like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Comment</span>
+<span class="n">pymerlin</span><span class="o">.</span><span class="n">checkout</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pymerlin checkout successful: All systems GO 🚀
+</pre></div>
+</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymerlin</span> <span class="kn">import</span> <span class="n">MissionModel</span><span class="p">,</span> <span class="n">Duration</span>
 <span class="kn">from</span> <span class="nn">pymerlin._internal._decorators</span> <span class="kn">import</span> <span class="n">Validation</span>
 <span class="kn">from</span> <span class="nn">pymerlin.model_actions</span> <span class="kn">import</span> <span class="n">delay</span>
-
 
 <span class="nd">@MissionModel</span>
 <span class="k">class</span> <span class="nc">Model</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registrar</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_model</span> <span class="o">=</span> <span class="n">DataModel</span><span class="p">(</span><span class="n">registrar</span><span class="p">)</span>
-        <span class="n">registrar</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s2">&quot;counter&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">counter</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">DataModel</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registrar</span><span class="p">):</span>
@@ -563,9 +585,9 @@ something like this:</p>
 
 <span class="nd">@Model</span><span class="o">.</span><span class="n">ActivityType</span>
 <span class="nd">@Validation</span><span class="p">(</span><span class="k">lambda</span> <span class="n">rate</span><span class="p">:</span> <span class="n">rate</span> <span class="o">&lt;</span> <span class="mf">100.0</span><span class="p">,</span> <span class="s2">&quot;Collection rate is beyond buffer limit of 100.0 Mbps&quot;</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">collect_data</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="s2">&quot;01:00:00&quot;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">collect_data</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="s2">&quot;01:00:00&quot;</span><span class="p">):</span>
     <span class="n">model</span><span class="o">.</span><span class="n">data_model</span><span class="o">.</span><span class="n">recording_rate</span> <span class="o">+=</span> <span class="n">rate</span>
-    <span class="k">await</span> <span class="n">delay</span><span class="p">(</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">duration</span><span class="p">))</span>
+    <span class="n">delay</span><span class="p">(</span><span class="n">Duration</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">duration</span><span class="p">))</span>
     <span class="n">model</span><span class="o">.</span><span class="n">data_model</span><span class="o">.</span><span class="n">recording_rate</span> <span class="o">-=</span> <span class="n">rate</span>
 </pre></div>
 </div>

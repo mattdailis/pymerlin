@@ -249,9 +249,30 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../apidocs/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of pymerlin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.duration.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.duration</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../apidocs/pymerlin/pymerlin.model_actions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.model_actions</span></code></a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.html">pymerlin</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of pymerlin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.checkout.html">pymerlin.checkout</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.html">pymerlin.clock</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of pymerlin.clock</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.clock.html">pymerlin.clock.clock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.ClockMaker.html">pymerlin.clock.ClockMaker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.clock.DerivedClock.html">pymerlin.clock.DerivedClock</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.duration.html">pymerlin.duration</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of pymerlin.duration</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.duration.Duration.html">pymerlin.duration.Duration</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.html">pymerlin.model_actions</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of pymerlin.model_actions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.call.html">pymerlin.model_actions.call</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.delay.html">pymerlin.model_actions.delay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.spawn_activity.html">pymerlin.model_actions.spawn_activity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.spawn_task.html">pymerlin.model_actions.spawn_task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.model_actions.wait_until.html">pymerlin.model_actions.wait_until</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.reactions.html">pymerlin.reactions</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of pymerlin.reactions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/_autosummary/pymerlin.reactions.monitor_updates.html">pymerlin.reactions.monitor_updates</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -321,14 +342,14 @@ duration of <code class="docutils literal notranslate"><span class="pre">1</span
 can drag and drop onto the plan. Add two <code class="docutils literal notranslate"><span class="pre">change_mag_mode</span></code> activities and change the parameter of the first one
 to <code class="docutils literal notranslate"><span class="pre">HIGH_RATE</span></code>. Add a <code class="docutils literal notranslate"><span class="pre">collect_data</span></code> activity in between the two <code class="docutils literal notranslate"><span class="pre">change_mag_mode</span></code> activities and then simulate.</p>
 <p>You should now see our three resources populate with values in the timeline below. You’ll notice that now
-the <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> resource starts at zero until the <code class="docutils literal notranslate"><span class="pre">MagDataMode</span></code> changes to <code class="docutils literal notranslate"><span class="pre">HIGH_RATE</span></code>, which pops up the rate
+the <code class="docutils literal notranslate"><span class="pre">recording_rate</span></code> resource starts at zero until the <code class="docutils literal notranslate"><span class="pre">mag_data_mode</span></code> changes to <code class="docutils literal notranslate"><span class="pre">HIGH_RATE</span></code>, which pops up the rate
 to <code class="docutils literal notranslate"><span class="pre">5</span> <span class="pre">Mbps</span></code>. Then, the <code class="docutils literal notranslate"><span class="pre">collect_data</span></code> activity increases the rate by another <code class="docutils literal notranslate"><span class="pre">10</span></code> to <code class="docutils literal notranslate"><span class="pre">15</span> <span class="pre">Mbps</span></code>, but immediately decreases
-after the end of the activity. Finally, the <code class="docutils literal notranslate"><span class="pre">MagDataMode</span></code> changes to <code class="docutils literal notranslate"><span class="pre">LOW_RATE</span></code>, which takes the rate down to <code class="docutils literal notranslate"><span class="pre">0.5</span> <span class="pre">Mbps</span></code>
+after the end of the activity. Finally, the <code class="docutils literal notranslate"><span class="pre">mag_data_mode</span></code> changes to <code class="docutils literal notranslate"><span class="pre">LOW_RATE</span></code>, which takes the rate down to <code class="docutils literal notranslate"><span class="pre">0.5</span> <span class="pre">Mbps</span></code>
 until the end of the plan.</p>
 <p>At this point, you can take the opportunity to play around with
 Aerie’s <a class="reference external" href="https://ammos.nasa.gov/aerie-docs/planning/timeline-editing/">Timeline Editing</a> capability to change the colors
-of activities or lines or put multiple resources onto one row. Try putting the <code class="docutils literal notranslate"><span class="pre">MagDataMode</span></code> and <code class="docutils literal notranslate"><span class="pre">MagDataRate</span></code> on the
-same row so you can easily see how the mode changes align with the rate changes and change the color of <code class="docutils literal notranslate"><span class="pre">MagDataRate</span></code> to
+of activities or lines or put multiple resources onto one row. Try putting the <code class="docutils literal notranslate"><span class="pre">mag_data_mode</span></code> and <code class="docutils literal notranslate"><span class="pre">mag_data_rate</span></code> on the
+same row so you can easily see how the mode changes align with the rate changes and change the color of <code class="docutils literal notranslate"><span class="pre">mag_data_rate</span></code> to
 red. With these changes you should get something similar to the screenshot below</p>
 <p><img alt="Tutorial Plan 2" src="1_tutorials/getting-started/assets/Tutorial_Plan_2.png" /></p>
 </section>

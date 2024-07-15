@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Common Errors" href="../../common-errors.html" /><link rel="prev" title="pymerlin.duration" href="pymerlin.duration.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="pymerlin.clock.DerivedClock" href="pymerlin.clock.DerivedClock.html" /><link rel="prev" title="pymerlin.clock.clock" href="pymerlin.clock.clock.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>pymerlin.model_actions - pymerlin 0.0.8 documentation</title>
+        <title>pymerlin.clock.ClockMaker - pymerlin 0.0.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -249,9 +249,30 @@
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current has-children"><a class="reference internal" href="pymerlin.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin</span></code></a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of pymerlin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="pymerlin.duration.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.duration</span></code></a></li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.model_actions</span></code></a></li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="pymerlin.html">pymerlin</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of pymerlin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pymerlin.checkout.html">pymerlin.checkout</a></li>
+<li class="toctree-l3 current has-children"><a class="reference internal" href="pymerlin.clock.html">pymerlin.clock</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of pymerlin.clock</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pymerlin.clock.clock.html">pymerlin.clock.clock</a></li>
+<li class="toctree-l4 current current-page"><a class="current reference internal" href="#">pymerlin.clock.ClockMaker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pymerlin.clock.DerivedClock.html">pymerlin.clock.DerivedClock</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="pymerlin.duration.html">pymerlin.duration</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of pymerlin.duration</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="pymerlin.duration.Duration.html">pymerlin.duration.Duration</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="pymerlin.model_actions.html">pymerlin.model_actions</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of pymerlin.model_actions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="pymerlin.model_actions.call.html">pymerlin.model_actions.call</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pymerlin.model_actions.delay.html">pymerlin.model_actions.delay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pymerlin.model_actions.spawn_activity.html">pymerlin.model_actions.spawn_activity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pymerlin.model_actions.spawn_task.html">pymerlin.model_actions.spawn_task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pymerlin.model_actions.wait_until.html">pymerlin.model_actions.wait_until</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="pymerlin.reactions.html">pymerlin.reactions</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of pymerlin.reactions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="pymerlin.reactions.monitor_updates.html">pymerlin.reactions.monitor_updates</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -287,7 +308,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../../_sources/apidocs/pymerlin/pymerlin.model_actions.rst.txt" title="View this page">
+  <a class="muted-link" href="../../_sources/apidocs/_autosummary/pymerlin.clock.ClockMaker.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -307,80 +328,32 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="module-pymerlin.model_actions">
-<span id="pymerlin-model-actions"></span><h1><a class="reference internal" href="#module-pymerlin.model_actions" title="pymerlin.model_actions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.model_actions</span></code></a><a class="headerlink" href="#module-pymerlin.model_actions" title="Link to this heading">¶</a></h1>
-<p>This module provides actions that tasks can take. Certain actions are labeled <code class="docutils literal notranslate"><span class="pre">async</span></code>, which means they must be called
-with the <code class="docutils literal notranslate"><span class="pre">await</span></code> keyword - for example, <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">delay(&quot;01:00:00&quot;)</span></code></p>
-<section id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
-<section id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h3>
+          <section id="pymerlin-clock-clockmaker">
+<h1>pymerlin.clock.ClockMaker<a class="headerlink" href="#pymerlin-clock-clockmaker" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pymerlin.clock.ClockMaker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymerlin.clock.</span></span><span class="sig-name descname"><span class="pre">ClockMaker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registrar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.clock.ClockMaker" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pymerlin.clock.ClockMaker.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registrar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.clock.ClockMaker.__init__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
 <div class="table-wrapper autosummary longtable docutils container">
-<table class="autosummary longtable docutils align-left">
+<table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pymerlin.model_actions.delay" title="pymerlin.model_actions.delay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delay</span></code></a></p></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pymerlin.clock.ClockMaker.__init__" title="pymerlin.clock.ClockMaker.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(registrar)</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pymerlin.model_actions.spawn_activity" title="pymerlin.model_actions.spawn_activity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spawn_activity</span></code></a></p></td>
-<td><p>:param coro:
-:return:</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pymerlin.model_actions.spawn_task" title="pymerlin.model_actions.spawn_task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spawn_task</span></code></a></p></td>
-<td><p>:param coro:
-:return:</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pymerlin.model_actions.call" title="pymerlin.model_actions.call"><code class="xref py py-obj docutils literal notranslate"><span class="pre">call</span></code></a></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pymerlin.model_actions.wait_until" title="pymerlin.model_actions.wait_until"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_until</span></code></a></p></td>
-<td><p>:param condition: A function returning True or False</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pymerlin.model_actions._yield_with" title="pymerlin.model_actions._yield_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_yield_with</span></code></a></p></td>
-<td></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">start</span></code>()</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</section>
-<section id="api">
-<h3>API<a class="headerlink" href="#api" title="Link to this heading">¶</a></h3>
-<dl class="py function">
-<dt class="sig sig-object py" id="pymerlin.model_actions.delay">
-<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.delay" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pymerlin.model_actions.spawn_activity">
-<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">spawn_activity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.spawn_activity" title="Link to this definition">¶</a></dt>
-<dd><p>:param coro:
-:return:</p>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="pymerlin.model_actions.spawn_task">
-<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">spawn_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.spawn_task" title="Link to this definition">¶</a></dt>
-<dd><p>:param coro:
-:return:</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pymerlin.model_actions.call">
-<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.call" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pymerlin.model_actions.wait_until">
-<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">wait_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions.wait_until" title="Link to this definition">¶</a></dt>
-<dd><p>:param condition: A function returning True or False</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pymerlin.model_actions._yield_with">
-<span class="sig-prename descclassname"><span class="pre">pymerlin.model_actions.</span></span><span class="sig-name descname"><span class="pre">_yield_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymerlin.model_actions._yield_with" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</section>
-</section>
 </section>
 
         </article>
@@ -388,23 +361,23 @@ with the <code class="docutils literal notranslate"><span class="pre">await</spa
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../../common-errors.html">
+          <a class="next-page" href="pymerlin.clock.DerivedClock.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Common Errors</div>
+                <div class="title">pymerlin.clock.DerivedClock</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="pymerlin.duration.html">
+          <a class="prev-page" href="pymerlin.clock.clock.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.duration</span></code></div>
+                <div class="title">pymerlin.clock.clock</div>
                 
               </div>
             </a>
@@ -438,18 +411,9 @@ with the <code class="docutils literal notranslate"><span class="pre">await</spa
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pymerlin.model_actions</span></code></a><ul>
-<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#functions">Functions</a></li>
-<li><a class="reference internal" href="#api">API</a><ul>
-<li><a class="reference internal" href="#pymerlin.model_actions.delay"><code class="docutils literal notranslate"><span class="pre">delay()</span></code></a></li>
-<li><a class="reference internal" href="#pymerlin.model_actions.spawn_activity"><code class="docutils literal notranslate"><span class="pre">spawn_activity()</span></code></a></li>
-<li><a class="reference internal" href="#pymerlin.model_actions.spawn_task"><code class="docutils literal notranslate"><span class="pre">spawn_task()</span></code></a></li>
-<li><a class="reference internal" href="#pymerlin.model_actions.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
-<li><a class="reference internal" href="#pymerlin.model_actions.wait_until"><code class="docutils literal notranslate"><span class="pre">wait_until()</span></code></a></li>
-<li><a class="reference internal" href="#pymerlin.model_actions._yield_with"><code class="docutils literal notranslate"><span class="pre">_yield_with()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">pymerlin.clock.ClockMaker</a><ul>
+<li><a class="reference internal" href="#pymerlin.clock.ClockMaker"><code class="docutils literal notranslate"><span class="pre">ClockMaker</span></code></a><ul>
+<li><a class="reference internal" href="#pymerlin.clock.ClockMaker.__init__"><code class="docutils literal notranslate"><span class="pre">ClockMaker.__init__()</span></code></a></li>
 </ul>
 </li>
 </ul>

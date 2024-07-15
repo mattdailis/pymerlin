@@ -395,3 +395,12 @@ def test_clock():
         assert clock.get() == Duration.from_string("12:34:56")
 
     simulate(TestMissionModel, Schedule.build(("00:00:00", Directive("activity", {}))), "24:00:00")
+
+def test_registrar_warning():
+    @MissionModel
+    class Squirrel:
+        def __init__(self, registrar):
+            self.registrar = registrar  # Squirreling away the registrar
+
+    with pytest.warns(match="Saving registrar in a field or local variable is not recommended - it only works during model initialization"):
+        simulate(Squirrel, Schedule.empty(), "24:00:00")

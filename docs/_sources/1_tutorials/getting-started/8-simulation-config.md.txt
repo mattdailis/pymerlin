@@ -10,7 +10,7 @@ configure the model prior to a simulation run. The Aerie modeling framework prov
 a [simulation configuration](https://ammos.nasa.gov/aerie-docs/mission-modeling/configuration/) interface to satisfy
 this need. In our SSR model, we will expose a couple variables that already exist in our code: the sample interval for
 our `SSR_Volume_Sampled` resource and the SSR max capacity defined as part of the `ssr_volume_polynomial` resource
-definition. We will also create a new model configuration for setting the initial state of the `MagDataMode`.
+definition. We will also create a new model configuration for setting the initial state of the `mag_data_mode`.
 
 Back when we initially grabbed the mission model template to give us a jumping off point for our model, you may recall
 that the template provided a `Configuration` class, and that class is already passed into the top-level `Mission` class
@@ -97,20 +97,20 @@ move the definition to the constructor, which you could put on the line followin
 the `SSR_Volume_Sampled` resource.
 
 Our final configuration parameter, `startingMagMode`, is not quite as straightforward as the other two because in
-addition to ensuring that the initial value of `MagDataMode` is set correctly, we need to make sure that the
-initial `recording_rate` also takes into account the `MagDataRate` associated with the initial `MagDataMode`. We can
+addition to ensuring that the initial value of `mag_data_mode` is set correctly, we need to make sure that the
+initial `recording_rate` also takes into account the `mag_data_rate` associated with the initial `mag_data_mode`. We can
 achieve this by switching around the order of construction so that the `recording_rate` is defined after the mag mode and
 rate. We also need to make sure the `previousrecording_rate` used to compute our `ssr_volume_upon_rate_change` resource is
 set to the initial value of `recording_rate`. The resulting code will look like this
 
 ```java
-self.MagDataMode = registrar.cell(discrete(config.startingMagMode()));
-registrar.discrete("MagDataMode",self.MagDataMode, new EnumValueMapper<>(MagDataCollectionMode.class));
+self.mag_data_mode = registrar.cell(discrete(config.startingMagMode()));
+registrar.discrete("mag_data_mode",self.mag_data_mode, new EnumValueMapper<>(MagDataCollectionMode.class));
 
-self.MagDataRate = map(MagDataMode, MagDataCollectionMode::get_data_rate);
-registrar.discrete("MagDataRate", self.MagDataRate, new DoubleValueMapper());
+self.mag_data_rate = map(mag_data_mode, MagDataCollectionMode::get_data_rate);
+registrar.discrete("mag_data_rate", self.mag_data_rate, new DoubleValueMapper());
 
-recording_rate = registrar.cell(discrete(currentValue(MagDataRate)/1e3));
+recording_rate = registrar.cell(discrete(currentValue(mag_data_rate)/1e3));
 registrar.discrete("recording_rate", recording_rate, new DoubleValueMapper());
 previousrecording_rate = currentValue(recording_rate);
 ```
